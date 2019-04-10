@@ -283,7 +283,7 @@ def get_list_subs_masks(max_len, name="mask_subsequent"):
     return list_masks
     
 #
-def calculate_position_emb_mat(max_seq_len, posi_emb_dim, posi_emb_model):
+def get_position_emb_mat(max_seq_len, posi_emb_dim, posi_emb_model):
     """
     """
     d_model_recip_2 = 2.0 / posi_emb_model

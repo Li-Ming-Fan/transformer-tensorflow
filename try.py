@@ -16,5 +16,5 @@ tf.reset_default_graph()
 
 dc = build_module_copies(Dense, (10, 10), 3)
 print(dc)
-print(dc[0].w)
+print(dc[0].wb)
 

@@ -7,8 +7,8 @@ Created on Sat Feb 16 07:18:29 2019
 
 import tensorflow as tf
 
-from zoo_layers import calculate_position_emb_mat, get_emb_positioned
-from zoo_layers import get_mask_mat_from_mask_seq
+from zoo_layers import get_position_emb_mat, get_emb_positioned
+from zoo_layers import get_mask_mat_from_mask_seq, get_list_subs_masks
 
 from encoder_decoder import EncoderDecoder, Generator
 from encoder_decoder import Encoder, Decoder
@@ -20,11 +20,11 @@ class ModelGraph():
     @staticmethod
     def build_placeholder(settings):
         
-        inputs_seq = tf.placeholder(tf.int32, [None, None], name='inputs_seq')  # id in vocab
-        inputs_mask = tf.placeholder(tf.int32, [None, None], name='inputs_mask')
+        src_seq = tf.placeholder(tf.int32, [None, None], name='src_seq')  # id in vocab
+        src_seq_mask = tf.placeholder(tf.int32, [None, None], name='src_seq_mask')
         
-        dc_seq = tf.placeholder(tf.int32, [None, None], name='dc_seq')  # id in vocab
-        dc_mask = tf.placeholder(tf.int32, [None, None], name='dc_mask')
+        dcd_seq = tf.placeholder(tf.int32, [None, None], name='dcd_seq')  # id in vocab
+        dcd_seq_mask = tf.placeholder(tf.int32, [None, None], name='dcd_seq_mask')
 
         labels_seq = tf.placeholder(tf.int32, [None, None], name='labels_seq')  # id in vocab
         labels_mask = tf.placeholder(tf.int32, [None, None], name='labels_mask')
@@ -34,9 +34,9 @@ class ModelGraph():
         #
         # decoder input seq: prefix with [start], suffix with [end], then do [pad].
         #
-        print(inputs_seq)
+        print(src_seq)
         #
-        input_tensors = (inputs_seq, inputs_mask, dc_seq, dc_mask)
+        input_tensors = (src_seq, src_seq_mask, dcd_seq, dcd_seq_mask)
         label_tensors = (labels_seq, labels_mask)
         #
         return input_tensors, label_tensors
@@ -44,7 +44,7 @@ class ModelGraph():
     @staticmethod
     def build_inference(settings, input_tensors):
         
-        inputs_seq, inputs_mask, dc_seq, dc_mask = input_tensors
+        src_seq, src_seq_mask, dcd_seq, dcd_seq_mask = input_tensors
         
         #
         dim_all = settings.num_heads * settings.num_units
@@ -57,8 +57,8 @@ class ModelGraph():
                                       initializer=tf.constant_initializer(settings.vocab.embeddings),
                                       trainable = settings.emb_tune)
         #
-        pe_mat = calculate_position_emb_mat(settings.max_seq_len, settings.posi_emb_dim,
-                                            settings.d_model, "posi_embeddings")
+        pe_mat = get_position_emb_mat(settings.max_seq_len, settings.posi_emb_dim,
+                                      settings.d_model, "posi_embeddings")
         #
         with tf.variable_scope("encoder_decoder"):
 
@@ -74,7 +74,8 @@ class ModelGraph():
                               (dim_all, att_args, src_args, ffd_args, keep_prob))
             
             model = EncoderDecoder(encoder, decoder, emb_trans, emb_trans,
-                                   Generator(dim_all, settings.decoder_vocab_size))
+                                   Generator(dim_all, settings.decoder_vocab_size,
+                                             emb_mat=emb_mat))    #
             #
             # model vars are all defined by now
             # graph yet
@@ -82,25 +83,28 @@ class ModelGraph():
             
         #
         if settings.is_train:
-            src_mask = get_mask_mat_from_mask_seq(inputs_mask)
-            dcd_mask = get_mask_mat_from_mask_seq(dc_mask)
-            out = model.forward(inputs_seq, src_mask, dc_seq, dcd_mask)
+            src_mask = get_mask_mat_from_mask_seq(src_seq_mask)
+            dcd_mask = get_mask_mat_from_mask_seq(dcd_seq_mask)
+            out = model.forward(src_seq, src_mask, dcd_seq, dcd_mask)
             
             logits = model.generator.forward(out)
             logits_normed = tf.nn.softmax(logits, name = 'logits')
             preds = tf.nn.argmax(logits, name="preds")
         else:
-            src_mask = get_mask_mat_from_mask_seq(inputs_mask)
+            src_mask = get_mask_mat_from_mask_seq(src_seq_mask)
+            subs_masks = get_list_subs_masks(settings.max_len_decoding, name="subs_masks")
             
             if settings.beam_width == 1:
-                logits, preds_d = model.do_greedy_decoding(inputs_seq, src_mask,
+                logits, preds_d = model.do_greedy_decoding(src_seq, src_mask,
                                                            settings.max_len_decoding,
+                                                           subs_masks,
                                                            settings.start_symbol_id)
                 logits_normed = tf.identity(logits, name = 'logits')
                 preds = tf.identity(preds_d, name="preds")
             else:
-                logits, preds_d = model.do_beam_search_decoding(inputs_seq, src_mask,
+                logits, preds_d = model.do_beam_search_decoding(src_seq, src_mask,
                                                                 settings.max_len_decoding,
+                                                                subs_masks,
                                                                 settings.start_symbol_id,
                                                                 settings.beam_width)
                 logits_normed = tf.identity(logits, name = 'logits')
@@ -144,7 +148,7 @@ class ModelGraph():
         return loss, metric
         #
 
-class LabelSmooth():
+class LabelSmoothing():
     """
     """
     def __init__(self):
