@@ -20,10 +20,8 @@ class EncoderDecoder():
         self.tgt_emb_trans = tgt_emb_trans
         self.generator = generator
         
-    def forward(self, src, src_mask, dc_inputs, dc_mask):
-        
-        return self.decode(self.encode(src, src_mask), src_mask,
-                           dc_inputs, dc_mask)
+    def forward(self, src, src_mask, dc_inputs, dc_mask):        
+        return self.decode(self.encode(src, src_mask), src_mask, dc_inputs, dc_mask)
         
     def encode(self, src, src_mask):
         return self.encoder(self.src_emb_trans(src), src_mask)
@@ -31,29 +29,34 @@ class EncoderDecoder():
     def decode(self, memory, src_mask, dc_inputs, dc_mask):
         """ decode one-step
         """
-        return self.decoder(memory, src_mask,
-                            self.tgt_emb_trans(dc_inputs), dc_mask)
+        return self.decoder(memory, src_mask, self.tgt_emb_trans(dc_inputs), dc_mask)
     
-    def do_greedy_decoding(self, src, src_mask, max_len, start_symbol_id):
+    def do_greedy_decoding(self, src, src_mask, max_len, subs_masks, start_symbol_id):
         """ decode max_len steps
         """
-        return dm.do_greedy_decoding(self, src, src_mask, max_len, start_symbol_id)
+        return dm.do_greedy_decoding(self, src, src_mask, max_len, subs_masks, start_symbol_id)
     
-    def do_beam_search_decoding(self, src, src_mask, max_len, start_symbol_id):
+    def do_beam_search_decoding(self, src, src_mask, max_len, subs_masks, start_symbol_id):
         """ decode max_len steps
         """
-        return dm.do_beam_search_decoding(self, src, src_mask, max_len, start_symbol_id)
+        return dm.do_beam_search_decoding(self, src, src_mask, max_len, subs_masks, start_symbol_id)
     
 #   
 class Generator():
     """
     """
-    def __init__(self, d_model, vocab_size, scope="proj"):
-        
-        self.proj = Dense(d_model, vocab_size, scope=scope)
+    def __init__(self, d_model, vocab_size, emb_mat=None, scope="proj"):
+        """
+        """        
+        self.emb_mat = emb_mat
+        self.proj = Dense(d_model, vocab_size, weight_mat=emb_mat, scope=scope)
     
-    def forward(self, x):    
-        return self.proj(x)
+    def forward(self, x):
+        if self.emb_mat is None:
+            out = self.proj(x, transpose_b=False)
+        else:
+            out = self.proj(x, transpose_b=True)
+        return out
         
 #  
 class Encoder():
