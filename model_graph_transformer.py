@@ -87,7 +87,7 @@ class ModelGraph():
         src_mask = get_mask_mat_from_mask_seq(src_seq_mask, src_seq_mask)
         crs_mask = get_mask_mat_from_mask_seq(dcd_seq_mask, src_seq_mask)
         dcd_mask = get_mask_mat_from_mask_seq(dcd_seq_mask, dcd_seq_mask)
-        subs_masks = get_list_subs_masks(settings.max_len_decoding, name="subs_masks")        
+        subs_masks = get_list_subs_masks(settings.max_len_decoding)
         dcd_crs_masks = get_list_dcd_crs_masks(src_seq_mask, settings.max_len_decoding)
         #
         dcd_mask = dcd_mask * subs_masks[-1]

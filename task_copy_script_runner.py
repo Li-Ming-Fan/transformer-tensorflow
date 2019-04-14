@@ -16,7 +16,7 @@ def parse_args():
     """
     parser = argparse.ArgumentParser('task_copy')
     parser.add_argument('--mode', choices=['train', 'eval', 'predict', 'debug'],
-                        default = 'train', help = 'run mode')
+                        default = 'predict', help = 'run mode')
     #
     parser.add_argument('--note', type=str, default = 'note_something',
                         help = 'make some useful notes')

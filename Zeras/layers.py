@@ -263,7 +263,9 @@ def get_mask_mat_from_mask_seq(mask_a, mask_b):
 #
 def get_mask_mat_subsequent(size, name="mask_subsequent"):
     """ subsequent mask
-    """    
+    """
+    
+    """
     mask_mat = np.zeros((1, size, size), dtype = np.float32)
     for idx in range(size):
         for idy in range(size):
@@ -272,9 +274,16 @@ def get_mask_mat_subsequent(size, name="mask_subsequent"):
     mask_tensor = tf.get_variable(name, shape = (1, size, size),
                                   initializer = tf.constant_initializer(mask_mat),
                                   trainable = False)
+    """
+    #
+    mask_tensor = tf.constant(1.0, shape = (1, size, size), dtype=tf.float32)
+    mask_tensor = tf.linalg.band_part(mask_tensor,
+                                      num_lower = -1,
+                                      num_upper = 0,
+                                      name = name)
     return mask_tensor
 
-def get_list_subs_masks(max_len, name="mask_subsequent"):
+def get_list_subs_masks(max_len, name="subs_mask"):
     """ subsequent masks
     """    
     list_masks = []
