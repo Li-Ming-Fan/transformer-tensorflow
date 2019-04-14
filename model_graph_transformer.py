@@ -7,8 +7,10 @@ Created on Sat Feb 16 07:18:29 2019
 
 import tensorflow as tf
 
-from zoo_layers import get_position_emb_mat, get_emb_positioned
-from zoo_layers import get_mask_mat_from_mask_seq, get_list_subs_masks
+from Zeras.layers import get_position_emb_mat, get_emb_positioned
+from Zeras.layers import get_mask_mat_from_mask_seq
+# from Zeras.layers import get_mask_mat_subsequent
+from Zeras.layers import get_list_subs_masks, get_list_dcd_crs_masks
 
 from encoder_decoder import EncoderDecoder, Generator
 from encoder_decoder import Encoder, Decoder
@@ -58,13 +60,13 @@ class ModelGraph():
                                       trainable = settings.emb_tune)
         #
         pe_mat = get_position_emb_mat(settings.max_seq_len, settings.posi_emb_dim,
-                                      settings.d_model, "posi_embeddings")
+                                      settings.dim_model, "posi_embeddings")
         #
         with tf.variable_scope("encoder_decoder"):
 
-            att_args = (settings.num_head, settings.num_units, keep_prob)
+            att_args = (settings.num_heads, settings.num_units, keep_prob)
             ffd_args = (dim_all, dim_all, keep_prob)
-            src_args = (settings.num_head, settings.num_units, keep_prob)
+            src_args = (settings.num_heads, settings.num_units, keep_prob)
             #
             emb_trans = lambda x: get_emb_positioned(x, emb_mat, pe_mat)
             
@@ -74,7 +76,7 @@ class ModelGraph():
                               (dim_all, att_args, src_args, ffd_args, keep_prob))
             
             model = EncoderDecoder(encoder, decoder, emb_trans, emb_trans,
-                                   Generator(dim_all, settings.decoder_vocab_size,
+                                   Generator(dim_all, settings.vocab.size(),
                                              emb_mat=emb_mat))    #
             #
             # model vars are all defined by now
@@ -82,29 +84,31 @@ class ModelGraph():
             #
             
         #
+        src_mask = get_mask_mat_from_mask_seq(src_seq_mask, src_seq_mask)
+        crs_mask = get_mask_mat_from_mask_seq(dcd_seq_mask, src_seq_mask)
+        dcd_mask = get_mask_mat_from_mask_seq(dcd_seq_mask, dcd_seq_mask)
+        subs_masks = get_list_subs_masks(settings.max_len_decoding, name="subs_masks")        
+        dcd_crs_masks = get_list_dcd_crs_masks(src_seq_mask, settings.max_len_decoding)
+        #
+        dcd_mask = dcd_mask * subs_masks[-1]
+        #
         if settings.is_train:
-            src_mask = get_mask_mat_from_mask_seq(src_seq_mask)
-            dcd_mask = get_mask_mat_from_mask_seq(dcd_seq_mask)
-            out = model.forward(src_seq, src_mask, dcd_seq, dcd_mask)
-            
+            out = model.forward(src_seq, src_mask, dcd_seq, dcd_mask, crs_mask)
             logits = model.generator.forward(out)
             logits_normed = tf.nn.softmax(logits, name = 'logits')
-            preds = tf.nn.argmax(logits, name="preds")
+            preds = tf.argmax(logits, -1, name="preds")
         else:
-            src_mask = get_mask_mat_from_mask_seq(src_seq_mask)
-            subs_masks = get_list_subs_masks(settings.max_len_decoding, name="subs_masks")
-            
             if settings.beam_width == 1:
                 logits, preds_d = model.do_greedy_decoding(src_seq, src_mask,
                                                            settings.max_len_decoding,
-                                                           subs_masks,
+                                                           subs_masks, dcd_crs_masks,
                                                            settings.start_symbol_id)
                 logits_normed = tf.identity(logits, name = 'logits')
                 preds = tf.identity(preds_d, name="preds")
             else:
                 logits, preds_d = model.do_beam_search_decoding(src_seq, src_mask,
                                                                 settings.max_len_decoding,
-                                                                subs_masks,
+                                                                subs_masks, dcd_crs_masks,
                                                                 settings.start_symbol_id,
                                                                 settings.beam_width)
                 logits_normed = tf.identity(logits, name = 'logits')
@@ -115,14 +119,14 @@ class ModelGraph():
         print(logits_normed)
         print(preds)
         #
-        output_tensors = logits_normed, logits
+        output_tensors = logits_normed, logits, preds
         #   
         return output_tensors
     
     @staticmethod
     def build_loss_and_metric(settings, output_tensors, label_tensors):
         
-        normed_logits, logits = output_tensors
+        normed_logits, logits, preds = output_tensors
         labels_seq, labels_mask = label_tensors
         
         labels_len = tf.cast(tf.reduce_sum(labels_mask, -1), dtype=tf.float32)
@@ -138,6 +142,9 @@ class ModelGraph():
             loss = tf.reduce_mean(loss_batch, axis = 0, name = 'loss')
         
         with tf.variable_scope('metric'):
+            
+            # correct_pred = tf.cast(tf.equal(labels_seq, preds), tf.int32)
+            # acc = tf.reduce_mean(tf.cast(correct_pred, tf.float32), name = 'metric')
             
             metric = tf.constant(0.1, name = 'metric')
             

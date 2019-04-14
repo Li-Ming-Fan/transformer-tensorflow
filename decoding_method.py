@@ -8,12 +8,13 @@ Created on Sun Apr  7 21:01:52 2019
 import tensorflow as tf
 
 #
-def do_greedy_decoding(model, src, src_mask, max_len, subs_masks, start_symbol_id):
+def do_greedy_decoding(model, src, src_mask, max_len,
+                       subs_masks, dcd_crs_masks, start_symbol_id):
     """
     """
     memory = model.encode(src, src_mask)
     
-    batch_start = tf.cast(tf.ones_like(src[:, 0:1]), dtype = tf.int32)
+    batch_start = tf.cast(tf.ones_like(src[:, 0:1]), dtype = tf.int64)
     batch_start = tf.multiply(batch_start, start_symbol_id)
     
     logits_list = []
@@ -22,11 +23,12 @@ def do_greedy_decoding(model, src, src_mask, max_len, subs_masks, start_symbol_i
     dcd_feed = batch_start
     for step in range(max_len):
         mask_subsequent = subs_masks[step]
-        out = model.decode(memory, src_mask, dcd_feed, mask_subsequent)
-        out_last = tf.squeeze(out[:, -1, :])
+        crs_mask = dcd_crs_masks[step]
+        out = model.decode(dcd_feed, mask_subsequent, memory, crs_mask)
+        out_last = out[:, -1, :]
         logits_curr = model.generator.forward(out_last)
         logits_curr = tf.nn.softmax(logits_curr, -1)
-        preds_curr = tf.nn.argmax(logits_curr, -1)
+        preds_curr = tf.argmax(logits_curr, -1)
         
         logits_list.append(logits_curr)
         preds_list.append(preds_curr)
@@ -39,7 +41,8 @@ def do_greedy_decoding(model, src, src_mask, max_len, subs_masks, start_symbol_i
     return logits, preds
 
 
-def do_beam_search_decoding(model, src, src_mask, max_len, start_symbol_id, beam_width):
+def do_beam_search_decoding(model, src, src_mask, max_len,
+                            subs_masks, dcd_crs_masks, start_symbol_id, beam_width):
     """
     """
     
