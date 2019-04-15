@@ -161,9 +161,15 @@ class LabelSmoothing():
     def __init__(self):
         pass
     
-    def __call__(self):
+    def __call__(self, onehot_label):
+        """ not used yet
+        """
+        delta = 0.01
+        num_classes = 10
+        new_label = (1.0 - delta) * onehot_label + delta / num_classes
         
-        pass
+        return new_label
+    
     
     
         

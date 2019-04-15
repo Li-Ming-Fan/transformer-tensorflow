@@ -55,7 +55,7 @@ def examples_generator(single_pass=True):
         src_seq_token = [str(random.randint(0, 9)) for _ in range(random.randint(1, 10))]
         src_seq = vocab.convert_tokens_to_ids(src_seq_token)
         
-        if single_pass and count_examples == 100: break
+        if single_pass and count_examples == 600: break
         count_examples += 1
     
         yield src_seq
