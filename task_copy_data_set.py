@@ -42,7 +42,7 @@ def threadsafe_generator(f):
     return g
 
 #
-@threadsafe_generator
+# @threadsafe_generator
 def examples_generator(single_pass=True):
     """
     """

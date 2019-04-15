@@ -26,17 +26,17 @@ class ModelSettings(ModelSettingsTemplate):
         
         # vocab
         self.vocab = None
-        self.emb_dim = 512
+        self.emb_dim = 128
         self.emb_tune = 0  # 1 for tune, 0 for not
         self.posi_emb_dim = self.emb_dim
         #
         
         # model macro
-        self.num_layers = 2
+        self.num_layers = 4
         self.num_heads = 8
         self.num_units = int(self.emb_dim / self.num_heads)
         self.dim_model = self.emb_dim
-        self.dim_ffm = 2048
+        self.dim_ffm = 128
         #
         
         # self.decoder_vocab_size = 17
@@ -54,7 +54,7 @@ class ModelSettings(ModelSettingsTemplate):
         
         
         self.num_epochs = 100
-        self.batch_size = 10
+        self.batch_size = 36
         self.batch_size_eval = 10
         
         self.reg_lambda = 0.000001  # 0.0, 0.0001
@@ -121,6 +121,8 @@ if __name__ == "__main__":
     
     print(sett.__dict__.keys())
     print()
+    
+    #sett.create_or_reset_log_file()
     
     sett.close_logger()
     
