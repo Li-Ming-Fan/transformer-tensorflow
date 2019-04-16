@@ -130,8 +130,8 @@ if __name__ == "__main__":
     vocab.save_tokens_to_file(token_file)
     
     #
-    a = get_examples_generator()
-    it = a()
+    data_gen = get_examples_generator()
+    it = data_gen()
     print(next(it))
     print(next(it))
     
