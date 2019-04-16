@@ -64,10 +64,10 @@ if __name__ == '__main__':
     settings.model_tag = model_tag
     settings.model_graph = ModelGraph
     #
-    vocab = Vocab()
-    vocab.emb_dim = settings.emb_dim
+    vocab = Vocab()    
     vocab.add_tokens_from_file(args.tokens_file)
     vocab.load_pretrained_embeddings(args.emb_file)
+    vocab.emb_dim = settings.emb_dim
     settings.vocab = vocab
     #
     if run_mode == 'predict':
