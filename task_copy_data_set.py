@@ -42,24 +42,29 @@ def threadsafe_generator(f):
     return g
 
 #
-# @threadsafe_generator
-def examples_generator(single_pass=True):
+def get_examples_generator(data_files = []):
     """
     """
-    vocab = Vocab()
-    for idx in range(10):
-        vocab.add(str(idx))
-    #
-    count_examples = 0
-    while True:
-        src_seq_token = [str(random.randint(0, 9)) for _ in range(random.randint(1, 10))]
-        src_seq = vocab.convert_tokens_to_ids(src_seq_token)
-        
-        if single_pass and count_examples == 600: break
-        count_examples += 1
-    
-        yield src_seq
+    def examples_generator(single_pass=True):
+        """
+        """
+        vocab = Vocab()
+        for idx in range(10):
+            vocab.add(str(idx))
         #
+        count_examples = 0
+        while True:
+            src_seq_token = [str(random.randint(0, 9)) for _ in range(random.randint(1, 10))]
+            src_seq = vocab.convert_tokens_to_ids(src_seq_token)
+            
+            if single_pass and count_examples == 600: break
+            count_examples += 1
+        
+            yield src_seq
+            #
+    #
+    return examples_generator
+    #
 
 def batch_std_transor(list_examples, max_seq_len = 20, tgt_seq_len = 12):
     """
@@ -125,7 +130,8 @@ if __name__ == "__main__":
     vocab.save_tokens_to_file(token_file)
     
     #
-    it = examples_generator()
+    a = get_examples_generator()
+    it = a()
     print(next(it))
     print(next(it))
     

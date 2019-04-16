@@ -56,7 +56,7 @@ def do_eval(settings, args):
     model.assign_dropout_keep_prob(1.0)
     #
     # data
-    data_batcher = DataBatcher(data_set.examples_generator, data_set.batch_std_transor,
+    data_batcher = DataBatcher(data_set.get_examples_generator(), data_set.batch_std_transor,
                                settings.batch_size, single_pass = True, worker_type="thread")
     #
     # eval
@@ -74,7 +74,7 @@ def do_train_and_valid(settings, args):
     model.prepare_for_train_and_valid()
     #    
     # data
-    data_batcher = DataBatcher(data_set.examples_generator, data_set.batch_std_transor,
+    data_batcher = DataBatcher(data_set.get_examples_generator(), data_set.batch_std_transor,
                                settings.batch_size, single_pass = False, worker_type="thread")
     eval_period = settings.valid_period_batch
     #
@@ -94,7 +94,7 @@ def do_train_and_valid(settings, args):
             model.assign_dropout_keep_prob(1.0)
             #
             model.logger.info('evaluating after num_batches: %d' % count)
-            eval_batcher = DataBatcher(data_set.examples_generator, data_set.batch_std_transor,
+            eval_batcher = DataBatcher(data_set.get_examples_generator(), data_set.batch_std_transor,
                                        settings.batch_size, single_pass = True, worker_type="thread")
             #
             eval_score, loss_aver, metric_val = eval_process(model, eval_batcher, args, 0)
@@ -157,7 +157,7 @@ def do_debug(settings, args):
     model.prepare_for_train_and_valid()
     #    
     # data
-    data_batcher = DataBatcher(data_set.examples_generator, data_set.batch_std_transor,
+    data_batcher = DataBatcher(data_set.get_examples_generator(), data_set.batch_std_transor,
                                settings.batch_size, single_pass = False, worker_type="thread")
     #
     count = 0
@@ -192,7 +192,7 @@ def do_predict(settings, args):
     
     #
     # data
-    data_batcher = DataBatcher(data_set.examples_generator, data_set.batch_std_transor,
+    data_batcher = DataBatcher(data_set.get_examples_generator(), data_set.batch_std_transor,
                                settings.batch_size, single_pass = True, worker_type="thread")
     #
     count = 0
