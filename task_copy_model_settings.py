@@ -57,7 +57,7 @@ class ModelSettings(ModelSettingsTemplate):
         
         self.num_epochs = 100
         self.batch_size = 36
-        self.batch_size_eval = 10
+        self.batch_size_eval = 36
         
         self.reg_lambda = 0.000001  # 0.0, 0.0001
         self.grad_clip = 8.0  # 0.0, 5.0, 8.0, 2.0

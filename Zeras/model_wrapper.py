@@ -416,7 +416,9 @@ class ModelWrapper():
             
             #
             # loss
-            self._loss_tensor = tf.add_n(loss_list)
+            loss_w = [loss_list[gid] * self.gpu_batch_split[gid]
+                                         for gid in range(self.num_gpu)]
+            self._loss_tensor = tf.add_n(loss_w) / self.batch_size
             #
             # metric
             if self.use_metric:
