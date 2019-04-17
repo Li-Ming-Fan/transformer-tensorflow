@@ -63,6 +63,7 @@ if __name__ == '__main__':
     settings = ModelSettings()
     settings.model_tag = model_tag
     settings.model_graph = ModelGraph
+    settings.gpu_available = args.gpu
     #
     vocab = Vocab()    
     vocab.add_tokens_from_file(args.tokens_file)

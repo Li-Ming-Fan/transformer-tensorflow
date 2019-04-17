@@ -45,7 +45,9 @@ class ModelSettings(ModelSettingsTemplate):
         self.start_symbol_id = 2  #
 
         # train
-        self.gpu_available = "0"
+        self.gpu_available = "0"  # specified in args
+        self.gpu_batch_split = [16, 20]   # list; if None, batch split evenly
+        #
         self.gpu_mem_growth = True
         self.log_device = False
         self.soft_placement = True
