@@ -115,7 +115,7 @@ def dense_with_vars(inputs, Wb, transpose_b=False):
     out = tf.reshape(out, out_shape)
     return out
 
-def layer_norm(x, scope=None):
+def layer_norm(x, scope="layer_norm"):
     num_units = tf.shape(x)[-1]
     ln = LayerNorm(num_units, scope=scope)
     return ln(x)
@@ -150,7 +150,7 @@ def qkv_att_layer(query, key, value, mask_mat=None, keep_prob=1.0):
     if mask_mat is not None:
         att_mat = tf.add(att_mat, 1e16 * (mask_mat - 1) )  # -inf   # [B, TQ, TM]
     #
-    logits = tf.nn.softmax(att_mat)
+    logits = tf.nn.softmax(att_mat, -1)
     logits = tf.nn.dropout(logits, keep_prob)
     outputs = tf.matmul(logits, value)   # [B, TQ, DV]
     return outputs, logits
@@ -169,12 +169,11 @@ class MultiHeadAttention():
         
         self.attention = None
         
-        d_model = num_heads * num_units
         with tf.variable_scope(scope):
-            self.dense_query = Dense(d_model, d_model, scope="dense_query")
-            self.dense_key = Dense(d_model, d_model, scope="dense_key")
-            self.dense_value = Dense(d_model, d_model, scope="dense_value")
-            self.dense_trans = Dense(d_model, d_model, scope="dense_trans")
+            self.dense_query = Dense(self.dim_all, self.dim_all, scope="dense_query")
+            self.dense_key = Dense(self.dim_all, self.dim_all, scope="dense_key")
+            self.dense_value = Dense(self.dim_all, self.dim_all, scope="dense_value")
+            self.dense_trans = Dense(self.dim_all, self.dim_all, scope="dense_trans")
             
         
     def __call__(self, query, key, value, mask_mat=None):
@@ -184,9 +183,9 @@ class MultiHeadAttention():
         kd = self.dense_key(key)
         vd = self.dense_value(value)
         #
-        spq = tf.shape(query)
-        batch_size = spq[0]
-        q_len = spq[1]
+        shape_q = tf.shape(query)
+        batch_size = shape_q[0]
+        q_len = shape_q[1]
         k_len = tf.shape(key)[1]
         # v_len = spq[1]
         #

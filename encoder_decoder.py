@@ -12,12 +12,12 @@ class EncoderDecoder():
     """
     """
     def __init__(self, encoder, decoder,
-                 src_emb_trans, tgt_emb_trans, generator):
+                 src_emb_trans, dcd_emb_trans, generator):
         
         self.encoder = encoder
         self.decoder = decoder
         self.src_emb_trans = src_emb_trans
-        self.tgt_emb_trans = tgt_emb_trans
+        self.dcd_emb_trans = dcd_emb_trans
         self.generator = generator
         
     def forward(self, src, src_mask, dcd_inputs, dcd_mask, crs_mask): 
@@ -26,12 +26,14 @@ class EncoderDecoder():
         return self.decode(dcd_inputs, dcd_mask, self.encode(src, src_mask), crs_mask)
         
     def encode(self, src, src_mask):
+        """ src: source sequence token-ids
+        """
         return self.encoder(self.src_emb_trans(src), src_mask)
     
     def decode(self, dcd_inputs, dcd_mask, memory, crs_mask):
         """ decode one-step
         """
-        return self.decoder(self.tgt_emb_trans(dcd_inputs), dcd_mask, memory, crs_mask)
+        return self.decoder(self.dcd_emb_trans(dcd_inputs), dcd_mask, memory, crs_mask)
     
     def do_greedy_decoding(self, src, src_mask, max_len,
                            subs_masks, dcd_crs_masks, start_symbol_id):
@@ -51,11 +53,11 @@ class EncoderDecoder():
 class Generator():
     """
     """
-    def __init__(self, d_model, vocab_size, emb_mat=None, scope="proj"):
+    def __init__(self, d_features, vocab_size, emb_mat=None, scope="proj"):
         """
         """        
         self.emb_mat = emb_mat
-        self.proj = Dense(d_model, vocab_size, weight_mat=emb_mat, scope=scope)
+        self.proj = Dense(d_features, vocab_size, weight_mat=emb_mat, scope=scope)
     
     def forward(self, x):
         if self.emb_mat is None:
@@ -120,14 +122,14 @@ class EncoderLayer():
 class DecoderLayer():
     """
     """
-    def __init__(self, num_dim_all, att_args, src_args, ffd_args, keep_prob):
+    def __init__(self, num_dim_all, att_args, crs_args, ffd_args, keep_prob):
         
         self.num_all = num_dim_all
         self.sublayer_0 = SublayerWrapper(num_dim_all, keep_prob,
                                           MultiHeadAttention, att_args,
                                           scope = "sublayer_0")
         self.sublayer_1 = SublayerWrapper(num_dim_all, keep_prob,
-                                          MultiHeadAttention, src_args,
+                                          MultiHeadAttention, crs_args,
                                           scope = "sublayer_1")
         self.sublayer_2 = SublayerWrapper(num_dim_all, keep_prob,
                                           PositionwiseFeedForward, ffd_args,

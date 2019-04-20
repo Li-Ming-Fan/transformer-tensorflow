@@ -65,15 +65,15 @@ class ModelGraph():
         with tf.variable_scope("encoder_decoder"):
 
             att_args = (settings.num_heads, settings.num_units, keep_prob)
-            ffd_args = (dim_all, dim_all, keep_prob)
-            src_args = (settings.num_heads, settings.num_units, keep_prob)
+            ffd_args = (dim_all, settings.dim_ffm, keep_prob)
+            crs_args = (settings.num_heads, settings.num_units, keep_prob)
             #
             emb_trans = lambda x: get_emb_positioned(x, emb_mat, pe_mat)
             
             encoder = Encoder(settings.num_layers, EncoderLayer,
                               (dim_all, att_args, ffd_args, keep_prob))
             decoder = Decoder(settings.num_layers, DecoderLayer,
-                              (dim_all, att_args, src_args, ffd_args, keep_prob))
+                              (dim_all, att_args, crs_args, ffd_args, keep_prob))
             
             model = EncoderDecoder(encoder, decoder, emb_trans, emb_trans,
                                    Generator(dim_all, settings.vocab.size(),
@@ -95,7 +95,7 @@ class ModelGraph():
         if settings.is_train:
             out = model.forward(src_seq, src_mask, dcd_seq, dcd_mask, crs_mask)
             logits = model.generator.forward(out)
-            logits_normed = tf.nn.softmax(logits, name = 'logits')
+            logits_normed = tf.nn.softmax(logits, -1, name = 'logits')
             preds = tf.argmax(logits, -1, name="preds")
         else:
             if settings.beam_width == 1:

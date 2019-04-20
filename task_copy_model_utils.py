@@ -34,8 +34,7 @@ def eval_process(model, eval_batcher, args, flag_score):
         metric_aver += metric
         # print(loss)
         # print(metric)
-        # print(results)
-        # 
+        #
     #
     loss_aver /= count
     # metric_aver /= count
@@ -56,8 +55,10 @@ def do_eval(settings, args):
     model.assign_dropout_keep_prob(1.0)
     #
     # data
-    data_batcher = DataBatcher(data_set.get_examples_generator(), data_set.batch_std_transor,
-                               settings.batch_size, single_pass = True, worker_type="thread")
+    data_batcher = DataBatcher(data_set.get_examples_generator(),
+                               data_set.batch_std_transor,
+                               settings.batch_size_eval, single_pass = True,
+                               worker_type="thread")
     #
     # eval
     eval_score, loss_aver, metric_aver = eval_process(model, data_batcher, args, 1)
@@ -74,13 +75,15 @@ def do_train_and_valid(settings, args):
     model.prepare_for_train_and_valid()
     #    
     # data
-    data_batcher = DataBatcher(data_set.get_examples_generator(), data_set.batch_std_transor,
-                               settings.batch_size, single_pass = False, worker_type="thread")
+    data_batcher = DataBatcher(data_set.get_examples_generator(),
+                               data_set.batch_std_transor,
+                               settings.batch_size, single_pass = False,
+                               worker_type="thread")
     eval_period = settings.valid_period_batch
     #
     loss = 10000.0
     best_metric_val = 0
-    last_improved = 0
+    # last_improved = 0
     lr = model.learning_rate_base
     #
     count = 0
@@ -88,14 +91,17 @@ def do_train_and_valid(settings, args):
         #
         # eval
         if count % eval_period == 0:
+            model.logger.info('')
             model.logger.info("training curr batch, loss, lr: %d, %g, %g" % (count, loss, lr) )
             #
             model.save_ckpt(model.model_dir, model.model_name, count)
             model.assign_dropout_keep_prob(1.0)
             #
             model.logger.info('evaluating after num_batches: %d' % count)
-            eval_batcher = DataBatcher(data_set.get_examples_generator(), data_set.batch_std_transor,
-                                       settings.batch_size, single_pass = True, worker_type="thread")
+            eval_batcher = DataBatcher(data_set.get_examples_generator(),
+                                       data_set.batch_std_transor,
+                                       settings.batch_size, single_pass = True,
+                                       worker_type="thread")
             #
             eval_score, loss_aver, metric_val = eval_process(model, eval_batcher, args, 0)
             model.logger.info("eval loss_aver, metric, metric_best: %g, %g, %g" % (
@@ -104,14 +110,14 @@ def do_train_and_valid(settings, args):
             # save best
             if metric_val >= best_metric_val:  # >=
                 best_metric_val = metric_val
-                last_improved = count
+                # last_improved = count
                 # ckpt
                 model.logger.info('a new best model, saving ...')
                 model.save_ckpt_best(model.model_dir + '_best', model.model_name, count)
                 # pb
                 model.save_graph_pb_file(model.pb_file)
                 #
-            
+            """
             # decay
             if count - last_improved >= model.patience_decay:
                 lr *= model.ratio_decay
@@ -124,9 +130,19 @@ def do_train_and_valid(settings, args):
                     model.logger.info('current learning_rate < learning_rate_minimum, stop training')
                     break
                 #
+            """
             #
-            model.assign_dropout_keep_prob(settings.keep_prob)
-            model.logger.info('')
+            lr *= model.ratio_decay
+            model.assign_learning_rate(lr)
+            model.logger.info('learning_rate decayed after num_batches: %d' % count)
+            model.logger.info('current learning_rate %g' % lr)
+            #
+            if lr < model.learning_rate_minimum:
+                model.logger.info('current learning_rate < learning_rate_minimum, stop training')
+                break
+            #
+            #
+            model.assign_dropout_keep_prob(settings.keep_prob)            
             #
         #
         # train
@@ -157,8 +173,10 @@ def do_debug(settings, args):
     model.prepare_for_train_and_valid()
     #    
     # data
-    data_batcher = DataBatcher(data_set.get_examples_generator(), data_set.batch_std_transor,
-                               settings.batch_size, single_pass = False, worker_type="thread")
+    data_batcher = DataBatcher(data_set.get_examples_generator(),
+                               data_set.batch_std_transor,
+                               settings.batch_size, single_pass = False,
+                               worker_type="thread")
     #
     count = 0
     while True:        
@@ -192,8 +210,10 @@ def do_predict(settings, args):
     
     #
     # data
-    data_batcher = DataBatcher(data_set.get_examples_generator(), data_set.batch_std_transor,
-                               settings.batch_size, single_pass = True, worker_type="thread")
+    data_batcher = DataBatcher(data_set.get_examples_generator(),
+                               data_set.batch_std_transor,
+                               settings.batch_size_eval, single_pass = True,
+                               worker_type="thread")
     #
     count = 0
     while True:
@@ -209,7 +229,7 @@ def do_predict(settings, args):
         #print(debugs[0])
         #print(debugs[1])
         print("batch data:")
-        print(batch[0])
+        print(batch[4])
         print("batch data end")
         #
         results = model.predict_from_batch(batch)[0]

@@ -109,7 +109,7 @@ def batch_std_transor(list_examples, max_seq_len = 20, tgt_seq_len = 12):
         
         if src_len+1 >= tgt_seq_len: continue
         dcd_seq[eid, src_len+1] = end_id
-        dcd_seq_mask[eid, src_len] = 1
+        dcd_seq_mask[eid, src_len+1] = 1
         #
         
     #
@@ -139,5 +139,9 @@ if __name__ == "__main__":
     print(a)
     
     batch = batch_std_transor(a)
-    print(batch)
-    
+    print(batch[0])
+    print(batch[1])
+    print(batch[2])
+    print(batch[3])
+    print(batch[4])
+    print(batch[5])

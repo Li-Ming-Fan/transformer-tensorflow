@@ -20,14 +20,14 @@ class ModelSettings(ModelSettingsTemplate):
         self.model_graph = None
         self.is_train = None
 
-        # data macro     
+        # data macro
         self.min_seq_len = 1     #
         self.max_seq_len = 12    #
         
         # vocab
         self.vocab = None
-        self.emb_dim = 128
-        self.emb_tune = 0  # 1 for tune, 0 for not
+        self.emb_dim = 256
+        self.emb_tune = 1  # 1 for tune, 0 for not
         self.posi_emb_dim = self.emb_dim
         #
         
@@ -36,7 +36,7 @@ class ModelSettings(ModelSettingsTemplate):
         self.num_heads = 8
         self.num_units = int(self.emb_dim / self.num_heads)
         self.dim_model = self.emb_dim
-        self.dim_ffm = 128
+        self.dim_ffm = 512
         #
         
         # self.decoder_vocab_size = 17
@@ -54,24 +54,27 @@ class ModelSettings(ModelSettingsTemplate):
         
         self.with_bucket = False
         
-        
+        #
         self.num_epochs = 100
         self.batch_size = 36
-        self.batch_size_eval = 36
+        self.batch_size_eval = 6
         
-        self.reg_lambda = 0.000001  # 0.0, 0.0001
-        self.grad_clip = 8.0  # 0.0, 5.0, 8.0, 2.0
+        self.reg_lambda = 0.001  # 0.0, 0.01
+        self.grad_clip = 0.0  # 0.0, 5.0, 8.0, 2.0
         self.keep_prob = 0.8  # 1.0, 0.7, 0.5
         
         self.optimizer_type = 'adam'  # adam, momentum, sgd
+        self.optimizer_customized = None
         self.momentum = 0.9
-        self.learning_rate_base = 0.001   #
-        self.ratio_decay = 0.9
+        self.learning_rate_base = 0.0001   #
+        self.learning_rate_minimum = 0.000001
+        self.ratio_decay = 0.99
         self.patience_decay = 3000
-        self.learning_rate_minimum = 0.00001
+        self.warmup_steps = 1000
+        self.warmup_delta = 0.0001
         
-        self.save_period_batch = 100
-        self.valid_period_batch = 100
+        self.check_period_batch = 300
+        self.valid_period_batch = 300
         #
 
         # inputs/outputs

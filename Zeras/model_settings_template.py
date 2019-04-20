@@ -50,8 +50,10 @@ class ModelSettingsTemplate(object):
         self.learning_rate_minimum = 0.000001
         self.ratio_decay = 0.99
         self.patience_decay = 3000
+        self.warmup_steps = 1000
+        self.warmup_delta = 0.0001
         
-        self.save_period_batch = 100
+        self.check_period_batch = 100
         self.valid_period_batch = 100
         #
         
