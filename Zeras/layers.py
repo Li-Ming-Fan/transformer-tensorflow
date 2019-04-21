@@ -324,14 +324,6 @@ def get_position_emb_mat(max_seq_len, posi_emb_dim, posi_emb_model,
     pe_all = np.reshape(pe_all, [max_seq_len, -1])
     pe_all = pe_all[:, 0:posi_emb_dim]
     
-    """
-    encoded_vec = np.array([pos/np.power(10000, 2*i/dim) for pos in range(sentence_length) for i in range(dim)])
-    encoded_vec[::2] = np.sin(encoded_vec[::2])
-    encoded_vec[1::2] = np.cos(encoded_vec[1::2])
-
-    return tf.convert_to_tensor(encoded_vec.reshape([sentence_length, dim]), dtype=dtype)
-    """
-    
     #
     # tf.Tensor
     pe_mat = tf.get_variable(name, shape = (max_seq_len, posi_emb_dim),
