@@ -59,9 +59,14 @@ def eval_process(model, eval_batcher, args, flag_score):
     
 def do_eval(settings, args):
     #
+    if args.model_ckpt == "latest":
+        dir_ckpt = settings.model_dir
+    else:
+        dir_ckpt = settings.model_dir + "_best"
+    #
     # model
     model = ModelWrapper(settings)
-    model.prepare_for_train_and_valid()
+    model.prepare_for_train_and_valid(dir_ckpt)
     model.assign_dropout_keep_prob(1.0)
     #
     # data
@@ -80,9 +85,14 @@ def do_eval(settings, args):
     
 def do_train_and_valid(settings, args):
     #
+    if args.model_ckpt == "latest":
+        dir_ckpt = settings.model_dir
+    else:
+        dir_ckpt = settings.model_dir + "_best"
+    #
     # model
     model = ModelWrapper(settings)
-    model.prepare_for_train_and_valid()
+    model.prepare_for_train_and_valid(dir_ckpt)
     #    
     # data
     data_batcher = DataBatcher(data_set.get_examples_generator(),

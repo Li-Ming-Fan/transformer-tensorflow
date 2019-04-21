@@ -34,6 +34,8 @@ def parse_args():
     model_related.add_argument('--base_dir', type=str,
                                default = 'task_copy_result',
                                help='base directory for saving models')
+    model_related.add_argument('--model_ckpt', choices=['best', 'latest'],
+                               default = 'best', help='lastest ckpt or best')
     #
     vocab_related = parser.add_argument_group('vocab related settings')
     vocab_related.add_argument('--emb_file', type=str, default = None,
