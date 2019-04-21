@@ -210,7 +210,7 @@ class MultiHeadAttention():
         
         # concat
         out_c = tf.transpose(out, [0, 2, 1, 3])           # to [B, T, H, D]
-        out_c = tf.reshape(out, [batch_size, q_len, self.dim_all])    
+        out_c = tf.reshape(out, [batch_size, q_len, self.dim_all])
         
         # linear
         out_d = self.dense_trans(out_c)
@@ -236,19 +236,20 @@ class PositionwiseFeedForward():
 class SublayerWrapper():
     """
     """
-    def __init__(self, num_units, keep_prob, sublayer_class, class_args,
+    def __init__(self, sublayer_class, class_args, num_units, keep_prob,
                  scope="sublayer_wrapper"):
         """
         """
         with tf.variable_scope(scope):
-            self.layer_norm = LayerNorm(num_units, scope="sublayer_wrapper")
-            self.dropout = Dropout(keep_prob)
             self.sublayer = sublayer_class(*class_args)
-    
+            self.dropout = Dropout(keep_prob)
+            self.layer_norm = LayerNorm(num_units, scope="sublayer_wrapper")
+
     def __call__(self, x, sublayer_invoker):
+        """ layer & drop & add & norm 
         """
-        """
-        return x + self.dropout(sublayer_invoker(self.layer_norm(x)))
+        # return x + self.dropout(sublayer_invoker(self.layer_norm(x)))
+        return self.layer_norm(x + self.dropout(sublayer_invoker(x)))
     
 #
 def get_mask_mat_from_mask_seq(mask_a, mask_b):
@@ -322,6 +323,15 @@ def get_position_emb_mat(max_seq_len, posi_emb_dim, posi_emb_model,
     #
     pe_all = np.reshape(pe_all, [max_seq_len, -1])
     pe_all = pe_all[:, 0:posi_emb_dim]
+    
+    """
+    encoded_vec = np.array([pos/np.power(10000, 2*i/dim) for pos in range(sentence_length) for i in range(dim)])
+    encoded_vec[::2] = np.sin(encoded_vec[::2])
+    encoded_vec[1::2] = np.cos(encoded_vec[1::2])
+
+    return tf.convert_to_tensor(encoded_vec.reshape([sentence_length, dim]), dtype=dtype)
+    """
+    
     #
     # tf.Tensor
     pe_mat = tf.get_variable(name, shape = (max_seq_len, posi_emb_dim),

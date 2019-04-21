@@ -25,7 +25,7 @@ def parse_args():
     parser.add_argument('--gpu', type=str, default = '0',
                         help = 'specify gpu device')
     #
-    parser.add_argument('--max_batches_eval', type=int, default = 10,
+    parser.add_argument('--max_batches_eval', type=int, default = 20,
                         help = 'specify how many batches go through eval')
     #
     model_related = parser.add_argument_group('model related settings')
