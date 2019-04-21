@@ -60,22 +60,22 @@ class ModelSettings(ModelSettingsTemplate):
         self.batch_size = 36
         self.batch_size_eval = 6
         
-        self.reg_lambda = 0.001  # 0.0, 0.01
+        self.reg_lambda = 0.01  # 0.0, 0.01
         self.grad_clip = 0.0  # 0.0, 5.0, 8.0, 2.0
         self.keep_prob = 0.8  # 1.0, 0.7, 0.5
         
         self.optimizer_type = 'adam'  # adam, momentum, sgd
         self.optimizer_customized = None
         self.momentum = 0.9
-        self.learning_rate_base = 0.0001   #
+        self.learning_rate_base = 0.01   #
         self.learning_rate_minimum = 0.000001
         self.ratio_decay = 0.99
         self.patience_decay = 3000
         self.warmup_steps = 1000
         self.warmup_delta = 0.0001
         
-        self.check_period_batch = 300
-        self.valid_period_batch = 300
+        self.check_period_batch = 100
+        self.valid_period_batch = 100
         #
 
         # inputs/outputs

@@ -40,6 +40,7 @@ class ModelSettingsTemplate(object):
         self.batch_size_eval = 32
         
         self.reg_lambda = 0.001  # 0.0, 0.01
+        self.reg_exclusions = ["embedding", "bias", "layer_norm", "LayerNorm"]
         self.grad_clip = 8.0  # 0.0, 5.0, 8.0, 2.0
         self.keep_prob = 0.8  # 1.0, 0.7, 0.5
         

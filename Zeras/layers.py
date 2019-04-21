@@ -246,10 +246,10 @@ class SublayerWrapper():
             self.layer_norm = LayerNorm(num_units, scope="sublayer_wrapper")
 
     def __call__(self, x, sublayer_invoker):
-        """ layer & drop & add & norm 
+        """ norm & layer & drop & add
         """
-        # return x + self.dropout(sublayer_invoker(self.layer_norm(x)))
-        return self.layer_norm(x + self.dropout(sublayer_invoker(x)))
+        return x + self.dropout(sublayer_invoker(self.layer_norm(x)))
+        # return self.layer_norm(x + self.dropout(sublayer_invoker(x)))
     
 #
 def get_mask_mat_from_mask_seq(mask_a, mask_b):
