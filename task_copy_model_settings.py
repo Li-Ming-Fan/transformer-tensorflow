@@ -26,18 +26,18 @@ class ModelSettings(ModelSettingsTemplate):
         
         # vocab
         self.vocab = None
-        self.emb_dim = 128
-        self.emb_tune = 0  # 1 for tune, 0 for not
+        self.emb_dim = 160
+        self.emb_tune = 1  # 1 for tune, 0 for not
         self.posi_emb_dim = self.emb_dim
         #
         
         # model macro
-        self.num_layers = 4
+        self.num_layers = 8
         self.num_heads = 8
         self.num_units = int(self.emb_dim / self.num_heads)
         self.dim_all = self.num_heads * self.num_units
         self.dim_model = self.emb_dim
-        self.dim_ffm = 256
+        self.dim_ffm = 320
         #
         
         # self.decoder_vocab_size = 17
