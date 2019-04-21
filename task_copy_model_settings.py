@@ -26,7 +26,7 @@ class ModelSettings(ModelSettingsTemplate):
         
         # vocab
         self.vocab = None
-        self.emb_dim = 128
+        self.emb_dim = 256
         self.emb_tune = 1  # 1 for tune, 0 for not
         self.posi_emb_dim = self.emb_dim
         #
@@ -37,7 +37,7 @@ class ModelSettings(ModelSettingsTemplate):
         self.num_units = int(self.emb_dim / self.num_heads)
         self.dim_all = self.num_heads * self.num_units
         self.dim_model = self.emb_dim
-        self.dim_ffm = 256
+        self.dim_ffm = 512
         #
         
         # self.decoder_vocab_size = 17
@@ -60,22 +60,22 @@ class ModelSettings(ModelSettingsTemplate):
         self.batch_size = 36
         self.batch_size_eval = 6
         
-        self.reg_lambda = 0.01  # 0.0, 0.01
+        self.reg_lambda = 0.0  # 0.0, 0.01
         self.grad_clip = 0.0  # 0.0, 5.0, 8.0, 2.0
-        self.keep_prob = 0.8  # 1.0, 0.7, 0.5
+        self.keep_prob = 0.9  # 1.0, 0.7, 0.5
         
         self.optimizer_type = 'adam'  # adam, momentum, sgd
         self.optimizer_customized = None
         self.momentum = 0.9
-        self.learning_rate_base = 0.01   #
+        self.learning_rate_base = 0.0001   #
         self.learning_rate_minimum = 0.000001
         self.ratio_decay = 0.99
         self.patience_decay = 3000
         self.warmup_steps = 1000
         self.warmup_delta = 0.0001
         
-        self.check_period_batch = 100
-        self.valid_period_batch = 100
+        self.check_period_batch = 200
+        self.valid_period_batch = 200
         #
 
         # inputs/outputs

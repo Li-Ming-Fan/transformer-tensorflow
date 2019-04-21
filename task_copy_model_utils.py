@@ -17,6 +17,7 @@ import task_copy_data_set as data_set
 def eval_process(model, eval_batcher, args, flag_score):
     #
     max_batches_eval = args.max_batches_eval
+    mode_eval = ( args.mode == "eval" )
     #
     loss_aver, metric_aver = 0.0, 0.0
     count = 0
@@ -34,6 +35,15 @@ def eval_process(model, eval_batcher, args, flag_score):
         metric_aver += metric
         # print(loss)
         # print(metric)
+        #
+        if mode_eval:
+            print(count)
+            print("batch data:")
+            print(batch[4])
+            #
+            print("results:")
+            print(np.argmax(results[0], -1) )
+            print()        
         #
     #
     loss_aver /= count
