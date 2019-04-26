@@ -72,15 +72,16 @@ class Encoder():
         """
         """
         self.emb_trans = emb_trans_idx2emb
+        
+        # norm_start
+        self.layer_norm_start = LayerNorm(settings.dim_all, scope=scope)
 
-        # norm & layer & drop & add
+        # layer & drop & add & norm
         att_args = settings.num_heads, settings.num_units, keep_prob
         ffd_args = settings.dim_all, settings.dim_ffm, keep_prob
         module_args = settings.dim_all, att_args, ffd_args, keep_prob
         self.layers = build_module_copies(EncoderLayer, module_args,
                                           settings.num_layers, scope = scope)
-        # norm_end
-        self.layer_norm_end = LayerNorm(settings.dim_all, scope=scope)
 
     # def __call__(self, x, mask):
     def forward(self, x, mask):
@@ -88,11 +89,11 @@ class Encoder():
         """
         # embedding
         x = self.emb_trans(x)
+        # norm
+        x = self.layer_norm_start(x)
         # layers
         for layer in self.layers:
             x = layer(x, mask)
-        # norm
-        x = self.layer_norm_end(x)
         return x
     
 class EncoderLayer():
@@ -124,26 +125,27 @@ class Decoder():
         """
         self.emb_trans = emb_trans_idx2emb
         
-        # norm & layer & drop & add    
+        # norm_start
+        self.layer_norm_start = LayerNorm(settings.dim_all, scope=scope)
+        
+        # layer & drop & add & norm
         att_args = settings.num_heads, settings.num_units, keep_prob
         crs_args = settings.num_heads, settings.num_units, keep_prob
         ffd_args = settings.dim_all, settings.dim_ffm, keep_prob
         module_args = settings.dim_all, att_args, crs_args, ffd_args, keep_prob
         self.layers = build_module_copies(DecoderLayer, module_args,
                                           settings.num_layers, scope = scope)
-        # norm_end
-        self.layer_norm_end = LayerNorm(settings.dim_all, scope=scope)
     
     def forward(self, x, dcd_mask, memory, crs_mask):
         """ x: seq_ids
         """
         # embedding
         x = self.emb_trans(x)
+        # norm
+        x = self.layer_norm_start(x)
         # layers
         for layer in self.layers:
-            x = layer(x, dcd_mask, memory, crs_mask)
-        # norm
-        x = self.layer_norm_end(x)
+            x = layer(x, dcd_mask, memory, crs_mask)        
         return x
 
 class DecoderLayer():

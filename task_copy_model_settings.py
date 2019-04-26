@@ -66,6 +66,7 @@ class ModelSettings(ModelSettingsTemplate):
         
         self.optimizer_type = 'adam'  # adam, momentum, sgd
         self.optimizer_customized = None
+        self.learning_rate_schedule = None
         self.momentum = 0.9
         self.learning_rate_base = 0.0001   #
         self.learning_rate_minimum = 0.000001

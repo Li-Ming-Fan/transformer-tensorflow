@@ -134,7 +134,10 @@ class ModelWrapper():
             self._global_step = tf.get_variable("global_step", shape=[], dtype=tf.int32,
                                            initializer=tf.constant_initializer(0), trainable=False)
             self._lr = tf.get_variable("lr", shape=[], dtype=tf.float32, trainable=False)
-            #            
+            #
+            if self.learning_rate_schedule is not None:
+                self._lr = self.learning_rate_schedule(self._lr, self._global_step)
+            #
             # Optimizer
             # optimizer = tf.train.MomentumOptimizer(learning_rate, MOMENTUM, use_nesterov=True)
             # optimizer = tf.train.AdadeltaOptimizer(learning_rate=self.lr, epsilon=1e-6)              
@@ -294,7 +297,10 @@ class ModelWrapper():
             self._global_step = tf.get_variable("global_step", shape=[], dtype=tf.int32,
                                            initializer=tf.constant_initializer(0), trainable=False)
             self._lr = tf.get_variable("lr", shape=[], dtype=tf.float32, trainable=False)
-            #  
+            #
+            if self.learning_rate_schedule is not None:
+                self._lr = self.learning_rate_schedule(self._lr, self._global_step)
+            #
             # Optimizer
             # optimizer = tf.train.MomentumOptimizer(learning_rate, MOMENTUM, use_nesterov=True)
             # optimizer = tf.train.AdadeltaOptimizer(learning_rate=self.lr, epsilon=1e-6)              
