@@ -22,6 +22,11 @@ class ModelWrapper():
     def __init__(self, settings):
         #
         self.set_model_settings(settings)
+        #
+        self.learning_rate_schedule = lambda settings, lr, global_step: lr
+        self.customized_optimizer = None
+        # self._opt = self.customized_optimizer(self.settings, self._lr)
+        #
         
     def set_model_settings(self, settings):
         #
@@ -34,7 +39,7 @@ class ModelWrapper():
         self.sess_config = tf.ConfigProto(log_device_placement = settings.log_device,
                                           allow_soft_placement = settings.soft_placement)
         self.sess_config.gpu_options.allow_growth = settings.gpu_mem_growth
-        
+        #
     
     # predict
     def prepare_for_prediction(self, pb_file_path = None):
@@ -135,22 +140,24 @@ class ModelWrapper():
                                            initializer=tf.constant_initializer(0), trainable=False)
             self._lr = tf.get_variable("lr", shape=[], dtype=tf.float32, trainable=False)
             #
-            if self.learning_rate_schedule is not None:
-                self._lr = self.learning_rate_schedule(self._lr, self._global_step)
+            # learning rate schedule
+            self._lr = self.learning_rate_schedule(self.settings, self._lr, self._global_step)
             #
-            # Optimizer
+            # optimizer
             # optimizer = tf.train.MomentumOptimizer(learning_rate, MOMENTUM, use_nesterov=True)
             # optimizer = tf.train.AdadeltaOptimizer(learning_rate=self.lr, epsilon=1e-6)              
             # optimizer = tf.train.AdamOptimizer(learning_rate = self.learning_rate, beta1 = MOMENTUM)
             #
-            if self.optimizer_type == 'momentum':
-                self._opt = tf.train.MomentumOptimizer(self._lr, self.momentum, use_nesterov=True)
-            elif self.optimizer_type == 'sgd':
+            if self.optimizer_type == 'sgd':
                 self._opt = tf.train.GradientDescentOptimizer(self._lr)
-            elif self.optimizer_type == 'customized':
-                self._opt = self.optimizer_customized(self._lr)
-            else:
+            elif self.optimizer_type == 'momentum':
+                self._opt = tf.train.MomentumOptimizer(self._lr, self.momentum, use_nesterov=True)
+            elif self.optimizer_type == 'adam':
                 self._opt = tf.train.AdamOptimizer(learning_rate = self._lr, beta1 = self.momentum)
+            elif self.optimizer_type == 'customized':
+                self._opt = self.customized_optimizer(self.settings, self._lr)
+            else:
+                assert False, "NOT supported optimizer_type"
             #
             # model
             input_tensors, label_tensors = self.model_graph.build_placeholder(self.settings)
@@ -165,6 +172,7 @@ class ModelWrapper():
             self.trainable_vars = tf.trainable_variables()
             # print(self.trainable_vars)
             #
+            # keep_prob
             self._keep_prob = self._graph.get_tensor_by_name(vs_prefix + "keep_prob:0")
             #
             # metric and loss
@@ -298,22 +306,24 @@ class ModelWrapper():
                                            initializer=tf.constant_initializer(0), trainable=False)
             self._lr = tf.get_variable("lr", shape=[], dtype=tf.float32, trainable=False)
             #
-            if self.learning_rate_schedule is not None:
-                self._lr = self.learning_rate_schedule(self._lr, self._global_step)
+            # learning rate schedule
+            self._lr = self.learning_rate_schedule(self.settings, self._lr, self._global_step)
             #
-            # Optimizer
+            # optimizer
             # optimizer = tf.train.MomentumOptimizer(learning_rate, MOMENTUM, use_nesterov=True)
             # optimizer = tf.train.AdadeltaOptimizer(learning_rate=self.lr, epsilon=1e-6)              
             # optimizer = tf.train.AdamOptimizer(learning_rate = self.learning_rate, beta1 = MOMENTUM)
             #
-            if self.optimizer_type == 'momentum':
-                self._opt = tf.train.MomentumOptimizer(self._lr, self.momentum, use_nesterov=True)
-            elif self.optimizer_type == 'sgd':
+            if self.optimizer_type == 'sgd':
                 self._opt = tf.train.GradientDescentOptimizer(self._lr)
-            elif self.optimizer_type == 'customized':
-                self._opt = self.optimizer_customized(self._lr)
-            else:
+            elif self.optimizer_type == 'momentum':
+                self._opt = tf.train.MomentumOptimizer(self._lr, self.momentum, use_nesterov=True)
+            elif self.optimizer_type == 'adam':
                 self._opt = tf.train.AdamOptimizer(learning_rate = self._lr, beta1 = self.momentum)
+            elif self.optimizer_type == 'customized':
+                self._opt = self.customized_optimizer(self.settings, self._lr)
+            else:
+                assert False, "NOT supported optimizer_type"
             #
             # model, placeholder
             input_tensors, label_tensors = self.model_graph.build_placeholder(self.settings)
@@ -365,6 +375,7 @@ class ModelWrapper():
             self.trainable_vars = tf.trainable_variables()
             # print(self.trainable_vars)
             #
+            # keep_prob
             self._keep_prob = self._graph.get_tensor_by_name(vs_prefix + "keep_prob:0")
             #
             # regularization
