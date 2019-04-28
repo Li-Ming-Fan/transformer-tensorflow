@@ -12,7 +12,7 @@ def parse_args():
     Parses command line arguments.
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument('--mode', choices=['train', 'eval', 'predict', 'debug'],
+    parser.add_argument('--mode', choices=['train', 'eval', 'predict', 'convert'],
                         default = 'train', help = 'run mode')
     #
     parser.add_argument('--note', type=str, default = 'note_something',
@@ -84,14 +84,14 @@ if __name__ == '__main__':
     settings.vocab = vocab
     #
     # run
-    if run_mode == 'debug':
-        model_utils.do_debug(settings, args)
-    elif run_mode == 'train':
+    if run_mode == 'train':
         model_utils.do_train_and_valid(settings, args)
     elif run_mode == 'eval':
         model_utils.do_eval(settings, args)
     elif run_mode == 'predict':
         model_utils.do_predict(settings, args)
+    elif run_mode == 'convert':
+        model_utils.do_convert(settings, args)
     else:
         print('NOT supported mode. supported modes: debug, train, eval, and predict.')
     #

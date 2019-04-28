@@ -509,22 +509,24 @@ class ModelWrapper():
             self._sess.run(tf.assign(self._lr, tf.constant(lr, dtype=tf.float32)))
         
     #
-    def save_graph_pb_file(self, file_path):
+    def load_ckpt_and_save_pb_file(self, dir_ckpt):
         #
         is_train = self.settings.is_train
         self.settings.is_train = False       #
         #
-        model = ModelWrapper(self.settings)
-        model.prepare_for_train_and_valid_single_gpu()         # loaded here 
+        model = ModelWrapper(self.settings, self.settings.model_graph)
+        model.prepare_for_train_and_valid_single_gpu(dir_ckpt)         # loaded here 
         model.assign_dropout_keep_prob(1.0)
+        #
+        pb_file = os.path.join(dir_ckpt, "model_saved.pb")
         #
         constant_graph = graph_util.convert_variables_to_constants(
                 model._sess, model._sess.graph_def,
                 output_node_names = model.pb_outputs_name)
-        with tf.gfile.FastGFile(file_path, mode='wb') as f:
+        with tf.gfile.FastGFile(pb_file, mode='wb') as f:
             f.write(constant_graph.SerializeToString())
         #
-        str_info = 'pb_file saved: %s' % file_path
+        str_info = 'pb_file saved: %s' % pb_file
         self.logger.info(str_info)
         #
         self.settings.is_train = is_train           #
@@ -562,24 +564,8 @@ class ModelWrapper():
             
 if __name__ == '__main__':
     
-    from model_settings import ModelSettings
-    
-    sett = ModelSettings('vocab_placeholder', False)
-    
-    sett.model_tag = 'cnn'
-    
-    sett.check_settings()
-    
-    print(sett.__dict__.keys())
-    print()
-    
-    #
-    model = ModelWrapper(sett)
-    
-    print(model.__dict__.keys())
-    print()
-    for key in model.__dict__.keys():
-        print(key + ': ' + str(model.__dict__[key]) )
+    pass
+
         
     
     
