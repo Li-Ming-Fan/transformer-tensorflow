@@ -255,9 +255,10 @@ class SublayerWrapper():
 def get_mask_mat_from_mask_seq(mask_a, mask_b):
     """ mask_a: [B, TA]
     """
-    mask_ae = tf.cast(tf.expand_dims(mask_a, 2), tf.float32)  # [B, TA, 1]
+    #mask_ae = tf.cast(tf.expand_dims(mask_a, 2), tf.float32)  # [B, TA, 1]
     mask_be = tf.cast(tf.expand_dims(mask_b, 1), tf.float32)  # [B, 1, TB]
-    mask = mask_ae * mask_be    # [B, TA, TB]
+    #mask = mask_ae * mask_be    # [B, TA, TB]
+    mask = mask_be
     return mask
 
 #

@@ -135,7 +135,7 @@ def do_train_and_valid(settings, args):
                 model.logger.info('a new best model, saving ...')
                 model.save_ckpt_best(model.model_dir + '_best', model.model_name, count)
                 # pb
-                model.save_graph_pb_file(model.pb_file)
+                # model.save_graph_pb_file(model.pb_file)
                 #
             """
             # decay
@@ -152,14 +152,14 @@ def do_train_and_valid(settings, args):
                 #
             """
             #
-            lr *= model.ratio_decay
-            model.assign_learning_rate(lr)
-            model.logger.info('learning_rate decayed after num_batches: %d' % count)
+            #lr *= model.ratio_decay
+            #model.assign_learning_rate(lr)
+            #model.logger.info('learning_rate decayed after num_batches: %d' % count)
             model.logger.info('current learning_rate %g' % lr)
             #
-            if lr < model.learning_rate_minimum:
-                model.logger.info('current learning_rate < learning_rate_minimum, stop training')
-                break
+            #if lr < model.learning_rate_minimum:
+            #    model.logger.info('current learning_rate < learning_rate_minimum, stop training')
+            #    break
             #
             #
             model.assign_dropout_keep_prob(settings.keep_prob)            

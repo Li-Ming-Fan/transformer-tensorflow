@@ -26,18 +26,18 @@ class ModelSettings(ModelSettingsTemplate):
         
         # vocab
         self.vocab = None
-        self.emb_dim = 160
+        self.emb_dim = 128
         self.emb_tune = 1  # 1 for tune, 0 for not
         self.posi_emb_dim = self.emb_dim
         #
         
         # model macro
-        self.num_layers = 8
+        self.num_layers = 6
         self.num_heads = 8
         self.num_units = int(self.emb_dim / self.num_heads)
         self.dim_all = self.num_heads * self.num_units
         self.dim_model = self.emb_dim
-        self.dim_ffm = 320
+        self.dim_ffm = 256
         #
         
         # self.decoder_vocab_size = 17
@@ -68,15 +68,15 @@ class ModelSettings(ModelSettingsTemplate):
         self.optimizer_customized = None
         self.learning_rate_schedule = None
         self.momentum = 0.9
-        self.learning_rate_base = 0.0001   #
+        self.learning_rate_base = 0.001   #
         self.learning_rate_minimum = 0.000001
         self.ratio_decay = 0.99
         self.patience_decay = 3000
         self.warmup_steps = 1000
         self.warmup_delta = 0.0001
         
-        self.check_period_batch = 200
-        self.valid_period_batch = 200
+        self.check_period_batch = 100
+        self.valid_period_batch = 100
         #
 
         # inputs/outputs
