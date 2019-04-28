@@ -12,13 +12,10 @@ from Zeras.model_wrapper import ModelWrapper
 
 import task_copy_data_set as data_set
 
-
 #
-def eval_process(model, eval_batcher, args, flag_score):
-    #
-    max_batches_eval = args.max_batches_eval
-    mode_eval = ( args.mode == "eval" )
-    #
+def eval_process(model, eval_batcher, max_batches_eval, mode_eval):
+    """
+    """
     loss_aver, metric_aver = 0.0, 0.0
     count = 0
     while True:
@@ -59,13 +56,13 @@ def eval_process(model, eval_batcher, args, flag_score):
     
 def do_eval(settings, args):
     #
-    if args.model_ckpt == "latest":
+    if args.ckpt_loading == "latest":
         dir_ckpt = settings.model_dir
     else:
         dir_ckpt = settings.model_dir + "_best"
     #
     # model
-    model = ModelWrapper(settings)
+    model = ModelWrapper(settings, settings.model_graph)
     model.prepare_for_train_and_valid(dir_ckpt)
     model.assign_dropout_keep_prob(1.0)
     #
@@ -76,7 +73,9 @@ def do_eval(settings, args):
                                worker_type="thread")
     #
     # eval
-    eval_score, loss_aver, metric_aver = eval_process(model, data_batcher, args, 1)
+    eval_score, loss_aver, metric_aver = eval_process(model, data_batcher,
+                                                      settings.max_batches_eval,
+                                                      mode_eval = True)
     #
     print('loss_aver, metric_aver: %g, %g' % (loss_aver, metric_aver))
     model.logger.info('loss_aver, metric_aver: %g, %g' % (loss_aver, metric_aver))
@@ -85,13 +84,15 @@ def do_eval(settings, args):
     
 def do_train_and_valid(settings, args):
     #
-    if args.model_ckpt == "latest":
+    if args.ckpt_loading == "latest":
         dir_ckpt = settings.model_dir
     else:
         dir_ckpt = settings.model_dir + "_best"
     #
     # model
-    model = ModelWrapper(settings)
+    model = ModelWrapper(settings, settings.model_graph,
+                         learning_rate_schedule = None,
+                         customized_optimizer = None)
     model.prepare_for_train_and_valid(dir_ckpt)
     #    
     # data
@@ -101,6 +102,7 @@ def do_train_and_valid(settings, args):
                                worker_type="thread")
     eval_period = settings.valid_period_batch
     #
+    # train
     loss = 10000.0
     best_metric_val = 0
     # last_improved = 0
@@ -111,7 +113,7 @@ def do_train_and_valid(settings, args):
         #
         # eval
         if count % eval_period == 0:
-            model.logger.info('')
+            model.logger.info("")
             model.logger.info("training curr batch, loss, lr: %d, %g, %g" % (count, loss, lr) )
             #
             model.save_ckpt(model.model_dir, model.model_name, count)
@@ -123,7 +125,9 @@ def do_train_and_valid(settings, args):
                                        settings.batch_size, single_pass = True,
                                        worker_type="thread")
             #
-            eval_score, loss_aver, metric_val = eval_process(model, eval_batcher, args, 0)
+            eval_score, loss_aver, metric_val = eval_process(model, eval_batcher,
+                                                             settings.max_batches_eval,
+                                                             mode_eval = False)
             model.logger.info("eval loss_aver, metric, metric_best: %g, %g, %g" % (
                     loss_aver, metric_val, best_metric_val) )
             #
@@ -189,7 +193,7 @@ def do_train_and_valid(settings, args):
 def do_debug(settings, args):
     #
     # model
-    model = ModelWrapper(settings)
+    model = ModelWrapper(settings, settings.model_graph)
     model.prepare_for_train_and_valid()
     #    
     # data
@@ -198,6 +202,7 @@ def do_debug(settings, args):
                                settings.batch_size, single_pass = False,
                                worker_type="thread")
     #
+    # debug
     count = 0
     while True:        
         #
@@ -223,7 +228,7 @@ def do_debug(settings, args):
 def do_predict(settings, args):
     #
     # model
-    model = ModelWrapper(settings)
+    model = ModelWrapper(settings, settings.model_graph)
     model.prepare_for_prediction()
     # model.prepare_for_train_and_valid()
     # model.assign_dropout_keep_prob(1.0)
@@ -235,12 +240,13 @@ def do_predict(settings, args):
                                settings.batch_size_eval, single_pass = True,
                                worker_type="thread")
     #
+    # predict
     count = 0
     while True:
         batch = data_batcher.get_next_batch()  
         #
         if batch is None: break
-        if count == args.max_batches_eval: continue  #
+        if count == settings.max_batches_eval: continue  #
         #
         count += 1
         print(count)

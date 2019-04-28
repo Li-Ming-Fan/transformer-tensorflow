@@ -5,19 +5,23 @@ Created on Tue Aug 28 21:12:23 2018
 @author: limingfan
 """
 
-from Zeras.model_settings_template import ModelSettingsTemplate
+from Zeras.model_settings_baseboard import ModelSettingsBaseboard
 
-class ModelSettings(ModelSettingsTemplate):
+class ModelSettings(ModelSettingsBaseboard):
     """
     """
     def __init__(self):
         """
         """
         super(ModelSettings, self).__init__()
+        
+        # task
+        self.task = "copy"
+        self.tokens_file = "./vocab/vocab_tokens.txt"
+        self.emb_file = None
 
         # model graph
         self.model_tag = None
-        self.model_graph = None
         self.is_train = None
 
         # data macro
@@ -25,7 +29,6 @@ class ModelSettings(ModelSettingsTemplate):
         self.max_seq_len = 12    #
         
         # vocab
-        self.vocab = None
         self.emb_dim = 128
         self.emb_tune = 1  # 1 for tune, 0 for not
         self.posi_emb_dim = self.emb_dim
@@ -59,14 +62,13 @@ class ModelSettings(ModelSettingsTemplate):
         self.num_epochs = 100
         self.batch_size = 36
         self.batch_size_eval = 6
+        self.max_batches_eval = 20
         
         self.reg_lambda = 0.0  # 0.0, 0.01
         self.grad_clip = 0.0  # 0.0, 5.0, 8.0, 2.0
         self.keep_prob = 0.9  # 1.0, 0.7, 0.5
         
-        self.optimizer_type = 'adam'  # adam, momentum, sgd
-        self.optimizer_customized = None
-        self.learning_rate_schedule = None
+        self.optimizer_type = 'adam'  # adam, momentum, sgd, customized
         self.momentum = 0.9
         self.learning_rate_base = 0.001   #
         self.learning_rate_minimum = 0.000001
@@ -108,15 +110,14 @@ class ModelSettings(ModelSettingsTemplate):
         self.log_dir = None
         self.log_path = None
         #
-    
-        
+   
+#      
 if __name__ == "__main__":
     
     sett = ModelSettings()
     
-    sett.model_tag = "cnn"
-    sett.is_train = False
-    sett.vocab = "vocab_palce"
+    sett.model_tag = "transformer"
+    sett.is_train = True
     
     #print(dir(sett))    
     #l = [i for i in dir(sett) if inspect.isbuiltin(getattr(sett, i))]
@@ -130,5 +131,9 @@ if __name__ == "__main__":
     
     #sett.create_or_reset_log_file()
     
-    sett.close_logger()
+    file_path = "settings_template.json"
+    sett.save_to_json_file(file_path)
     
+    #
+    sett.close_logger()
+    #

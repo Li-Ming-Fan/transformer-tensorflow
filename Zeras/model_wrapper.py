@@ -15,16 +15,22 @@ from tensorflow.python.framework import graph_util
 This class is meant to be task-agnostic.
 
 """
-      
-        
+
+
 class ModelWrapper():
     
-    def __init__(self, settings):
+    def __init__(self, settings, model_graph,
+                 learning_rate_schedule = None, customized_optimizer = None):
         #
         self.set_model_settings(settings)
+        self.model_graph = model_graph
         #
-        self.learning_rate_schedule = lambda settings, lr, global_step: lr
-        self.customized_optimizer = None
+        if learning_rate_schedule is None:
+            self.learning_rate_schedule = lambda settings, lr, global_step: lr
+        else:
+            self.learning_rate_schedule = learning_rate_schedule
+        #
+        self.customized_optimizer = customized_optimizer
         # self._opt = self.customized_optimizer(self.settings, self._lr)
         #
         
@@ -34,7 +40,9 @@ class ModelWrapper():
         #
         for key in settings.__dict__.keys():                 
             self.__dict__[key] = settings.__dict__[key]
-        # 
+        #
+        self.num_gpu = len(self.gpu_available.split(","))
+        #
         # session info
         self.sess_config = tf.ConfigProto(log_device_placement = settings.log_device,
                                           allow_soft_placement = settings.soft_placement)

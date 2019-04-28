@@ -3,18 +3,15 @@
 import os
 
 from Zeras.vocab import Vocab
-
-from task_copy_model_settings import ModelSettings
-import task_copy_model_utils as model_utils
+from model_settings import ModelSettings
 
 import argparse
-
 
 def parse_args():
     """
     Parses command line arguments.
     """
-    parser = argparse.ArgumentParser('task_copy')
+    parser = argparse.ArgumentParser()
     parser.add_argument('--mode', choices=['train', 'eval', 'predict', 'debug'],
                         default = 'train', help = 'run mode')
     #
@@ -25,25 +22,16 @@ def parse_args():
     parser.add_argument('--gpu', type=str, default = '0',
                         help = 'specify gpu device')
     #
-    parser.add_argument('--max_batches_eval', type=int, default = 20,
-                        help = 'specify how many batches go through eval')
+    parser.add_argument('--ckpt_loading', choices=['best', 'latest'],
+                        default = 'best', help='lastest ckpt or best')
     #
-    model_related = parser.add_argument_group('model related settings')
-    model_related.add_argument('--model_tag', type=str,
-                               default = 'transformer', help='model_tag')
-    model_related.add_argument('--base_dir', type=str,
-                               default = 'task_copy_result',
-                               help='base directory for saving models')
-    model_related.add_argument('--model_ckpt', choices=['best', 'latest'],
-                               default = 'best', help='lastest ckpt or best')
-    #
-    vocab_related = parser.add_argument_group('vocab related settings')
-    vocab_related.add_argument('--emb_file', type=str, default = None,
-                               help='pretrained embeddings file')
-    vocab_related.add_argument('--tokens_file', type=str,
-                               default = './vocab/vocab_tokens.txt',
-                               help='tokens file')
-    
+    parser.add_argument('--task', type=str, help = 'specify task',
+                        default = 'copy')
+    parser.add_argument('--settings', type=str, help='settings file',
+                        default = None)
+    parser.add_argument('--model_tag', type=str, help='model_tag',
+                        default = 'transformer')
+    #    
     return parser.parse_args()
 
 #  
@@ -55,35 +43,45 @@ if __name__ == '__main__':
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
     #
+    # task & model
+    task = args.task
+    settings_file = args.settings
+    if task == "copy":
+        import task_copy_model_utils as model_utils
+        if settings_file is None:
+            settings_file = "./task_copy_settings.json"
+        #
+    #
     model_tag = args.model_tag
-    #
     if model_tag.startswith('transformer'):
-        from model_graph_transformer import ModelGraph
-    
+        from model_graph_transformer import ModelGraph    
     #
-    # settings & vocab
+    # settings
     settings = ModelSettings()
-    settings.model_tag = model_tag
-    settings.model_graph = ModelGraph
+    settings.load_from_json_file(settings_file)
     settings.gpu_available = args.gpu
-    #
-    vocab = Vocab()    
-    vocab.add_tokens_from_file(args.tokens_file)
-    vocab.load_pretrained_embeddings(args.emb_file)
-    vocab.emb_dim = settings.emb_dim
-    settings.vocab = vocab
-    #
+    settings.model_tag = model_tag
+    #    
     if run_mode == 'predict':
         settings.is_train = False
     else:
         settings.is_train = True
     #
-    settings.base_dir = args.base_dir
     settings.check_settings()
     settings.create_or_reset_log_file()
     settings.logger.info('running with args : {}'.format(args))
     settings.logger.info(settings.trans_info_to_dict())
-    
+    settings.save_to_json_file("./temp_settings.json")
+    #
+    # vocab
+    vocab = Vocab()    
+    vocab.add_tokens_from_file(settings.tokens_file)
+    vocab.load_pretrained_embeddings(settings.emb_file)
+    vocab.emb_dim = settings.emb_dim
+    #
+    # model & vocab
+    settings.model_graph = ModelGraph
+    settings.vocab = vocab
     #
     # run
     if run_mode == 'debug':
