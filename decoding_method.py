@@ -9,7 +9,7 @@ import tensorflow as tf
 
 #
 def do_greedy_decoding(model, src, src_mask, max_len,
-                       subs_masks, dcd_crs_masks, start_symbol_id):
+                       sub_mask, crs_mask, start_symbol_id):
     """
     """
     memory = model.encode(src, src_mask)
@@ -22,12 +22,9 @@ def do_greedy_decoding(model, src, src_mask, max_len,
     logits_list = []
     preds_list = []
     
-    mask_subsequent = subs_masks[-1]
-    crs_mask = dcd_crs_masks[-1]
-    
     dcd_feed = tf.concat([batch_start, pad_tokens], 1)
     for step in range(max_len):        
-        out = model.decode(dcd_feed, mask_subsequent, memory, crs_mask)
+        out = model.decode(dcd_feed, sub_mask, memory, crs_mask)
         out_last = out[:, step, :]
         logits_curr = model.generator.forward(out_last)
         logits_curr = tf.nn.softmax(logits_curr, -1)
@@ -45,7 +42,7 @@ def do_greedy_decoding(model, src, src_mask, max_len,
 
 
 def do_beam_search_decoding(model, src, src_mask, max_len,
-                            subs_masks, dcd_crs_masks, start_symbol_id, beam_width):
+                            sub_mask, crs_mask, start_symbol_id, beam_width):
     """
     """
     

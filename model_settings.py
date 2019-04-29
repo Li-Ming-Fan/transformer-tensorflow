@@ -115,25 +115,39 @@ class ModelSettings(ModelSettingsBaseboard):
 if __name__ == "__main__":
     
     sett = ModelSettings()
-    
-    sett.model_tag = "transformer"
-    sett.is_train = True
-    
-    #print(dir(sett))    
-    #l = [i for i in dir(sett) if inspect.isbuiltin(getattr(sett, i))]
-    #l = [i for i in dir(sett) if inspect.isfunction(getattr(sett, i))]
-    #l = [i for i in dir(sett) if not callable(getattr(sett, i))]
-    
+    #
+    sett.model_tag = 'cnn'
+    sett.is_train = False
+    #
     sett.check_settings()
-    
-    print(sett.__dict__.keys())
-    print()
-    
-    #sett.create_or_reset_log_file()
-    
-    file_path = "settings_template.json"
-    sett.save_to_json_file(file_path)
+    #
     
     #
+    info_dict = sett.trans_info_to_dict()
+    print("original:")
+    print(info_dict)
+    print()
+    #
+    info_dict["model_tag"] = "transformer"
+    sett.assign_info_from_dict(info_dict)
+    #
+    info_dict = sett.trans_info_to_dict()
+    print("assigned:")
+    print(info_dict)
+    print()
+    #
+    
+    #
+    file_path = "./temp_settings.json"
+    sett.save_to_json_file(file_path)    
+    sett.load_from_json_file(file_path)
+    #
+    info_dict = sett.trans_info_to_dict()
+    print("saved then loaded:")
+    print(info_dict)
+    print()
+    #
+
+    #    
     sett.close_logger()
     #

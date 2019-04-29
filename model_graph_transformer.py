@@ -8,9 +8,8 @@ Created on Sat Feb 16 07:18:29 2019
 import tensorflow as tf
 
 from Zeras.layers import get_position_emb_mat, get_emb_positioned
-from Zeras.layers import get_mask_mat_from_mask_seq
-# from Zeras.layers import get_mask_mat_subsequent
-from Zeras.layers import get_list_subs_masks, get_list_dcd_crs_masks
+from Zeras.layers import get_tensor_expanded
+from Zeras.layers import get_mask_mat_subsequent
 
 from model_encoder_decoder import ModelEncoderDecoder, Generator
 from model_encoder_decoder import Encoder, Decoder
@@ -76,13 +75,11 @@ class ModelGraph():
             #
             
         #
-        src_mask = get_mask_mat_from_mask_seq(src_seq_mask, src_seq_mask)
-        crs_mask = get_mask_mat_from_mask_seq(dcd_seq_mask, src_seq_mask)
-        dcd_mask = get_mask_mat_from_mask_seq(dcd_seq_mask, dcd_seq_mask)
-        subs_masks = get_list_subs_masks(settings.max_len_decoding)
-        dcd_crs_masks = get_list_dcd_crs_masks(src_seq_mask, settings.max_len_decoding)
-        #
-        dcd_mask = dcd_mask * subs_masks[-1]
+        src_mask = get_tensor_expanded(src_seq_mask, 1, dtype=tf.float32)
+        crs_mask = get_tensor_expanded(src_seq_mask, 1, dtype=tf.float32)
+        dcd_mask = get_tensor_expanded(dcd_seq_mask, 1, dtype=tf.float32)
+        sub_mask = get_mask_mat_subsequent(settings.max_len_decoding)
+        dcd_mask = dcd_mask * sub_mask
         #
         if settings.is_train:
             out = model.forward(src_seq, src_mask, dcd_seq, dcd_mask, crs_mask)
@@ -93,14 +90,14 @@ class ModelGraph():
             if settings.beam_width == 1:
                 logits, preds_d = model.do_greedy_decoding(src_seq, src_mask,
                                                            settings.max_len_decoding,
-                                                           subs_masks, dcd_crs_masks,
+                                                           sub_mask, crs_mask,
                                                            settings.start_symbol_id)
                 logits_normed = tf.identity(logits, name = 'logits')
                 preds = tf.identity(preds_d, name="preds")
             else:
                 logits, preds_d = model.do_beam_search_decoding(src_seq, src_mask,
                                                                 settings.max_len_decoding,
-                                                                subs_masks, dcd_crs_masks,
+                                                                sub_mask, crs_mask,
                                                                 settings.start_symbol_id,
                                                                 settings.beam_width)
                 logits_normed = tf.identity(logits, name = 'logits')
