@@ -72,10 +72,10 @@ class ModelSettings(ModelSettingsBaseboard):
         
         self.optimizer_type = 'adam'  # adam, momentum, sgd, customized
         self.momentum = 0.9
-        self.learning_rate_base = 0.01   #
+        self.learning_rate_base = 0.001   #
         self.learning_rate_minimum = 0.000001
         self.warmup_steps = 1000
-        self.decay_steps = 2000
+        self.decay_steps = 5000
         self.decay_rate = 0.99
         self.staircase = True
         
