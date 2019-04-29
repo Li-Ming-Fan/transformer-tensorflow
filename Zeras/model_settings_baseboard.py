@@ -26,7 +26,8 @@ class ModelSettingsBaseboard(object):
         
         # other macro parameters
         #
-
+        
+        #
         # train
         self.gpu_available = "0"      # could be specified in args
         self.gpu_batch_split = None   # list, for example, [12, 20]; if None, batch split evenly
@@ -37,21 +38,23 @@ class ModelSettingsBaseboard(object):
 
         self.num_epochs = 100     
         self.batch_size = 32
-        self.batch_size_eval = 32
+        self.batch_size_eval = 6
+        self.max_batches_eval = 20
         
         self.reg_lambda = 0.001  # 0.0, 0.01
         self.reg_exclusions = ["embedding", "bias", "layer_norm", "LayerNorm"]
         self.grad_clip = 8.0  # 0.0, 5.0, 8.0, 2.0
         self.keep_prob = 0.8  # 1.0, 0.7, 0.5
+        self.label_smoothing = 0.01
         
         self.optimizer_type = 'adam'  # adam, momentum, sgd, customized
         self.momentum = 0.9
         self.learning_rate_base = 0.001   #        
         self.learning_rate_minimum = 0.000001
-        self.ratio_decay = 0.99
-        self.patience_decay = 3000
         self.warmup_steps = 1000
-        self.warmup_delta = 0.0001
+        self.decay_steps = 1000
+        self.decay_rate = 0.99
+        self.staircase = True
         
         self.check_period_batch = 100
         self.valid_period_batch = 100
@@ -79,7 +82,7 @@ class ModelSettingsBaseboard(object):
         
         #
         # save and log, if not set, default values will be used.
-        self.base_dir = '.'
+        self.base_dir = './task_results'
         self.model_dir = None
         self.model_name = None
         self.pb_file = None

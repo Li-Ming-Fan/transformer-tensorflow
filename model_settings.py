@@ -7,6 +7,7 @@ Created on Tue Aug 28 21:12:23 2018
 
 from Zeras.model_settings_baseboard import ModelSettingsBaseboard
 
+
 class ModelSettings(ModelSettingsBaseboard):
     """
     """
@@ -19,8 +20,8 @@ class ModelSettings(ModelSettingsBaseboard):
         self.task = "copy"
         self.tokens_file = "./vocab/vocab_tokens.txt"
         self.emb_file = None
-
-        # model graph
+        
+        # model
         self.model_tag = None
         self.is_train = None
 
@@ -32,8 +33,7 @@ class ModelSettings(ModelSettingsBaseboard):
         self.emb_dim = 128
         self.emb_tune = 1  # 1 for tune, 0 for not
         self.posi_emb_dim = self.emb_dim
-        #
-        
+
         # model macro
         self.num_layers = 6
         self.num_heads = 8
@@ -47,7 +47,8 @@ class ModelSettings(ModelSettingsBaseboard):
         self.beam_width = 1
         self.max_len_decoding = self.max_seq_len
         self.start_symbol_id = 2  #
-
+        
+        #
         # train
         self.gpu_available = "0"  # specified in args
         self.gpu_batch_split = [16, 20]   # list; if None, batch split evenly
@@ -67,15 +68,16 @@ class ModelSettings(ModelSettingsBaseboard):
         self.reg_lambda = 0.0  # 0.0, 0.01
         self.grad_clip = 0.0  # 0.0, 5.0, 8.0, 2.0
         self.keep_prob = 0.9  # 1.0, 0.7, 0.5
+        self.label_smoothing = 0.01
         
         self.optimizer_type = 'adam'  # adam, momentum, sgd, customized
         self.momentum = 0.9
-        self.learning_rate_base = 0.001   #
+        self.learning_rate_base = 0.01   #
         self.learning_rate_minimum = 0.000001
-        self.ratio_decay = 0.99
-        self.patience_decay = 3000
         self.warmup_steps = 1000
-        self.warmup_delta = 0.0001
+        self.decay_steps = 2000
+        self.decay_rate = 0.99
+        self.staircase = True
         
         self.check_period_batch = 100
         self.valid_period_batch = 100
@@ -102,13 +104,12 @@ class ModelSettings(ModelSettingsBaseboard):
                                    ]
         
         #
-        # save and log, if not set, default values will be used.
-        self.base_dir = '.'
-        self.model_dir = None
-        self.model_name = None
-        self.pb_file = None
-        self.log_dir = None
-        self.log_path = None
+        self.base_dir = './task_copy_results'
+        # self.model_dir = None   # if not set, default values will be used.
+        # self.model_name = None
+        # self.pb_file = None
+        # self.log_dir = None
+        # self.log_path = None
         #
    
 #      

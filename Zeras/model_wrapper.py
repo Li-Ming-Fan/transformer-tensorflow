@@ -11,12 +11,40 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.python.framework import graph_util
 
+
 """
 This class is meant to be task-agnostic.
 
 """
 
-
+#
+def get_warmup_and_exp_decayed_lr(settings, global_step):
+    """ lr_base, warmup_steps, decay_steps, decay_rate, staircase
+    """
+    learning_rate = tf.constant(value = settings.learning_rate_base,
+                                shape = [], dtype = tf.float32)    
+    learning_rate = tf.train.exponential_decay(learning_rate, global_step,
+                                               settings.decay_steps,
+                                               settings.decay_rate,
+                                               settings.staircase)    
+    if settings.warmup_steps:
+        global_steps_int = tf.cast(global_step, tf.int32)
+        warmup_steps_int = tf.constant(settings.warmup_steps, dtype=tf.int32)
+        
+        global_steps_float = tf.cast(global_steps_int, tf.float32)
+        warmup_steps_float = tf.cast(warmup_steps_int, tf.float32)
+        
+        warmup_percent_done = global_steps_float / warmup_steps_float
+        warmup_learning_rate = settings.learning_rate_base * warmup_percent_done
+        
+        learning_rate = tf.cond(global_steps_int < warmup_steps_int,
+                                lambda: warmup_learning_rate,
+                                lambda: learning_rate)
+    #
+    return learning_rate
+    #
+    
+#
 class ModelWrapper():
     
     def __init__(self, settings, model_graph,
@@ -26,12 +54,12 @@ class ModelWrapper():
         self.model_graph = model_graph
         #
         if learning_rate_schedule is None:
-            self.learning_rate_schedule = lambda settings, lr, global_step: lr
+            self.learning_rate_schedule = get_warmup_and_exp_decayed_lr
         else:
             self.learning_rate_schedule = learning_rate_schedule
         #
         self.customized_optimizer = customized_optimizer
-        # self._opt = self.customized_optimizer(self.settings, self._lr)
+        # self._opt = self.customized_optimizer(self.settings, self.learning_rate_tensor)
         #
         
     def set_model_settings(self, settings):
@@ -104,9 +132,9 @@ class ModelWrapper():
     def run_train_one_batch(self, one_batch):
         #
         feed_dict = self.feed_data_train(one_batch)
-        loss, _ = self._sess.run([self._loss_tensor, self._train_op],
-                                 feed_dict = feed_dict)
-        return loss
+        loss, lr, _ = self._sess.run([self._loss_tensor, self.learning_rate_tensor,
+                                      self._train_op], feed_dict = feed_dict)
+        return loss, lr
         
     def run_eval_one_batch(self, one_batch):
         #
@@ -144,12 +172,12 @@ class ModelWrapper():
         self._graph = tf.Graph()
         with self._graph.as_default():
             #
-            self._global_step = tf.get_variable("global_step", shape=[], dtype=tf.int32,
-                                           initializer=tf.constant_initializer(0), trainable=False)
-            self._lr = tf.get_variable("lr", shape=[], dtype=tf.float32, trainable=False)
+            self.global_step = tf.get_variable("global_step", shape=[], dtype=tf.int32,
+                                               initializer = tf.constant_initializer(0),
+                                               trainable = False)
             #
-            # learning rate schedule
-            self._lr = self.learning_rate_schedule(self.settings, self._lr, self._global_step)
+            self.learning_rate_tensor = self.learning_rate_schedule(self.settings, self.global_step)
+            self.learning_rate_tensor = tf.identity(self.learning_rate_tensor, name= "lr")
             #
             # optimizer
             # optimizer = tf.train.MomentumOptimizer(learning_rate, MOMENTUM, use_nesterov=True)
@@ -157,13 +185,13 @@ class ModelWrapper():
             # optimizer = tf.train.AdamOptimizer(learning_rate = self.learning_rate, beta1 = MOMENTUM)
             #
             if self.optimizer_type == 'sgd':
-                self._opt = tf.train.GradientDescentOptimizer(self._lr)
+                self._opt = tf.train.GradientDescentOptimizer(self.learning_rate_tensor)
             elif self.optimizer_type == 'momentum':
-                self._opt = tf.train.MomentumOptimizer(self._lr, self.momentum, use_nesterov=True)
+                self._opt = tf.train.MomentumOptimizer(self.learning_rate_tensor, self.momentum, use_nesterov=True)
             elif self.optimizer_type == 'adam':
-                self._opt = tf.train.AdamOptimizer(learning_rate = self._lr, beta1 = self.momentum)
+                self._opt = tf.train.AdamOptimizer(learning_rate = self.learning_rate_tensor, beta1 = self.momentum)
             elif self.optimizer_type == 'customized':
-                self._opt = self.customized_optimizer(self.settings, self._lr)
+                self._opt = self.customized_optimizer(self.settings, self.learning_rate_tensor)
             else:
                 assert False, "NOT supported optimizer_type"
             #
@@ -201,16 +229,16 @@ class ModelWrapper():
                 loss_reg = tf.multiply(loss_reg, self.reg_lambda)
                 self._loss_tensor = tf.add(self._loss_tensor, loss_reg)
             #
-            # grad_clip, train_op
-            self._train_op = None
+            # grad_clip
+            grad_and_vars = self._opt.compute_gradients(self._loss_tensor)            
             if self.grad_clip > 0.0:
-                grads = self._opt.compute_gradients(self._loss_tensor)
-                gradients, variables = zip(*grads)
+                gradients, variables = zip(*grad_and_vars)
                 grads, _ = tf.clip_by_global_norm(gradients, self.grad_clip)
-                self._train_op = self._opt.apply_gradients(zip(grads, variables),
-                                                           global_step = self._global_step)
-            else:
-                self._train_op = self._opt.minimize(self._loss_tensor)
+                grad_and_vars = zip(grads, variables)
+            #
+            # train_op
+            self._train_op = self._opt.apply_gradients(grad_and_vars,
+                                                       global_step = self.global_step)
             #                 
             # save info
             self._saver = tf.train.Saver()
@@ -222,7 +250,7 @@ class ModelWrapper():
             # initialize the model
             self._sess.run(tf.global_variables_initializer())
             self.assign_dropout_keep_prob(self.keep_prob)
-            self.assign_learning_rate(self.learning_rate_base)
+            # self.assign_learning_rate(self.learning_rate_base)
             
             # params count
             self.num_vars = len(self.trainable_vars)
@@ -310,12 +338,12 @@ class ModelWrapper():
         self._graph = tf.Graph()
         with self._graph.as_default():
             #
-            self._global_step = tf.get_variable("global_step", shape=[], dtype=tf.int32,
-                                           initializer=tf.constant_initializer(0), trainable=False)
-            self._lr = tf.get_variable("lr", shape=[], dtype=tf.float32, trainable=False)
+            self.global_step = tf.get_variable("global_step", shape=[], dtype=tf.int32,
+                                               initializer = tf.constant_initializer(0),
+                                               trainable = False)
             #
-            # learning rate schedule
-            self._lr = self.learning_rate_schedule(self.settings, self._lr, self._global_step)
+            self.learning_rate_tensor = self.learning_rate_schedule(self.settings, self.global_step)
+            self.learning_rate_tensor = tf.identity(self.learning_rate_tensor, name= "lr")
             #
             # optimizer
             # optimizer = tf.train.MomentumOptimizer(learning_rate, MOMENTUM, use_nesterov=True)
@@ -323,13 +351,13 @@ class ModelWrapper():
             # optimizer = tf.train.AdamOptimizer(learning_rate = self.learning_rate, beta1 = MOMENTUM)
             #
             if self.optimizer_type == 'sgd':
-                self._opt = tf.train.GradientDescentOptimizer(self._lr)
+                self._opt = tf.train.GradientDescentOptimizer(self.learning_rate_tensor)
             elif self.optimizer_type == 'momentum':
-                self._opt = tf.train.MomentumOptimizer(self._lr, self.momentum, use_nesterov=True)
+                self._opt = tf.train.MomentumOptimizer(self.learning_rate_tensor, self.momentum, use_nesterov=True)
             elif self.optimizer_type == 'adam':
-                self._opt = tf.train.AdamOptimizer(learning_rate = self._lr, beta1 = self.momentum)
+                self._opt = tf.train.AdamOptimizer(learning_rate = self.learning_rate_tensor, beta1 = self.momentum)
             elif self.optimizer_type == 'customized':
-                self._opt = self.customized_optimizer(self.settings, self._lr)
+                self._opt = self.customized_optimizer(self.settings, self.learning_rate_tensor)
             else:
                 assert False, "NOT supported optimizer_type"
             #
@@ -418,7 +446,7 @@ class ModelWrapper():
             #
             # train_op
             self._train_op = self._opt.apply_gradients(grads_summed,
-                                                       global_step = self._global_step)
+                                                       global_step = self.global_step)
             #               
             # save info
             self._saver = tf.train.Saver()
@@ -430,7 +458,7 @@ class ModelWrapper():
             # initialize the model
             self._sess.run(tf.global_variables_initializer())
             self.assign_dropout_keep_prob(self.keep_prob)
-            self.assign_learning_rate(self.learning_rate_base)
+            # self.assign_learning_rate(self.learning_rate_base)
             
             # params count
             self.num_vars = len(self.trainable_vars)
@@ -502,12 +530,8 @@ class ModelWrapper():
         #
         with self._graph.as_default():
             self._sess.run(tf.assign(self._keep_prob, tf.constant(keep_prob, dtype=tf.float32)))
-            
-    def assign_learning_rate(self, lr):
         #
-        with self._graph.as_default():
-            self._sess.run(tf.assign(self._lr, tf.constant(lr, dtype=tf.float32)))
-        
+    
     #
     def load_ckpt_and_save_pb_file(self, dir_ckpt):
         #

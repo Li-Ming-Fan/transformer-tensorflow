@@ -107,14 +107,14 @@ def do_train_and_valid(settings, args):
     loss = 10000.0
     best_metric_val = 0
     # last_improved = 0
-    lr = model.learning_rate_base
+    lr = 0.0
     #
     count = 0
+    model.logger.info("")
     while True:
         #
         # eval
-        if count % eval_period == 0:
-            model.logger.info("")
+        if count % eval_period == 0:            
             model.logger.info("training curr batch, loss, lr: %d, %g, %g" % (count, loss, lr) )
             #
             model.save_ckpt(model.model_dir, model.model_name, count)
@@ -155,17 +155,17 @@ def do_train_and_valid(settings, args):
                 #
             """
             #
-            #lr *= model.ratio_decay
-            #model.assign_learning_rate(lr)
-            #model.logger.info('learning_rate decayed after num_batches: %d' % count)
-            model.logger.info('current learning_rate %g' % lr)
+            # lr *= model.ratio_decay
+            # model.assign_learning_rate(lr)
+            # model.logger.info('learning_rate decayed after num_batches: %d' % count)
+            # model.logger.info('current learning_rate: %g' % lr)
             #
-            #if lr < model.learning_rate_minimum:
-            #    model.logger.info('current learning_rate < learning_rate_minimum, stop training')
-            #    break
+            if lr < model.learning_rate_minimum and count > settings.warmup_steps:
+                model.logger.info('current learning_rate < learning_rate_minimum, stop training')
+                break
             #
-            #
-            model.assign_dropout_keep_prob(settings.keep_prob)            
+            model.assign_dropout_keep_prob(settings.keep_prob)
+            model.logger.info("")
             #
         #
         # train
@@ -174,7 +174,7 @@ def do_train_and_valid(settings, args):
         count += 1
         # print(count)        
         #
-        loss = model.run_train_one_batch(batch)   # just for train
+        loss, lr = model.run_train_one_batch(batch)   # just for train
         # print(loss)
         # model.logger.info("training curr batch, loss, lr: %d, %g, %g" % (count, loss, lr)
         #

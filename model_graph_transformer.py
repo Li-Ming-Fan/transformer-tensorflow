@@ -7,9 +7,10 @@ Created on Sat Feb 16 07:18:29 2019
 
 import tensorflow as tf
 
-from Zeras.layers import get_position_emb_mat, get_emb_positioned
-from Zeras.layers import get_tensor_expanded
-from Zeras.layers import get_mask_mat_subsequent
+from Zeras.nn import get_position_emb_mat, get_emb_positioned
+from Zeras.nn import get_tensor_expanded
+from Zeras.nn import get_mask_mat_subsequent
+from Zeras.nn import get_label_smoothened
 
 from model_encoder_decoder import ModelEncoderDecoder, Generator
 from model_encoder_decoder import Encoder, Decoder
@@ -121,10 +122,13 @@ class ModelGraph():
         labels_len = tf.cast(tf.reduce_sum(labels_mask, -1), dtype=tf.float32)
         
         with tf.variable_scope('loss'):
-            
-            # cross entropy on vocab (extended vocab)
-            cross_ent = tf.nn.sparse_softmax_cross_entropy_with_logits(labels = labels_seq,  # labels_ed
-                                                                       logits = logits)
+            #
+            onehot_labels = tf.one_hot(labels_seq, settings.vocab.size())
+            labels_smooth = get_label_smoothened(onehot_labels, settings.vocab.size(),
+                                                 settings.label_smoothing)
+            #
+            cross_ent = tf.nn.softmax_cross_entropy_with_logits(labels = labels_smooth,
+                                                                logits = logits)
             loss_batch = tf.multiply(cross_ent, tf.cast(labels_mask, dtype=tf.float32))
             loss_batch = tf.reduce_sum(loss_batch, -1)
             loss_batch = tf.divide(loss_batch, labels_len, name='loss_batch')
@@ -144,21 +148,4 @@ class ModelGraph():
         return loss, metric
         #
 
-class LabelSmoothing():
-    """
-    """
-    def __init__(self):
-        pass
-    
-    def __call__(self, onehot_label):
-        """ not used yet
-        """
-        delta = 0.01
-        num_classes = 10
-        new_label = (1.0 - delta) * onehot_label + delta / num_classes
-        
-        return new_label
-    
-    
-    
         
