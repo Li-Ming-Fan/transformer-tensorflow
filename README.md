@@ -1,8 +1,6 @@
 # Transformer-Tensorflow
 
-Transformer, Tensorflow
-
-Dealing with a toy task: to copy a sequence of numbers.
+Transformer, Tensorflow. Dealing with a toy task: to copy a sequence of numbers.
 
 ### Example results
   
