@@ -93,7 +93,7 @@ if __name__ == '__main__':
     elif run_mode == 'convert':
         model_utils.do_convert(settings, args)
     else:
-        print('NOT supported mode. supported modes: debug, train, eval, and predict.')
+        print('NOT supported mode. supported modes: train, eval, convert and predict.')
     #
     
     

@@ -1,0 +1,176 @@
+2019-04-30 00:41:37,985 - INFO - running with args : Namespace(ckpt_loading='best', debug=0, gpu='0', mode='train', model_tag='transformer', note='note_something', settings=None, task='copy')
+2019-04-30 00:41:37,986 - INFO - {'model_tag': 'transformer', 'is_train': True, 'gpu_available': '0', 'gpu_batch_split': [16, 20], 'gpu_mem_growth': True, 'log_device': False, 'soft_placement': True, 'num_epochs': 100, 'batch_size': 36, 'batch_size_eval': 6, 'max_batches_eval': 20, 'reg_lambda': 0.0, 'reg_exclusions': ['embedding', 'bias', 'layer_norm', 'LayerNorm'], 'grad_clip': 0.0, 'keep_prob': 0.9, 'label_smoothing': 0.01, 'optimizer_type': 'adam', 'momentum': 0.9, 'learning_rate_base': 0.001, 'learning_rate_minimum': 1e-06, 'warmup_steps': 1000, 'decay_steps': 1000, 'decay_rate': 0.99, 'staircase': True, 'check_period_batch': 100, 'valid_period_batch': 100, 'vs_str_multi_gpu': 'vs_multi_gpu', 'inputs_predict_name': ['src_seq:0', 'src_seq_mask:0'], 'outputs_predict_name': ['vs_multi_gpu/logits:0'], 'pb_outputs_name': ['vs_multi_gpu/logits'], 'inputs_train_name': ['src_seq:0', 'src_seq_mask:0', 'dcd_seq:0', 'dcd_seq_mask:0', 'labels_seq:0', 'labels_mask:0'], 'outputs_train_name': ['vs_multi_gpu/logits:0'], 'use_metric': True, 'debug_tensors_name': ['vs_multi_gpu/loss/loss:0', 'vs_multi_gpu/logits:0', 'vs_multi_gpu/preds:0'], 'base_dir': './task_copy_results', 'model_dir': './task_copy_results/model_transformer', 'model_name': 'model_transformer', 'pb_file': './task_copy_results/model_transformer_best/model_saved.pb', 'log_dir': './task_copy_results/log', 'log_path': './task_copy_results/log/model_transformer_2019-04-30-00-41.txt', 'task': 'copy', 'tokens_file': './vocab/vocab_tokens.txt', 'min_seq_len': 1, 'max_seq_len': 12, 'emb_dim': 128, 'emb_tune': 1, 'posi_emb_dim': 128, 'num_layers': 6, 'num_heads': 8, 'num_units': 16, 'dim_all': 128, 'dim_model': 128, 'dim_ffm': 256, 'beam_width': 1, 'max_len_decoding': 12, 'start_symbol_id': 2, 'with_bucket': False}
+2019-04-30 00:41:52,159 - INFO - graph built, there are 258 variables in the model
+2019-04-30 00:41:52,652 - INFO - there are 1990289 parameters in the model
+2019-04-30 00:41:52,682 - INFO - Failed: ckpt loading from ./task_copy_results/model_transformer_best
+2019-04-30 00:41:52,777 - INFO - 
+2019-04-30 00:41:52,777 - INFO - training curr batch, loss, lr: 0, 10000, 0
+2019-04-30 00:41:55,972 - INFO - evaluating after num_batches: 0
+2019-04-30 00:42:04,694 - INFO - eval finished, with total num_batches: 16
+2019-04-30 00:42:04,694 - INFO - eval loss_aver, metric, metric_best: 7.10181, 92.8982, 0
+2019-04-30 00:42:04,694 - INFO - a new best model, saving ...
+2019-04-30 00:42:06,051 - INFO - 
+2019-04-30 00:42:55,614 - INFO - training curr batch, loss, lr: 100, 2.35317, 9.9e-05
+2019-04-30 00:42:56,881 - INFO - evaluating after num_batches: 100
+2019-04-30 00:43:04,491 - INFO - eval finished, with total num_batches: 16
+2019-04-30 00:43:04,491 - INFO - eval loss_aver, metric, metric_best: 2.08621, 97.9138, 92.8982
+2019-04-30 00:43:04,491 - INFO - a new best model, saving ...
+2019-04-30 00:43:05,759 - INFO - 
+2019-04-30 00:43:49,231 - INFO - training curr batch, loss, lr: 200, 1.92831, 0.000199
+2019-04-30 00:43:50,488 - INFO - evaluating after num_batches: 200
+2019-04-30 00:43:58,015 - INFO - eval finished, with total num_batches: 16
+2019-04-30 00:43:58,015 - INFO - eval loss_aver, metric, metric_best: 1.95028, 98.0497, 97.9138
+2019-04-30 00:43:58,015 - INFO - a new best model, saving ...
+2019-04-30 00:43:59,436 - INFO - 
+2019-04-30 00:44:45,684 - INFO - training curr batch, loss, lr: 300, 1.90863, 0.000299
+2019-04-30 00:44:46,906 - INFO - evaluating after num_batches: 300
+2019-04-30 00:44:54,471 - INFO - eval finished, with total num_batches: 16
+2019-04-30 00:44:54,471 - INFO - eval loss_aver, metric, metric_best: 1.84348, 98.1565, 98.0497
+2019-04-30 00:44:54,473 - INFO - a new best model, saving ...
+2019-04-30 00:44:55,686 - INFO - 
+2019-04-30 00:45:41,312 - INFO - training curr batch, loss, lr: 400, 1.9498, 0.000399
+2019-04-30 00:45:42,783 - INFO - evaluating after num_batches: 400
+2019-04-30 00:45:50,398 - INFO - eval finished, with total num_batches: 16
+2019-04-30 00:45:50,398 - INFO - eval loss_aver, metric, metric_best: 1.85254, 98.1475, 98.1565
+2019-04-30 00:45:50,738 - INFO - 
+2019-04-30 00:46:35,879 - INFO - training curr batch, loss, lr: 500, 1.86815, 0.000499
+2019-04-30 00:46:37,258 - INFO - evaluating after num_batches: 500
+2019-04-30 00:46:44,906 - INFO - eval finished, with total num_batches: 16
+2019-04-30 00:46:44,906 - INFO - eval loss_aver, metric, metric_best: 1.79741, 98.2026, 98.1565
+2019-04-30 00:46:44,907 - INFO - a new best model, saving ...
+2019-04-30 00:46:46,153 - INFO - 
+2019-04-30 00:47:31,324 - INFO - training curr batch, loss, lr: 600, 1.75745, 0.000599
+2019-04-30 00:47:32,594 - INFO - evaluating after num_batches: 600
+2019-04-30 00:47:40,147 - INFO - eval finished, with total num_batches: 16
+2019-04-30 00:47:40,147 - INFO - eval loss_aver, metric, metric_best: 1.68871, 98.3113, 98.2026
+2019-04-30 00:47:40,147 - INFO - a new best model, saving ...
+2019-04-30 00:47:41,387 - INFO - 
+2019-04-30 00:48:24,744 - INFO - training curr batch, loss, lr: 700, 1.51566, 0.000699
+2019-04-30 00:48:25,997 - INFO - evaluating after num_batches: 700
+2019-04-30 00:48:33,485 - INFO - eval finished, with total num_batches: 16
+2019-04-30 00:48:33,485 - INFO - eval loss_aver, metric, metric_best: 1.42381, 98.5762, 98.3113
+2019-04-30 00:48:33,486 - INFO - a new best model, saving ...
+2019-04-30 00:48:34,763 - INFO - 
+2019-04-30 00:49:18,206 - INFO - training curr batch, loss, lr: 800, 1.47775, 0.000799
+2019-04-30 00:49:19,502 - INFO - evaluating after num_batches: 800
+2019-04-30 00:49:27,062 - INFO - eval finished, with total num_batches: 16
+2019-04-30 00:49:27,062 - INFO - eval loss_aver, metric, metric_best: 1.41797, 98.582, 98.5762
+2019-04-30 00:49:27,063 - INFO - a new best model, saving ...
+2019-04-30 00:49:28,314 - INFO - 
+2019-04-30 00:50:11,852 - INFO - training curr batch, loss, lr: 900, 1.5274, 0.000899
+2019-04-30 00:50:13,097 - INFO - evaluating after num_batches: 900
+2019-04-30 00:50:20,568 - INFO - eval finished, with total num_batches: 16
+2019-04-30 00:50:20,568 - INFO - eval loss_aver, metric, metric_best: 1.40987, 98.5901, 98.582
+2019-04-30 00:50:20,568 - INFO - a new best model, saving ...
+2019-04-30 00:50:21,835 - INFO - 
+2019-04-30 00:51:05,354 - INFO - training curr batch, loss, lr: 1000, 1.4074, 0.000999
+2019-04-30 00:51:06,596 - INFO - evaluating after num_batches: 1000
+2019-04-30 00:51:14,115 - INFO - eval finished, with total num_batches: 16
+2019-04-30 00:51:14,115 - INFO - eval loss_aver, metric, metric_best: 1.36623, 98.6338, 98.5901
+2019-04-30 00:51:14,115 - INFO - a new best model, saving ...
+2019-04-30 00:51:15,621 - INFO - 
+2019-04-30 00:51:59,059 - INFO - training curr batch, loss, lr: 1100, 1.39431, 0.00099
+2019-04-30 00:52:00,301 - INFO - evaluating after num_batches: 1100
+2019-04-30 00:52:07,836 - INFO - eval finished, with total num_batches: 16
+2019-04-30 00:52:07,837 - INFO - eval loss_aver, metric, metric_best: 1.38325, 98.6168, 98.6338
+2019-04-30 00:52:08,187 - INFO - 
+2019-04-30 00:52:52,724 - INFO - training curr batch, loss, lr: 1200, 1.45622, 0.00099
+2019-04-30 00:52:53,968 - INFO - evaluating after num_batches: 1200
+2019-04-30 00:53:01,466 - INFO - eval finished, with total num_batches: 16
+2019-04-30 00:53:01,466 - INFO - eval loss_aver, metric, metric_best: 1.37043, 98.6296, 98.6338
+2019-04-30 00:53:01,816 - INFO - 
+2019-04-30 00:53:45,504 - INFO - training curr batch, loss, lr: 1300, 1.04396, 0.00099
+2019-04-30 00:53:46,742 - INFO - evaluating after num_batches: 1300
+2019-04-30 00:53:54,286 - INFO - eval finished, with total num_batches: 16
+2019-04-30 00:53:54,286 - INFO - eval loss_aver, metric, metric_best: 1.2269, 98.7731, 98.6338
+2019-04-30 00:53:54,286 - INFO - a new best model, saving ...
+2019-04-30 00:53:55,576 - INFO - 
+2019-04-30 00:54:39,425 - INFO - training curr batch, loss, lr: 1400, 0.740621, 0.00099
+2019-04-30 00:54:40,670 - INFO - evaluating after num_batches: 1400
+2019-04-30 00:54:48,209 - INFO - eval finished, with total num_batches: 16
+2019-04-30 00:54:48,209 - INFO - eval loss_aver, metric, metric_best: 0.705798, 99.2942, 98.7731
+2019-04-30 00:54:48,209 - INFO - a new best model, saving ...
+2019-04-30 00:54:49,515 - INFO - 
+2019-04-30 00:55:33,447 - INFO - training curr batch, loss, lr: 1500, 0.490154, 0.00099
+2019-04-30 00:55:34,729 - INFO - evaluating after num_batches: 1500
+2019-04-30 00:55:42,256 - INFO - eval finished, with total num_batches: 16
+2019-04-30 00:55:42,256 - INFO - eval loss_aver, metric, metric_best: 0.330114, 99.6699, 99.2942
+2019-04-30 00:55:42,256 - INFO - a new best model, saving ...
+2019-04-30 00:55:43,522 - INFO - 
+2019-04-30 00:56:27,434 - INFO - training curr batch, loss, lr: 1600, 0.364614, 0.00099
+2019-04-30 00:56:28,680 - INFO - evaluating after num_batches: 1600
+2019-04-30 00:56:36,270 - INFO - eval finished, with total num_batches: 16
+2019-04-30 00:56:36,270 - INFO - eval loss_aver, metric, metric_best: 0.22804, 99.772, 99.6699
+2019-04-30 00:56:36,270 - INFO - a new best model, saving ...
+2019-04-30 00:56:37,562 - INFO - 
+2019-04-30 00:57:21,382 - INFO - training curr batch, loss, lr: 1700, 0.21946, 0.00099
+2019-04-30 00:57:22,656 - INFO - evaluating after num_batches: 1700
+2019-04-30 00:57:30,129 - INFO - eval finished, with total num_batches: 16
+2019-04-30 00:57:30,129 - INFO - eval loss_aver, metric, metric_best: 0.187663, 99.8123, 99.772
+2019-04-30 00:57:30,129 - INFO - a new best model, saving ...
+2019-04-30 00:57:31,411 - INFO - 
+2019-04-30 00:58:15,116 - INFO - training curr batch, loss, lr: 1800, 0.191358, 0.00099
+2019-04-30 00:58:16,357 - INFO - evaluating after num_batches: 1800
+2019-04-30 00:58:23,830 - INFO - eval finished, with total num_batches: 16
+2019-04-30 00:58:23,831 - INFO - eval loss_aver, metric, metric_best: 0.147984, 99.852, 99.8123
+2019-04-30 00:58:23,831 - INFO - a new best model, saving ...
+2019-04-30 00:58:25,139 - INFO - 
+2019-04-30 00:59:09,568 - INFO - training curr batch, loss, lr: 1900, 0.202696, 0.00099
+2019-04-30 00:59:10,851 - INFO - evaluating after num_batches: 1900
+2019-04-30 00:59:18,307 - INFO - eval finished, with total num_batches: 16
+2019-04-30 00:59:18,307 - INFO - eval loss_aver, metric, metric_best: 0.136011, 99.864, 99.852
+2019-04-30 00:59:18,307 - INFO - a new best model, saving ...
+2019-04-30 00:59:19,584 - INFO - 
+2019-04-30 01:00:03,723 - INFO - training curr batch, loss, lr: 2000, 0.165334, 0.00099
+2019-04-30 01:00:05,036 - INFO - evaluating after num_batches: 2000
+2019-04-30 01:00:12,520 - INFO - eval finished, with total num_batches: 16
+2019-04-30 01:00:12,520 - INFO - eval loss_aver, metric, metric_best: 0.133331, 99.8667, 99.864
+2019-04-30 01:00:12,521 - INFO - a new best model, saving ...
+2019-04-30 01:00:13,763 - INFO - 
+2019-04-30 01:00:57,905 - INFO - training curr batch, loss, lr: 2100, 0.139873, 0.0009801
+2019-04-30 01:00:59,193 - INFO - evaluating after num_batches: 2100
+2019-04-30 01:01:06,703 - INFO - eval finished, with total num_batches: 16
+2019-04-30 01:01:06,703 - INFO - eval loss_aver, metric, metric_best: 0.120733, 99.8793, 99.8667
+2019-04-30 01:01:06,703 - INFO - a new best model, saving ...
+2019-04-30 01:01:07,947 - INFO - 
+2019-04-30 01:01:55,140 - INFO - training curr batch, loss, lr: 2200, 0.133947, 0.0009801
+2019-04-30 01:01:56,433 - INFO - evaluating after num_batches: 2200
+2019-04-30 01:02:03,961 - INFO - eval finished, with total num_batches: 16
+2019-04-30 01:02:03,961 - INFO - eval loss_aver, metric, metric_best: 0.116175, 99.8838, 99.8793
+2019-04-30 01:02:03,961 - INFO - a new best model, saving ...
+2019-04-30 01:02:05,342 - INFO - 
+2019-04-30 01:02:50,272 - INFO - training curr batch, loss, lr: 2300, 0.12778, 0.0009801
+2019-04-30 01:02:51,981 - INFO - evaluating after num_batches: 2300
+2019-04-30 01:03:00,250 - INFO - eval finished, with total num_batches: 16
+2019-04-30 01:03:00,251 - INFO - eval loss_aver, metric, metric_best: 0.113812, 99.8862, 99.8838
+2019-04-30 01:03:00,251 - INFO - a new best model, saving ...
+2019-04-30 01:03:01,660 - INFO - 
+2019-04-30 01:03:48,766 - INFO - training curr batch, loss, lr: 2400, 0.132391, 0.0009801
+2019-04-30 01:03:50,204 - INFO - evaluating after num_batches: 2400
+2019-04-30 01:03:57,975 - INFO - eval finished, with total num_batches: 16
+2019-04-30 01:03:57,975 - INFO - eval loss_aver, metric, metric_best: 0.108555, 99.8914, 99.8862
+2019-04-30 01:03:57,975 - INFO - a new best model, saving ...
+2019-04-30 01:03:59,297 - INFO - 
+2019-04-30 01:04:45,450 - INFO - training curr batch, loss, lr: 2500, 0.133959, 0.0009801
+2019-04-30 01:04:46,784 - INFO - evaluating after num_batches: 2500
+2019-04-30 01:04:54,523 - INFO - eval finished, with total num_batches: 16
+2019-04-30 01:04:54,524 - INFO - eval loss_aver, metric, metric_best: 0.11152, 99.8885, 99.8914
+2019-04-30 01:04:54,925 - INFO - 
+2019-04-30 01:05:40,713 - INFO - training curr batch, loss, lr: 2600, 0.140935, 0.0009801
+2019-04-30 01:05:42,111 - INFO - evaluating after num_batches: 2600
+2019-04-30 01:05:49,681 - INFO - eval finished, with total num_batches: 16
+2019-04-30 01:05:49,682 - INFO - eval loss_aver, metric, metric_best: 0.106881, 99.8931, 99.8914
+2019-04-30 01:05:49,682 - INFO - a new best model, saving ...
+2019-04-30 01:05:50,969 - INFO - 
+2019-04-30 01:06:36,223 - INFO - training curr batch, loss, lr: 2700, 0.116747, 0.0009801
+2019-04-30 01:06:37,651 - INFO - evaluating after num_batches: 2700
+2019-04-30 01:06:45,281 - INFO - eval finished, with total num_batches: 16
+2019-04-30 01:06:45,282 - INFO - eval loss_aver, metric, metric_best: 0.105963, 99.894, 99.8931
+2019-04-30 01:06:45,282 - INFO - a new best model, saving ...
+2019-04-30 01:06:46,580 - INFO - 
+2019-04-30 01:07:32,332 - INFO - training curr batch, loss, lr: 2800, 0.107654, 0.0009801
+2019-04-30 01:07:33,659 - INFO - evaluating after num_batches: 2800
+2019-04-30 01:07:41,188 - INFO - eval finished, with total num_batches: 16
+2019-04-30 01:07:41,188 - INFO - eval loss_aver, metric, metric_best: 0.102576, 99.8974, 99.894
+2019-04-30 01:07:41,188 - INFO - a new best model, saving ...
+2019-04-30 01:07:42,946 - INFO - 
