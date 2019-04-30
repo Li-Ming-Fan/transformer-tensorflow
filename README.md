@@ -5,10 +5,10 @@ Transformer, Tensorflow. Dealing with a toy task: to copy a sequence of numbers.
 ### Example results
 
 eval results after 2800 batches:
-  
-![eval_result](https://github.com/Li-Ming-Fan/transformer-tensorflow/blob/master/aaa_task_copy_result_examples/eval_result.PNG)
 
-  
+<img src="https://github.com/Li-Ming-Fan/transformer-tensorflow/blob/master/aaa_task_copy_result_examples/eval_result.PNG" width="384">
+
+
 ### Description
   
 To run this repo:
@@ -35,7 +35,7 @@ Tested with tensorflow version 1.8.0
 
 ### Reference
   
-1, Attention Is All You Need,
+1, Attention is All You Need,
 
 Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, Illia Polosukhin, https://arxiv.org/abs/1706.03762
 
