@@ -39,9 +39,7 @@ Tested with tensorflow version 1.8.0
 
 Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, Illia Polosukhin, https://arxiv.org/abs/1706.03762
 
-2, The implementation is largely a TensorFlow version of the following which is with PyTorch:
-
-The Annotated Transformer, http://nlp.seas.harvard.edu/2018/04/03/attention.html
+2, The Annotated Transformer, http://nlp.seas.harvard.edu/2018/04/03/attention.html
 
 
 
