@@ -3,8 +3,10 @@
 Transformer, Tensorflow. Dealing with a toy task: to copy a sequence of numbers.
 
 ### Example results
+
+eval results after 2800 batches:
   
-![eval_result](https://github.com/Li-Ming-Fan/transformer-tensorflow/blob/master/aaa_task_copy_result_examples/eval_result.PNG?raw=true)
+![eval_result](https://github.com/Li-Ming-Fan/transformer-tensorflow/blob/master/aaa_task_copy_result_examples/eval_result.PNG)
 
   
 ### Description
