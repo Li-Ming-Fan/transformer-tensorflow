@@ -4,7 +4,7 @@ Transformer, Tensorflow. Dealing with a toy task: to copy a sequence of numbers.
 
 ### Example results
 
-Eval results after 2800 batches:
+Eval results after training 2800 batches:
 
 <img src="https://github.com/Li-Ming-Fan/transformer-tensorflow/blob/master/aaa_task_copy_result_examples/eval_result.PNG" width="384">
 
