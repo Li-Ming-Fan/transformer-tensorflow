@@ -17,7 +17,6 @@ python script_sunner.py --mode=train    # 2, to train and validate
 python script_sunner.py --mode=eval     # 3, to evaluate
 ```
   
- 
 </br>
 
 by 1, directory ./vocab/ and file ./vocab/vocab_tokens.txt will be created. 
@@ -34,9 +33,8 @@ Tested with tensorflow version 1.8.0
 
 ### Reference
   
-1, The model is mainly based on the method described in the article:
+1, Attention Is All You Need,
 
-Attention Is All You Need,
 Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, Illia Polosukhin, https://arxiv.org/abs/1706.03762
 
 2, The implementation is largely a TensorFlow version of the following which is with PyTorch:
