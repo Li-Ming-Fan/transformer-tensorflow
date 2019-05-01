@@ -15,8 +15,8 @@ To run this repo:
 
 ```
 python task_copy_data_set.py            # 1, to create vocab
-python script_sunner.py --mode=train    # 2, to train and validate
-python script_sunner.py --mode=eval     # 3, to evaluate
+python script_runner.py --mode=train    # 2, to train and validate
+python script_runner.py --mode=eval     # 3, to evaluate
 ```
   
 </br>
