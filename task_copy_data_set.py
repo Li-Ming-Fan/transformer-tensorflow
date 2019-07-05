@@ -90,7 +90,8 @@ def batch_std_transor(list_examples, max_seq_len = 20, tgt_seq_len = 12):
 if __name__ == "__main__":
     
     #
-    vocab = Vocab()
+    initial_tokens = ['[START]', '[END]']
+    vocab = Vocab(initial_tokens)
     for idx in range(10):
         vocab.add(str(idx))
     
