@@ -54,7 +54,7 @@ if __name__ == '__main__':
     #
     model_tag = args.model_tag
     if model_tag.startswith('transformer'):
-        from model_graph_transformer import ModelGraph    
+        from model_graph_assembling import ModelGraph    
     #
     # settings
     settings = ModelSettings()

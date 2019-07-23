@@ -39,10 +39,10 @@
         "src_seq_mask:0"
     ],
     "outputs_predict_name": [
-        "vs_multi_gpu/logits:0"
+        "vs_multi_gpu/decoder/logits:0"
     ],
     "pb_outputs_name": [
-        "vs_multi_gpu/logits"
+        "vs_multi_gpu/decoder/logits"
     ],
     "inputs_train_name": [
         "src_seq:0",
@@ -53,17 +53,18 @@
         "labels_mask:0"
     ],
     "outputs_train_name": [
-        "vs_multi_gpu/logits:0"
+        "vs_multi_gpu/decoder/logits:0"
     ],
     "use_metric": true,
     "debug_tensors_name": [
         "vs_multi_gpu/loss/loss:0",
-        "vs_multi_gpu/logits:0",
-        "vs_multi_gpu/preds:0"
+        "vs_multi_gpu/decoder/logits:0",
+        "vs_multi_gpu/decoder/preds:0"
     ],
     "base_dir": "./task_copy_results",
     "model_dir": null,
     "model_name": null,
+    "model_dir_best": null,
     "pb_file": null,
     "log_dir": null,
     "log_path": null,
@@ -80,6 +81,7 @@
     "dim_all": 128,
     "dim_model": 128,
     "dim_ffm": 256,
+    "activation": "gelu",
     "beam_width": 1,
     "max_len_decoding": 12,
     "start_symbol_id": 2,
