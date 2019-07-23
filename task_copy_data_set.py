@@ -10,6 +10,7 @@ import random
 import numpy as np
 
 from Zeras.vocab import Vocab
+initial_tokens = ['[START]', '[END]']
 
 #
 def get_examples_generator(data_files = []):
@@ -18,7 +19,7 @@ def get_examples_generator(data_files = []):
     def examples_generator(single_pass=True):
         """
         """
-        vocab = Vocab()
+        vocab = Vocab(initial_tokens)
         for idx in range(10):
             vocab.add(str(idx))
         #
@@ -89,12 +90,11 @@ def batch_std_transor(list_examples, max_seq_len = 20, tgt_seq_len = 12):
 #
 if __name__ == "__main__":
     
-    #
-    initial_tokens = ['[START]', '[END]']
+    #    
     vocab = Vocab(initial_tokens)
     for idx in range(10):
         vocab.add(str(idx))
-    
+    #
     dir_vocab = "./vocab"
     if not os.path.exists(dir_vocab): os.mkdir(dir_vocab)
     token_file = os.path.join(dir_vocab, "vocab_tokens.txt")
