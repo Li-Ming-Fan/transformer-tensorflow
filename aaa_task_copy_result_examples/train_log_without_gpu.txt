@@ -1,176 +1,504 @@
-2019-04-30 00:41:37,985 - INFO - running with args : Namespace(ckpt_loading='best', debug=0, gpu='0', mode='train', model_tag='transformer', note='note_something', settings=None, task='copy')
-2019-04-30 00:41:37,986 - INFO - {'model_tag': 'transformer', 'is_train': True, 'gpu_available': '0', 'gpu_batch_split': [16, 20], 'gpu_mem_growth': True, 'log_device': False, 'soft_placement': True, 'num_epochs': 100, 'batch_size': 36, 'batch_size_eval': 6, 'max_batches_eval': 20, 'reg_lambda': 0.0, 'reg_exclusions': ['embedding', 'bias', 'layer_norm', 'LayerNorm'], 'grad_clip': 0.0, 'keep_prob': 0.9, 'label_smoothing': 0.01, 'optimizer_type': 'adam', 'momentum': 0.9, 'learning_rate_base': 0.001, 'learning_rate_minimum': 1e-06, 'warmup_steps': 1000, 'decay_steps': 1000, 'decay_rate': 0.99, 'staircase': True, 'check_period_batch': 100, 'valid_period_batch': 100, 'vs_str_multi_gpu': 'vs_multi_gpu', 'inputs_predict_name': ['src_seq:0', 'src_seq_mask:0'], 'outputs_predict_name': ['vs_multi_gpu/logits:0'], 'pb_outputs_name': ['vs_multi_gpu/logits'], 'inputs_train_name': ['src_seq:0', 'src_seq_mask:0', 'dcd_seq:0', 'dcd_seq_mask:0', 'labels_seq:0', 'labels_mask:0'], 'outputs_train_name': ['vs_multi_gpu/logits:0'], 'use_metric': True, 'debug_tensors_name': ['vs_multi_gpu/loss/loss:0', 'vs_multi_gpu/logits:0', 'vs_multi_gpu/preds:0'], 'base_dir': './task_copy_results', 'model_dir': './task_copy_results/model_transformer', 'model_name': 'model_transformer', 'pb_file': './task_copy_results/model_transformer_best/model_saved.pb', 'log_dir': './task_copy_results/log', 'log_path': './task_copy_results/log/model_transformer_2019-04-30-00-41.txt', 'task': 'copy', 'tokens_file': './vocab/vocab_tokens.txt', 'min_seq_len': 1, 'max_seq_len': 12, 'emb_dim': 128, 'emb_tune': 1, 'posi_emb_dim': 128, 'num_layers': 6, 'num_heads': 8, 'num_units': 16, 'dim_all': 128, 'dim_model': 128, 'dim_ffm': 256, 'beam_width': 1, 'max_len_decoding': 12, 'start_symbol_id': 2, 'with_bucket': False}
-2019-04-30 00:41:52,159 - INFO - graph built, there are 258 variables in the model
-2019-04-30 00:41:52,652 - INFO - there are 1990289 parameters in the model
-2019-04-30 00:41:52,682 - INFO - Failed: ckpt loading from ./task_copy_results/model_transformer_best
-2019-04-30 00:41:52,777 - INFO - 
-2019-04-30 00:41:52,777 - INFO - training curr batch, loss, lr: 0, 10000, 0
-2019-04-30 00:41:55,972 - INFO - evaluating after num_batches: 0
-2019-04-30 00:42:04,694 - INFO - eval finished, with total num_batches: 16
-2019-04-30 00:42:04,694 - INFO - eval loss_aver, metric, metric_best: 7.10181, 92.8982, 0
-2019-04-30 00:42:04,694 - INFO - a new best model, saving ...
-2019-04-30 00:42:06,051 - INFO - 
-2019-04-30 00:42:55,614 - INFO - training curr batch, loss, lr: 100, 2.35317, 9.9e-05
-2019-04-30 00:42:56,881 - INFO - evaluating after num_batches: 100
-2019-04-30 00:43:04,491 - INFO - eval finished, with total num_batches: 16
-2019-04-30 00:43:04,491 - INFO - eval loss_aver, metric, metric_best: 2.08621, 97.9138, 92.8982
-2019-04-30 00:43:04,491 - INFO - a new best model, saving ...
-2019-04-30 00:43:05,759 - INFO - 
-2019-04-30 00:43:49,231 - INFO - training curr batch, loss, lr: 200, 1.92831, 0.000199
-2019-04-30 00:43:50,488 - INFO - evaluating after num_batches: 200
-2019-04-30 00:43:58,015 - INFO - eval finished, with total num_batches: 16
-2019-04-30 00:43:58,015 - INFO - eval loss_aver, metric, metric_best: 1.95028, 98.0497, 97.9138
-2019-04-30 00:43:58,015 - INFO - a new best model, saving ...
-2019-04-30 00:43:59,436 - INFO - 
-2019-04-30 00:44:45,684 - INFO - training curr batch, loss, lr: 300, 1.90863, 0.000299
-2019-04-30 00:44:46,906 - INFO - evaluating after num_batches: 300
-2019-04-30 00:44:54,471 - INFO - eval finished, with total num_batches: 16
-2019-04-30 00:44:54,471 - INFO - eval loss_aver, metric, metric_best: 1.84348, 98.1565, 98.0497
-2019-04-30 00:44:54,473 - INFO - a new best model, saving ...
-2019-04-30 00:44:55,686 - INFO - 
-2019-04-30 00:45:41,312 - INFO - training curr batch, loss, lr: 400, 1.9498, 0.000399
-2019-04-30 00:45:42,783 - INFO - evaluating after num_batches: 400
-2019-04-30 00:45:50,398 - INFO - eval finished, with total num_batches: 16
-2019-04-30 00:45:50,398 - INFO - eval loss_aver, metric, metric_best: 1.85254, 98.1475, 98.1565
-2019-04-30 00:45:50,738 - INFO - 
-2019-04-30 00:46:35,879 - INFO - training curr batch, loss, lr: 500, 1.86815, 0.000499
-2019-04-30 00:46:37,258 - INFO - evaluating after num_batches: 500
-2019-04-30 00:46:44,906 - INFO - eval finished, with total num_batches: 16
-2019-04-30 00:46:44,906 - INFO - eval loss_aver, metric, metric_best: 1.79741, 98.2026, 98.1565
-2019-04-30 00:46:44,907 - INFO - a new best model, saving ...
-2019-04-30 00:46:46,153 - INFO - 
-2019-04-30 00:47:31,324 - INFO - training curr batch, loss, lr: 600, 1.75745, 0.000599
-2019-04-30 00:47:32,594 - INFO - evaluating after num_batches: 600
-2019-04-30 00:47:40,147 - INFO - eval finished, with total num_batches: 16
-2019-04-30 00:47:40,147 - INFO - eval loss_aver, metric, metric_best: 1.68871, 98.3113, 98.2026
-2019-04-30 00:47:40,147 - INFO - a new best model, saving ...
-2019-04-30 00:47:41,387 - INFO - 
-2019-04-30 00:48:24,744 - INFO - training curr batch, loss, lr: 700, 1.51566, 0.000699
-2019-04-30 00:48:25,997 - INFO - evaluating after num_batches: 700
-2019-04-30 00:48:33,485 - INFO - eval finished, with total num_batches: 16
-2019-04-30 00:48:33,485 - INFO - eval loss_aver, metric, metric_best: 1.42381, 98.5762, 98.3113
-2019-04-30 00:48:33,486 - INFO - a new best model, saving ...
-2019-04-30 00:48:34,763 - INFO - 
-2019-04-30 00:49:18,206 - INFO - training curr batch, loss, lr: 800, 1.47775, 0.000799
-2019-04-30 00:49:19,502 - INFO - evaluating after num_batches: 800
-2019-04-30 00:49:27,062 - INFO - eval finished, with total num_batches: 16
-2019-04-30 00:49:27,062 - INFO - eval loss_aver, metric, metric_best: 1.41797, 98.582, 98.5762
-2019-04-30 00:49:27,063 - INFO - a new best model, saving ...
-2019-04-30 00:49:28,314 - INFO - 
-2019-04-30 00:50:11,852 - INFO - training curr batch, loss, lr: 900, 1.5274, 0.000899
-2019-04-30 00:50:13,097 - INFO - evaluating after num_batches: 900
-2019-04-30 00:50:20,568 - INFO - eval finished, with total num_batches: 16
-2019-04-30 00:50:20,568 - INFO - eval loss_aver, metric, metric_best: 1.40987, 98.5901, 98.582
-2019-04-30 00:50:20,568 - INFO - a new best model, saving ...
-2019-04-30 00:50:21,835 - INFO - 
-2019-04-30 00:51:05,354 - INFO - training curr batch, loss, lr: 1000, 1.4074, 0.000999
-2019-04-30 00:51:06,596 - INFO - evaluating after num_batches: 1000
-2019-04-30 00:51:14,115 - INFO - eval finished, with total num_batches: 16
-2019-04-30 00:51:14,115 - INFO - eval loss_aver, metric, metric_best: 1.36623, 98.6338, 98.5901
-2019-04-30 00:51:14,115 - INFO - a new best model, saving ...
-2019-04-30 00:51:15,621 - INFO - 
-2019-04-30 00:51:59,059 - INFO - training curr batch, loss, lr: 1100, 1.39431, 0.00099
-2019-04-30 00:52:00,301 - INFO - evaluating after num_batches: 1100
-2019-04-30 00:52:07,836 - INFO - eval finished, with total num_batches: 16
-2019-04-30 00:52:07,837 - INFO - eval loss_aver, metric, metric_best: 1.38325, 98.6168, 98.6338
-2019-04-30 00:52:08,187 - INFO - 
-2019-04-30 00:52:52,724 - INFO - training curr batch, loss, lr: 1200, 1.45622, 0.00099
-2019-04-30 00:52:53,968 - INFO - evaluating after num_batches: 1200
-2019-04-30 00:53:01,466 - INFO - eval finished, with total num_batches: 16
-2019-04-30 00:53:01,466 - INFO - eval loss_aver, metric, metric_best: 1.37043, 98.6296, 98.6338
-2019-04-30 00:53:01,816 - INFO - 
-2019-04-30 00:53:45,504 - INFO - training curr batch, loss, lr: 1300, 1.04396, 0.00099
-2019-04-30 00:53:46,742 - INFO - evaluating after num_batches: 1300
-2019-04-30 00:53:54,286 - INFO - eval finished, with total num_batches: 16
-2019-04-30 00:53:54,286 - INFO - eval loss_aver, metric, metric_best: 1.2269, 98.7731, 98.6338
-2019-04-30 00:53:54,286 - INFO - a new best model, saving ...
-2019-04-30 00:53:55,576 - INFO - 
-2019-04-30 00:54:39,425 - INFO - training curr batch, loss, lr: 1400, 0.740621, 0.00099
-2019-04-30 00:54:40,670 - INFO - evaluating after num_batches: 1400
-2019-04-30 00:54:48,209 - INFO - eval finished, with total num_batches: 16
-2019-04-30 00:54:48,209 - INFO - eval loss_aver, metric, metric_best: 0.705798, 99.2942, 98.7731
-2019-04-30 00:54:48,209 - INFO - a new best model, saving ...
-2019-04-30 00:54:49,515 - INFO - 
-2019-04-30 00:55:33,447 - INFO - training curr batch, loss, lr: 1500, 0.490154, 0.00099
-2019-04-30 00:55:34,729 - INFO - evaluating after num_batches: 1500
-2019-04-30 00:55:42,256 - INFO - eval finished, with total num_batches: 16
-2019-04-30 00:55:42,256 - INFO - eval loss_aver, metric, metric_best: 0.330114, 99.6699, 99.2942
-2019-04-30 00:55:42,256 - INFO - a new best model, saving ...
-2019-04-30 00:55:43,522 - INFO - 
-2019-04-30 00:56:27,434 - INFO - training curr batch, loss, lr: 1600, 0.364614, 0.00099
-2019-04-30 00:56:28,680 - INFO - evaluating after num_batches: 1600
-2019-04-30 00:56:36,270 - INFO - eval finished, with total num_batches: 16
-2019-04-30 00:56:36,270 - INFO - eval loss_aver, metric, metric_best: 0.22804, 99.772, 99.6699
-2019-04-30 00:56:36,270 - INFO - a new best model, saving ...
-2019-04-30 00:56:37,562 - INFO - 
-2019-04-30 00:57:21,382 - INFO - training curr batch, loss, lr: 1700, 0.21946, 0.00099
-2019-04-30 00:57:22,656 - INFO - evaluating after num_batches: 1700
-2019-04-30 00:57:30,129 - INFO - eval finished, with total num_batches: 16
-2019-04-30 00:57:30,129 - INFO - eval loss_aver, metric, metric_best: 0.187663, 99.8123, 99.772
-2019-04-30 00:57:30,129 - INFO - a new best model, saving ...
-2019-04-30 00:57:31,411 - INFO - 
-2019-04-30 00:58:15,116 - INFO - training curr batch, loss, lr: 1800, 0.191358, 0.00099
-2019-04-30 00:58:16,357 - INFO - evaluating after num_batches: 1800
-2019-04-30 00:58:23,830 - INFO - eval finished, with total num_batches: 16
-2019-04-30 00:58:23,831 - INFO - eval loss_aver, metric, metric_best: 0.147984, 99.852, 99.8123
-2019-04-30 00:58:23,831 - INFO - a new best model, saving ...
-2019-04-30 00:58:25,139 - INFO - 
-2019-04-30 00:59:09,568 - INFO - training curr batch, loss, lr: 1900, 0.202696, 0.00099
-2019-04-30 00:59:10,851 - INFO - evaluating after num_batches: 1900
-2019-04-30 00:59:18,307 - INFO - eval finished, with total num_batches: 16
-2019-04-30 00:59:18,307 - INFO - eval loss_aver, metric, metric_best: 0.136011, 99.864, 99.852
-2019-04-30 00:59:18,307 - INFO - a new best model, saving ...
-2019-04-30 00:59:19,584 - INFO - 
-2019-04-30 01:00:03,723 - INFO - training curr batch, loss, lr: 2000, 0.165334, 0.00099
-2019-04-30 01:00:05,036 - INFO - evaluating after num_batches: 2000
-2019-04-30 01:00:12,520 - INFO - eval finished, with total num_batches: 16
-2019-04-30 01:00:12,520 - INFO - eval loss_aver, metric, metric_best: 0.133331, 99.8667, 99.864
-2019-04-30 01:00:12,521 - INFO - a new best model, saving ...
-2019-04-30 01:00:13,763 - INFO - 
-2019-04-30 01:00:57,905 - INFO - training curr batch, loss, lr: 2100, 0.139873, 0.0009801
-2019-04-30 01:00:59,193 - INFO - evaluating after num_batches: 2100
-2019-04-30 01:01:06,703 - INFO - eval finished, with total num_batches: 16
-2019-04-30 01:01:06,703 - INFO - eval loss_aver, metric, metric_best: 0.120733, 99.8793, 99.8667
-2019-04-30 01:01:06,703 - INFO - a new best model, saving ...
-2019-04-30 01:01:07,947 - INFO - 
-2019-04-30 01:01:55,140 - INFO - training curr batch, loss, lr: 2200, 0.133947, 0.0009801
-2019-04-30 01:01:56,433 - INFO - evaluating after num_batches: 2200
-2019-04-30 01:02:03,961 - INFO - eval finished, with total num_batches: 16
-2019-04-30 01:02:03,961 - INFO - eval loss_aver, metric, metric_best: 0.116175, 99.8838, 99.8793
-2019-04-30 01:02:03,961 - INFO - a new best model, saving ...
-2019-04-30 01:02:05,342 - INFO - 
-2019-04-30 01:02:50,272 - INFO - training curr batch, loss, lr: 2300, 0.12778, 0.0009801
-2019-04-30 01:02:51,981 - INFO - evaluating after num_batches: 2300
-2019-04-30 01:03:00,250 - INFO - eval finished, with total num_batches: 16
-2019-04-30 01:03:00,251 - INFO - eval loss_aver, metric, metric_best: 0.113812, 99.8862, 99.8838
-2019-04-30 01:03:00,251 - INFO - a new best model, saving ...
-2019-04-30 01:03:01,660 - INFO - 
-2019-04-30 01:03:48,766 - INFO - training curr batch, loss, lr: 2400, 0.132391, 0.0009801
-2019-04-30 01:03:50,204 - INFO - evaluating after num_batches: 2400
-2019-04-30 01:03:57,975 - INFO - eval finished, with total num_batches: 16
-2019-04-30 01:03:57,975 - INFO - eval loss_aver, metric, metric_best: 0.108555, 99.8914, 99.8862
-2019-04-30 01:03:57,975 - INFO - a new best model, saving ...
-2019-04-30 01:03:59,297 - INFO - 
-2019-04-30 01:04:45,450 - INFO - training curr batch, loss, lr: 2500, 0.133959, 0.0009801
-2019-04-30 01:04:46,784 - INFO - evaluating after num_batches: 2500
-2019-04-30 01:04:54,523 - INFO - eval finished, with total num_batches: 16
-2019-04-30 01:04:54,524 - INFO - eval loss_aver, metric, metric_best: 0.11152, 99.8885, 99.8914
-2019-04-30 01:04:54,925 - INFO - 
-2019-04-30 01:05:40,713 - INFO - training curr batch, loss, lr: 2600, 0.140935, 0.0009801
-2019-04-30 01:05:42,111 - INFO - evaluating after num_batches: 2600
-2019-04-30 01:05:49,681 - INFO - eval finished, with total num_batches: 16
-2019-04-30 01:05:49,682 - INFO - eval loss_aver, metric, metric_best: 0.106881, 99.8931, 99.8914
-2019-04-30 01:05:49,682 - INFO - a new best model, saving ...
-2019-04-30 01:05:50,969 - INFO - 
-2019-04-30 01:06:36,223 - INFO - training curr batch, loss, lr: 2700, 0.116747, 0.0009801
-2019-04-30 01:06:37,651 - INFO - evaluating after num_batches: 2700
-2019-04-30 01:06:45,281 - INFO - eval finished, with total num_batches: 16
-2019-04-30 01:06:45,282 - INFO - eval loss_aver, metric, metric_best: 0.105963, 99.894, 99.8931
-2019-04-30 01:06:45,282 - INFO - a new best model, saving ...
-2019-04-30 01:06:46,580 - INFO - 
-2019-04-30 01:07:32,332 - INFO - training curr batch, loss, lr: 2800, 0.107654, 0.0009801
-2019-04-30 01:07:33,659 - INFO - evaluating after num_batches: 2800
-2019-04-30 01:07:41,188 - INFO - eval finished, with total num_batches: 16
-2019-04-30 01:07:41,188 - INFO - eval loss_aver, metric, metric_best: 0.102576, 99.8974, 99.894
-2019-04-30 01:07:41,188 - INFO - a new best model, saving ...
-2019-04-30 01:07:42,946 - INFO - 
+2019-07-24 00:32:59,339 - INFO - running with args : Namespace(ckpt_loading='best', debug=0, gpu='0', mode='train', model_tag='transformer', note='note_something', settings=None, task='copy')
+2019-07-24 00:32:59,340 - INFO - {'model_tag': 'transformer', 'is_train': True, 'gpu_available': '0', 'gpu_batch_split': [16, 20], 'gpu_mem_growth': True, 'log_device': False, 'soft_placement': True, 'num_epochs': 100, 'batch_size': 36, 'batch_size_eval': 6, 'max_batches_eval': 20, 'reg_lambda': 0.0, 'reg_exclusions': ['embedding', 'bias', 'layer_norm', 'LayerNorm'], 'grad_clip': 0.0, 'keep_prob': 0.9, 'label_smoothing': 0.01, 'optimizer_type': 'adam', 'momentum': 0.9, 'learning_rate_base': 0.001, 'learning_rate_minimum': 1e-06, 'warmup_steps': 1000, 'decay_steps': 5000, 'decay_rate': 0.99, 'staircase': True, 'check_period_batch': 100, 'valid_period_batch': 100, 'vs_str_multi_gpu': 'vs_multi_gpu', 'inputs_predict_name': ['src_seq:0', 'src_seq_mask:0'], 'outputs_predict_name': ['vs_multi_gpu/decoder/logits:0'], 'pb_outputs_name': ['vs_multi_gpu/decoder/logits'], 'inputs_train_name': ['src_seq:0', 'src_seq_mask:0', 'dcd_seq:0', 'dcd_seq_mask:0', 'labels_seq:0', 'labels_mask:0'], 'outputs_train_name': ['vs_multi_gpu/decoder/logits:0'], 'use_metric': True, 'debug_tensors_name': ['vs_multi_gpu/loss/loss:0', 'vs_multi_gpu/decoder/logits:0', 'vs_multi_gpu/decoder/preds:0'], 'base_dir': './task_copy_results', 'model_dir': './task_copy_results/model_transformer', 'model_name': 'model_transformer', 'model_dir_best': './task_copy_results/model_transformer_best', 'pb_file': './task_copy_results/model_transformer_best/model_saved.pb', 'log_dir': './task_copy_results/log', 'log_path': './task_copy_results/log/model_transformer_2019-07-24-00-32.txt', 'task': 'copy', 'tokens_file': './vocab/vocab_tokens.txt', 'min_seq_len': 1, 'max_seq_len': 12, 'emb_dim': 128, 'emb_tune': 1, 'posi_emb_dim': 128, 'num_layers': 6, 'num_heads': 8, 'num_units': 16, 'dim_all': 128, 'dim_model': 128, 'dim_ffm': 256, 'activation': 'gelu', 'beam_width': 1, 'max_len_decoding': 12, 'start_symbol_id': 2, 'with_bucket': False}
+2019-07-24 00:33:16,054 - INFO - graph built, there are 259 variables in the model
+2019-07-24 00:33:16,573 - INFO - there are 1991438 parameters in the model
+2019-07-24 00:33:16,583 - INFO - Failed: ckpt loading from ./task_copy_results/model_transformer_best
+2019-07-24 00:33:16,654 - INFO - 
+2019-07-24 00:33:16,654 - INFO - training curr batch, loss, lr: 0, 10000, 0
+2019-07-24 00:33:20,544 - INFO - evaluating after num_batches: 0
+2019-07-24 00:33:31,488 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:33:31,488 - INFO - eval loss_aver, metric, metric_best: 21.986, 78.014, 0
+2019-07-24 00:33:31,488 - INFO - a new best model, saving ...
+2019-07-24 00:33:33,158 - INFO - 
+2019-07-24 00:34:49,742 - INFO - training curr batch, loss, lr: 100, 3.26378, 9.9e-05
+2019-07-24 00:34:51,215 - INFO - evaluating after num_batches: 100
+2019-07-24 00:35:00,431 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:35:00,432 - INFO - eval loss_aver, metric, metric_best: 2.52424, 97.4758, 78.014
+2019-07-24 00:35:00,432 - INFO - a new best model, saving ...
+2019-07-24 00:35:01,830 - INFO - 
+2019-07-24 00:36:08,173 - INFO - training curr batch, loss, lr: 200, 2.47185, 0.000199
+2019-07-24 00:36:09,908 - INFO - evaluating after num_batches: 200
+2019-07-24 00:36:19,261 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:36:19,262 - INFO - eval loss_aver, metric, metric_best: 2.31941, 97.6806, 97.4758
+2019-07-24 00:36:19,263 - INFO - a new best model, saving ...
+2019-07-24 00:36:20,613 - INFO - 
+2019-07-24 00:37:25,064 - INFO - training curr batch, loss, lr: 300, 2.16141, 0.000299
+2019-07-24 00:37:26,441 - INFO - evaluating after num_batches: 300
+2019-07-24 00:37:35,663 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:37:35,663 - INFO - eval loss_aver, metric, metric_best: 2.59755, 97.4024, 97.6806
+2019-07-24 00:37:36,005 - INFO - 
+2019-07-24 00:38:40,638 - INFO - training curr batch, loss, lr: 400, 2.07843, 0.000399
+2019-07-24 00:38:42,195 - INFO - evaluating after num_batches: 400
+2019-07-24 00:38:51,530 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:38:51,530 - INFO - eval loss_aver, metric, metric_best: 2.60321, 97.3968, 97.6806
+2019-07-24 00:38:52,018 - INFO - 
+2019-07-24 00:40:00,434 - INFO - training curr batch, loss, lr: 500, 2.04138, 0.000499
+2019-07-24 00:40:01,796 - INFO - evaluating after num_batches: 500
+2019-07-24 00:40:11,018 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:40:11,018 - INFO - eval loss_aver, metric, metric_best: 2.47672, 97.5233, 97.6806
+2019-07-24 00:40:11,371 - INFO - 
+2019-07-24 00:41:16,608 - INFO - training curr batch, loss, lr: 600, 1.79832, 0.000599
+2019-07-24 00:41:17,942 - INFO - evaluating after num_batches: 600
+2019-07-24 00:41:27,215 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:41:27,215 - INFO - eval loss_aver, metric, metric_best: 2.17337, 97.8266, 97.6806
+2019-07-24 00:41:27,215 - INFO - a new best model, saving ...
+2019-07-24 00:41:28,564 - INFO - 
+2019-07-24 00:42:33,737 - INFO - training curr batch, loss, lr: 700, 1.71489, 0.000699
+2019-07-24 00:42:35,101 - INFO - evaluating after num_batches: 700
+2019-07-24 00:42:44,336 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:42:44,336 - INFO - eval loss_aver, metric, metric_best: 1.77172, 98.2283, 97.8266
+2019-07-24 00:42:44,337 - INFO - a new best model, saving ...
+2019-07-24 00:42:45,640 - INFO - 
+2019-07-24 00:43:50,149 - INFO - training curr batch, loss, lr: 800, 1.48794, 0.000799
+2019-07-24 00:43:51,500 - INFO - evaluating after num_batches: 800
+2019-07-24 00:44:00,744 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:44:00,744 - INFO - eval loss_aver, metric, metric_best: 2.02604, 97.974, 98.2283
+2019-07-24 00:44:01,102 - INFO - 
+2019-07-24 00:45:07,630 - INFO - training curr batch, loss, lr: 900, 1.80112, 0.000899
+2019-07-24 00:45:08,948 - INFO - evaluating after num_batches: 900
+2019-07-24 00:45:18,169 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:45:18,169 - INFO - eval loss_aver, metric, metric_best: 1.60109, 98.3989, 98.2283
+2019-07-24 00:45:18,169 - INFO - a new best model, saving ...
+2019-07-24 00:45:19,531 - INFO - 
+2019-07-24 00:46:24,199 - INFO - training curr batch, loss, lr: 1000, 1.59964, 0.000999
+2019-07-24 00:46:25,571 - INFO - evaluating after num_batches: 1000
+2019-07-24 00:46:34,779 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:46:34,780 - INFO - eval loss_aver, metric, metric_best: 1.82185, 98.1782, 98.3989
+2019-07-24 00:46:35,127 - INFO - 
+2019-07-24 00:47:39,986 - INFO - training curr batch, loss, lr: 1100, 1.57669, 0.001
+2019-07-24 00:47:41,432 - INFO - evaluating after num_batches: 1100
+2019-07-24 00:47:50,699 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:47:50,700 - INFO - eval loss_aver, metric, metric_best: 1.65376, 98.3462, 98.3989
+2019-07-24 00:47:51,062 - INFO - 
+2019-07-24 00:48:56,189 - INFO - training curr batch, loss, lr: 1200, 1.54562, 0.001
+2019-07-24 00:48:57,579 - INFO - evaluating after num_batches: 1200
+2019-07-24 00:49:06,861 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:49:06,861 - INFO - eval loss_aver, metric, metric_best: 1.55916, 98.4408, 98.3989
+2019-07-24 00:49:06,862 - INFO - a new best model, saving ...
+2019-07-24 00:49:08,159 - INFO - 
+2019-07-24 00:50:12,914 - INFO - training curr batch, loss, lr: 1300, 1.44413, 0.001
+2019-07-24 00:50:14,298 - INFO - evaluating after num_batches: 1300
+2019-07-24 00:50:23,519 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:50:23,520 - INFO - eval loss_aver, metric, metric_best: 1.46132, 98.5387, 98.4408
+2019-07-24 00:50:23,520 - INFO - a new best model, saving ...
+2019-07-24 00:50:24,816 - INFO - 
+2019-07-24 00:51:31,439 - INFO - training curr batch, loss, lr: 1400, 1.55268, 0.001
+2019-07-24 00:51:32,921 - INFO - evaluating after num_batches: 1400
+2019-07-24 00:51:42,417 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:51:42,417 - INFO - eval loss_aver, metric, metric_best: 1.68874, 98.3113, 98.5387
+2019-07-24 00:51:42,789 - INFO - 
+2019-07-24 00:52:52,501 - INFO - training curr batch, loss, lr: 1500, 1.45933, 0.001
+2019-07-24 00:52:54,415 - INFO - evaluating after num_batches: 1500
+2019-07-24 00:53:04,009 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:53:04,009 - INFO - eval loss_aver, metric, metric_best: 1.44022, 98.5598, 98.5387
+2019-07-24 00:53:04,009 - INFO - a new best model, saving ...
+2019-07-24 00:53:05,719 - INFO - 
+2019-07-24 00:54:15,124 - INFO - training curr batch, loss, lr: 1600, 1.38462, 0.001
+2019-07-24 00:54:16,407 - INFO - evaluating after num_batches: 1600
+2019-07-24 00:54:25,672 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:54:25,672 - INFO - eval loss_aver, metric, metric_best: 1.37599, 98.624, 98.5598
+2019-07-24 00:54:25,672 - INFO - a new best model, saving ...
+2019-07-24 00:54:26,947 - INFO - 
+2019-07-24 00:55:31,483 - INFO - training curr batch, loss, lr: 1700, 1.28369, 0.001
+2019-07-24 00:55:32,914 - INFO - evaluating after num_batches: 1700
+2019-07-24 00:55:42,164 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:55:42,164 - INFO - eval loss_aver, metric, metric_best: 1.4022, 98.5978, 98.624
+2019-07-24 00:55:42,522 - INFO - 
+2019-07-24 00:56:47,403 - INFO - training curr batch, loss, lr: 1800, 1.46346, 0.001
+2019-07-24 00:56:48,731 - INFO - evaluating after num_batches: 1800
+2019-07-24 00:56:57,969 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:56:57,970 - INFO - eval loss_aver, metric, metric_best: 1.35792, 98.6421, 98.624
+2019-07-24 00:56:57,970 - INFO - a new best model, saving ...
+2019-07-24 00:56:59,319 - INFO - 
+2019-07-24 00:58:04,440 - INFO - training curr batch, loss, lr: 1900, 1.34559, 0.001
+2019-07-24 00:58:05,813 - INFO - evaluating after num_batches: 1900
+2019-07-24 00:58:15,053 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:58:15,053 - INFO - eval loss_aver, metric, metric_best: 1.3283, 98.6717, 98.6421
+2019-07-24 00:58:15,053 - INFO - a new best model, saving ...
+2019-07-24 00:58:16,373 - INFO - 
+2019-07-24 00:59:22,257 - INFO - training curr batch, loss, lr: 2000, 1.36849, 0.001
+2019-07-24 00:59:23,630 - INFO - evaluating after num_batches: 2000
+2019-07-24 00:59:32,917 - INFO - eval finished, with total num_batches: 16
+2019-07-24 00:59:32,918 - INFO - eval loss_aver, metric, metric_best: 1.37854, 98.6215, 98.6717
+2019-07-24 00:59:33,283 - INFO - 
+2019-07-24 01:00:38,655 - INFO - training curr batch, loss, lr: 2100, 1.42106, 0.001
+2019-07-24 01:00:40,024 - INFO - evaluating after num_batches: 2100
+2019-07-24 01:00:49,267 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:00:49,267 - INFO - eval loss_aver, metric, metric_best: 1.37752, 98.6225, 98.6717
+2019-07-24 01:00:49,616 - INFO - 
+2019-07-24 01:01:54,954 - INFO - training curr batch, loss, lr: 2200, 1.54142, 0.001
+2019-07-24 01:01:56,325 - INFO - evaluating after num_batches: 2200
+2019-07-24 01:02:05,562 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:02:05,563 - INFO - eval loss_aver, metric, metric_best: 1.53963, 98.4604, 98.6717
+2019-07-24 01:02:05,923 - INFO - 
+2019-07-24 01:03:11,171 - INFO - training curr batch, loss, lr: 2300, 1.43454, 0.001
+2019-07-24 01:03:12,516 - INFO - evaluating after num_batches: 2300
+2019-07-24 01:03:21,764 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:03:21,765 - INFO - eval loss_aver, metric, metric_best: 1.38553, 98.6145, 98.6717
+2019-07-24 01:03:22,137 - INFO - 
+2019-07-24 01:04:27,002 - INFO - training curr batch, loss, lr: 2400, 1.21858, 0.001
+2019-07-24 01:04:28,341 - INFO - evaluating after num_batches: 2400
+2019-07-24 01:04:37,761 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:04:37,762 - INFO - eval loss_aver, metric, metric_best: 1.28046, 98.7195, 98.6717
+2019-07-24 01:04:37,762 - INFO - a new best model, saving ...
+2019-07-24 01:04:39,401 - INFO - 
+2019-07-24 01:05:44,421 - INFO - training curr batch, loss, lr: 2500, 1.35015, 0.001
+2019-07-24 01:05:47,435 - INFO - evaluating after num_batches: 2500
+2019-07-24 01:05:56,642 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:05:56,642 - INFO - eval loss_aver, metric, metric_best: 1.35844, 98.6416, 98.7195
+2019-07-24 01:05:57,046 - INFO - 
+2019-07-24 01:07:01,834 - INFO - training curr batch, loss, lr: 2600, 1.28847, 0.001
+2019-07-24 01:07:03,578 - INFO - evaluating after num_batches: 2600
+2019-07-24 01:07:13,699 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:07:13,699 - INFO - eval loss_aver, metric, metric_best: 1.3062, 98.6938, 98.7195
+2019-07-24 01:07:14,160 - INFO - 
+2019-07-24 01:08:24,046 - INFO - training curr batch, loss, lr: 2700, 1.45148, 0.001
+2019-07-24 01:08:25,443 - INFO - evaluating after num_batches: 2700
+2019-07-24 01:08:34,714 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:08:34,714 - INFO - eval loss_aver, metric, metric_best: 1.45295, 98.5471, 98.7195
+2019-07-24 01:08:35,085 - INFO - 
+2019-07-24 01:09:43,316 - INFO - training curr batch, loss, lr: 2800, 1.26207, 0.001
+2019-07-24 01:09:45,049 - INFO - evaluating after num_batches: 2800
+2019-07-24 01:09:54,664 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:09:54,665 - INFO - eval loss_aver, metric, metric_best: 1.37789, 98.6221, 98.7195
+2019-07-24 01:09:55,018 - INFO - 
+2019-07-24 01:10:59,688 - INFO - training curr batch, loss, lr: 2900, 1.35248, 0.001
+2019-07-24 01:11:01,049 - INFO - evaluating after num_batches: 2900
+2019-07-24 01:11:10,305 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:11:10,305 - INFO - eval loss_aver, metric, metric_best: 1.29878, 98.7012, 98.7195
+2019-07-24 01:11:10,654 - INFO - 
+2019-07-24 01:12:15,457 - INFO - training curr batch, loss, lr: 3000, 1.3151, 0.001
+2019-07-24 01:12:16,786 - INFO - evaluating after num_batches: 3000
+2019-07-24 01:12:26,066 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:12:26,067 - INFO - eval loss_aver, metric, metric_best: 1.28203, 98.718, 98.7195
+2019-07-24 01:12:26,423 - INFO - 
+2019-07-24 01:13:31,049 - INFO - training curr batch, loss, lr: 3100, 1.46382, 0.001
+2019-07-24 01:13:32,384 - INFO - evaluating after num_batches: 3100
+2019-07-24 01:13:41,585 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:13:41,586 - INFO - eval loss_aver, metric, metric_best: 1.24679, 98.7532, 98.7195
+2019-07-24 01:13:41,586 - INFO - a new best model, saving ...
+2019-07-24 01:13:42,908 - INFO - 
+2019-07-24 01:14:47,699 - INFO - training curr batch, loss, lr: 3200, 1.42779, 0.001
+2019-07-24 01:14:49,210 - INFO - evaluating after num_batches: 3200
+2019-07-24 01:14:58,912 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:14:58,912 - INFO - eval loss_aver, metric, metric_best: 1.27183, 98.7282, 98.7532
+2019-07-24 01:14:59,367 - INFO - 
+2019-07-24 01:16:04,452 - INFO - training curr batch, loss, lr: 3300, 1.22149, 0.001
+2019-07-24 01:16:05,911 - INFO - evaluating after num_batches: 3300
+2019-07-24 01:16:15,150 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:16:15,151 - INFO - eval loss_aver, metric, metric_best: 1.29583, 98.7042, 98.7532
+2019-07-24 01:16:15,520 - INFO - 
+2019-07-24 01:17:20,330 - INFO - training curr batch, loss, lr: 3400, 1.28725, 0.001
+2019-07-24 01:17:21,728 - INFO - evaluating after num_batches: 3400
+2019-07-24 01:17:30,999 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:17:30,999 - INFO - eval loss_aver, metric, metric_best: 1.30209, 98.6979, 98.7532
+2019-07-24 01:17:31,363 - INFO - 
+2019-07-24 01:18:35,997 - INFO - training curr batch, loss, lr: 3500, 1.44834, 0.001
+2019-07-24 01:18:37,320 - INFO - evaluating after num_batches: 3500
+2019-07-24 01:18:46,593 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:18:46,594 - INFO - eval loss_aver, metric, metric_best: 1.44556, 98.5544, 98.7532
+2019-07-24 01:18:46,964 - INFO - 
+2019-07-24 01:19:51,683 - INFO - training curr batch, loss, lr: 3600, 1.27499, 0.001
+2019-07-24 01:19:53,054 - INFO - evaluating after num_batches: 3600
+2019-07-24 01:20:02,340 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:20:02,341 - INFO - eval loss_aver, metric, metric_best: 1.24092, 98.7591, 98.7532
+2019-07-24 01:20:02,341 - INFO - a new best model, saving ...
+2019-07-24 01:20:03,696 - INFO - 
+2019-07-24 01:21:08,292 - INFO - training curr batch, loss, lr: 3700, 1.34424, 0.001
+2019-07-24 01:21:09,635 - INFO - evaluating after num_batches: 3700
+2019-07-24 01:21:18,859 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:21:18,948 - INFO - eval loss_aver, metric, metric_best: 1.24958, 98.7504, 98.7591
+2019-07-24 01:21:19,325 - INFO - 
+2019-07-24 01:22:23,947 - INFO - training curr batch, loss, lr: 3800, 1.33213, 0.001
+2019-07-24 01:22:25,303 - INFO - evaluating after num_batches: 3800
+2019-07-24 01:22:34,574 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:22:34,574 - INFO - eval loss_aver, metric, metric_best: 1.19414, 98.8059, 98.7591
+2019-07-24 01:22:34,574 - INFO - a new best model, saving ...
+2019-07-24 01:22:35,946 - INFO - 
+2019-07-24 01:23:40,788 - INFO - training curr batch, loss, lr: 3900, 1.17807, 0.001
+2019-07-24 01:23:42,172 - INFO - evaluating after num_batches: 3900
+2019-07-24 01:23:51,445 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:23:51,445 - INFO - eval loss_aver, metric, metric_best: 1.1863, 98.8137, 98.8059
+2019-07-24 01:23:51,445 - INFO - a new best model, saving ...
+2019-07-24 01:23:52,788 - INFO - 
+2019-07-24 01:24:57,383 - INFO - training curr batch, loss, lr: 4000, 1.14624, 0.001
+2019-07-24 01:24:58,738 - INFO - evaluating after num_batches: 4000
+2019-07-24 01:25:08,015 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:25:08,016 - INFO - eval loss_aver, metric, metric_best: 1.21313, 98.7869, 98.8137
+2019-07-24 01:25:08,367 - INFO - 
+2019-07-24 01:26:18,183 - INFO - training curr batch, loss, lr: 4100, 1.25713, 0.001
+2019-07-24 01:26:19,735 - INFO - evaluating after num_batches: 4100
+2019-07-24 01:26:28,983 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:26:28,984 - INFO - eval loss_aver, metric, metric_best: 1.20639, 98.7936, 98.8137
+2019-07-24 01:26:29,369 - INFO - 
+2019-07-24 01:27:36,318 - INFO - training curr batch, loss, lr: 4200, 1.26851, 0.001
+2019-07-24 01:27:37,822 - INFO - evaluating after num_batches: 4200
+2019-07-24 01:27:47,258 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:27:47,259 - INFO - eval loss_aver, metric, metric_best: 1.15692, 98.8431, 98.8137
+2019-07-24 01:27:47,259 - INFO - a new best model, saving ...
+2019-07-24 01:27:48,728 - INFO - 
+2019-07-24 01:28:53,437 - INFO - training curr batch, loss, lr: 4300, 1.21074, 0.001
+2019-07-24 01:28:54,768 - INFO - evaluating after num_batches: 4300
+2019-07-24 01:29:04,074 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:29:04,074 - INFO - eval loss_aver, metric, metric_best: 1.16242, 98.8376, 98.8431
+2019-07-24 01:29:04,430 - INFO - 
+2019-07-24 01:30:09,064 - INFO - training curr batch, loss, lr: 4400, 1.09853, 0.001
+2019-07-24 01:30:10,415 - INFO - evaluating after num_batches: 4400
+2019-07-24 01:30:19,719 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:30:19,719 - INFO - eval loss_aver, metric, metric_best: 1.18037, 98.8196, 98.8431
+2019-07-24 01:30:20,072 - INFO - 
+2019-07-24 01:31:24,802 - INFO - training curr batch, loss, lr: 4500, 1.21272, 0.001
+2019-07-24 01:31:26,148 - INFO - evaluating after num_batches: 4500
+2019-07-24 01:31:35,391 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:31:35,392 - INFO - eval loss_aver, metric, metric_best: 1.15493, 98.8451, 98.8431
+2019-07-24 01:31:35,392 - INFO - a new best model, saving ...
+2019-07-24 01:31:36,721 - INFO - 
+2019-07-24 01:32:41,871 - INFO - training curr batch, loss, lr: 4600, 1.12372, 0.001
+2019-07-24 01:32:43,223 - INFO - evaluating after num_batches: 4600
+2019-07-24 01:32:52,466 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:32:52,466 - INFO - eval loss_aver, metric, metric_best: 1.15297, 98.847, 98.8451
+2019-07-24 01:32:52,466 - INFO - a new best model, saving ...
+2019-07-24 01:32:54,331 - INFO - 
+2019-07-24 01:34:00,293 - INFO - training curr batch, loss, lr: 4700, 1.2184, 0.001
+2019-07-24 01:34:01,777 - INFO - evaluating after num_batches: 4700
+2019-07-24 01:34:11,052 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:34:11,052 - INFO - eval loss_aver, metric, metric_best: 1.19568, 98.8043, 98.847
+2019-07-24 01:34:11,408 - INFO - 
+2019-07-24 01:35:16,534 - INFO - training curr batch, loss, lr: 4800, 1.19499, 0.001
+2019-07-24 01:35:17,939 - INFO - evaluating after num_batches: 4800
+2019-07-24 01:35:27,449 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:35:27,450 - INFO - eval loss_aver, metric, metric_best: 1.1348, 98.8652, 98.847
+2019-07-24 01:35:27,450 - INFO - a new best model, saving ...
+2019-07-24 01:35:28,932 - INFO - 
+2019-07-24 01:36:33,538 - INFO - training curr batch, loss, lr: 4900, 1.19836, 0.001
+2019-07-24 01:36:34,891 - INFO - evaluating after num_batches: 4900
+2019-07-24 01:36:44,262 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:36:44,344 - INFO - eval loss_aver, metric, metric_best: 1.13668, 98.8633, 98.8652
+2019-07-24 01:36:44,712 - INFO - 
+2019-07-24 01:37:49,302 - INFO - training curr batch, loss, lr: 5000, 1.24181, 0.001
+2019-07-24 01:37:50,642 - INFO - evaluating after num_batches: 5000
+2019-07-24 01:37:59,867 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:37:59,868 - INFO - eval loss_aver, metric, metric_best: 1.14659, 98.8534, 98.8652
+2019-07-24 01:38:00,241 - INFO - 
+2019-07-24 01:39:05,510 - INFO - training curr batch, loss, lr: 5100, 1.19578, 0.001
+2019-07-24 01:39:06,827 - INFO - evaluating after num_batches: 5100
+2019-07-24 01:39:16,263 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:39:16,263 - INFO - eval loss_aver, metric, metric_best: 1.14964, 98.8504, 98.8652
+2019-07-24 01:39:16,630 - INFO - 
+2019-07-24 01:40:21,363 - INFO - training curr batch, loss, lr: 5200, 1.29372, 0.001
+2019-07-24 01:40:22,715 - INFO - evaluating after num_batches: 5200
+2019-07-24 01:40:32,140 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:40:32,140 - INFO - eval loss_aver, metric, metric_best: 1.1679, 98.8321, 98.8652
+2019-07-24 01:40:32,506 - INFO - 
+2019-07-24 01:41:37,221 - INFO - training curr batch, loss, lr: 5300, 1.05796, 0.001
+2019-07-24 01:41:38,578 - INFO - evaluating after num_batches: 5300
+2019-07-24 01:41:47,857 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:41:47,857 - INFO - eval loss_aver, metric, metric_best: 1.15674, 98.8433, 98.8652
+2019-07-24 01:41:48,220 - INFO - 
+2019-07-24 01:42:53,034 - INFO - training curr batch, loss, lr: 5400, 1.17338, 0.001
+2019-07-24 01:42:54,427 - INFO - evaluating after num_batches: 5400
+2019-07-24 01:43:03,680 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:43:03,680 - INFO - eval loss_aver, metric, metric_best: 1.14488, 98.8551, 98.8652
+2019-07-24 01:43:04,038 - INFO - 
+2019-07-24 01:44:08,809 - INFO - training curr batch, loss, lr: 5500, 1.15496, 0.001
+2019-07-24 01:44:10,164 - INFO - evaluating after num_batches: 5500
+2019-07-24 01:44:19,410 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:44:19,411 - INFO - eval loss_aver, metric, metric_best: 1.15721, 98.8428, 98.8652
+2019-07-24 01:44:19,776 - INFO - 
+2019-07-24 01:45:25,318 - INFO - training curr batch, loss, lr: 5600, 1.21066, 0.001
+2019-07-24 01:45:26,801 - INFO - evaluating after num_batches: 5600
+2019-07-24 01:45:35,992 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:45:35,992 - INFO - eval loss_aver, metric, metric_best: 1.16769, 98.8323, 98.8652
+2019-07-24 01:45:36,358 - INFO - 
+2019-07-24 01:46:41,279 - INFO - training curr batch, loss, lr: 5700, 1.26073, 0.001
+2019-07-24 01:46:42,665 - INFO - evaluating after num_batches: 5700
+2019-07-24 01:46:52,032 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:46:52,032 - INFO - eval loss_aver, metric, metric_best: 1.15086, 98.8491, 98.8652
+2019-07-24 01:46:52,406 - INFO - 
+2019-07-24 01:47:56,676 - INFO - training curr batch, loss, lr: 5800, 1.30244, 0.001
+2019-07-24 01:47:58,057 - INFO - evaluating after num_batches: 5800
+2019-07-24 01:48:07,314 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:48:07,379 - INFO - eval loss_aver, metric, metric_best: 1.23402, 98.766, 98.8652
+2019-07-24 01:48:07,767 - INFO - 
+2019-07-24 01:49:12,269 - INFO - training curr batch, loss, lr: 5900, 1.12209, 0.001
+2019-07-24 01:49:13,638 - INFO - evaluating after num_batches: 5900
+2019-07-24 01:49:22,942 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:49:22,942 - INFO - eval loss_aver, metric, metric_best: 1.17505, 98.8249, 98.8652
+2019-07-24 01:49:23,314 - INFO - 
+2019-07-24 01:50:27,734 - INFO - training curr batch, loss, lr: 6000, 1.09121, 0.001
+2019-07-24 01:50:29,058 - INFO - evaluating after num_batches: 6000
+2019-07-24 01:50:38,312 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:50:38,313 - INFO - eval loss_aver, metric, metric_best: 1.19423, 98.8058, 98.8652
+2019-07-24 01:50:38,674 - INFO - 
+2019-07-24 01:51:43,178 - INFO - training curr batch, loss, lr: 6100, 1.07832, 0.00099
+2019-07-24 01:51:44,550 - INFO - evaluating after num_batches: 6100
+2019-07-24 01:51:53,823 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:51:53,824 - INFO - eval loss_aver, metric, metric_best: 1.1729, 98.8271, 98.8652
+2019-07-24 01:51:54,200 - INFO - 
+2019-07-24 01:52:58,795 - INFO - training curr batch, loss, lr: 6200, 1.1696, 0.00099
+2019-07-24 01:53:00,188 - INFO - evaluating after num_batches: 6200
+2019-07-24 01:53:09,440 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:53:09,440 - INFO - eval loss_aver, metric, metric_best: 1.15278, 98.8472, 98.8652
+2019-07-24 01:53:09,807 - INFO - 
+2019-07-24 01:54:14,931 - INFO - training curr batch, loss, lr: 6300, 1.19297, 0.00099
+2019-07-24 01:54:16,298 - INFO - evaluating after num_batches: 6300
+2019-07-24 01:54:25,520 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:54:25,520 - INFO - eval loss_aver, metric, metric_best: 1.16234, 98.8377, 98.8652
+2019-07-24 01:54:25,897 - INFO - 
+2019-07-24 01:55:30,547 - INFO - training curr batch, loss, lr: 6400, 1.13184, 0.00099
+2019-07-24 01:55:31,934 - INFO - evaluating after num_batches: 6400
+2019-07-24 01:55:41,131 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:55:41,132 - INFO - eval loss_aver, metric, metric_best: 1.11226, 98.8877, 98.8652
+2019-07-24 01:55:41,132 - INFO - a new best model, saving ...
+2019-07-24 01:55:42,494 - INFO - 
+2019-07-24 01:56:47,194 - INFO - training curr batch, loss, lr: 6500, 1.26706, 0.00099
+2019-07-24 01:56:48,675 - INFO - evaluating after num_batches: 6500
+2019-07-24 01:56:57,897 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:56:57,897 - INFO - eval loss_aver, metric, metric_best: 1.14279, 98.8572, 98.8877
+2019-07-24 01:56:58,270 - INFO - 
+2019-07-24 01:58:02,996 - INFO - training curr batch, loss, lr: 6600, 1.11263, 0.00099
+2019-07-24 01:58:04,356 - INFO - evaluating after num_batches: 6600
+2019-07-24 01:58:13,570 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:58:13,570 - INFO - eval loss_aver, metric, metric_best: 1.15284, 98.8472, 98.8877
+2019-07-24 01:58:13,941 - INFO - 
+2019-07-24 01:59:19,039 - INFO - training curr batch, loss, lr: 6700, 1.10199, 0.00099
+2019-07-24 01:59:20,428 - INFO - evaluating after num_batches: 6700
+2019-07-24 01:59:29,757 - INFO - eval finished, with total num_batches: 16
+2019-07-24 01:59:29,758 - INFO - eval loss_aver, metric, metric_best: 1.15322, 98.8468, 98.8877
+2019-07-24 01:59:30,147 - INFO - 
+2019-07-24 02:00:34,712 - INFO - training curr batch, loss, lr: 6800, 1.13426, 0.00099
+2019-07-24 02:00:36,120 - INFO - evaluating after num_batches: 6800
+2019-07-24 02:00:45,352 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:00:45,352 - INFO - eval loss_aver, metric, metric_best: 1.1587, 98.8413, 98.8877
+2019-07-24 02:00:45,723 - INFO - 
+2019-07-24 02:01:50,329 - INFO - training curr batch, loss, lr: 6900, 1.22895, 0.00099
+2019-07-24 02:01:51,720 - INFO - evaluating after num_batches: 6900
+2019-07-24 02:02:00,947 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:02:00,947 - INFO - eval loss_aver, metric, metric_best: 1.16021, 98.8398, 98.8877
+2019-07-24 02:02:01,322 - INFO - 
+2019-07-24 02:03:06,014 - INFO - training curr batch, loss, lr: 7000, 1.11599, 0.00099
+2019-07-24 02:03:07,368 - INFO - evaluating after num_batches: 7000
+2019-07-24 02:03:16,642 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:03:16,642 - INFO - eval loss_aver, metric, metric_best: 1.14554, 98.8545, 98.8877
+2019-07-24 02:03:17,014 - INFO - 
+2019-07-24 02:04:21,632 - INFO - training curr batch, loss, lr: 7100, 1.13813, 0.00099
+2019-07-24 02:04:23,001 - INFO - evaluating after num_batches: 7100
+2019-07-24 02:04:32,245 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:04:32,245 - INFO - eval loss_aver, metric, metric_best: 1.15836, 98.8416, 98.8877
+2019-07-24 02:04:32,603 - INFO - 
+2019-07-24 02:05:37,189 - INFO - training curr batch, loss, lr: 7200, 1.05276, 0.00099
+2019-07-24 02:05:38,578 - INFO - evaluating after num_batches: 7200
+2019-07-24 02:05:47,806 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:05:47,806 - INFO - eval loss_aver, metric, metric_best: 1.12129, 98.8787, 98.8877
+2019-07-24 02:05:48,175 - INFO - 
+2019-07-24 02:06:52,727 - INFO - training curr batch, loss, lr: 7300, 1.12423, 0.00099
+2019-07-24 02:06:54,056 - INFO - evaluating after num_batches: 7300
+2019-07-24 02:07:03,324 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:07:03,324 - INFO - eval loss_aver, metric, metric_best: 1.14321, 98.8568, 98.8877
+2019-07-24 02:07:03,691 - INFO - 
+2019-07-24 02:08:08,283 - INFO - training curr batch, loss, lr: 7400, 1.2052, 0.00099
+2019-07-24 02:08:09,751 - INFO - evaluating after num_batches: 7400
+2019-07-24 02:08:18,969 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:08:19,045 - INFO - eval loss_aver, metric, metric_best: 1.23317, 98.7668, 98.8877
+2019-07-24 02:08:19,424 - INFO - 
+2019-07-24 02:09:24,010 - INFO - training curr batch, loss, lr: 7500, 1.22802, 0.00099
+2019-07-24 02:09:25,416 - INFO - evaluating after num_batches: 7500
+2019-07-24 02:09:34,640 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:09:34,640 - INFO - eval loss_aver, metric, metric_best: 1.14049, 98.8595, 98.8877
+2019-07-24 02:09:34,994 - INFO - 
+2019-07-24 02:10:39,521 - INFO - training curr batch, loss, lr: 7600, 1.16711, 0.00099
+2019-07-24 02:10:40,898 - INFO - evaluating after num_batches: 7600
+2019-07-24 02:10:50,140 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:10:50,141 - INFO - eval loss_aver, metric, metric_best: 1.14224, 98.8578, 98.8877
+2019-07-24 02:10:50,536 - INFO - 
+2019-07-24 02:11:54,947 - INFO - training curr batch, loss, lr: 7700, 1.11083, 0.00099
+2019-07-24 02:11:56,314 - INFO - evaluating after num_batches: 7700
+2019-07-24 02:12:05,586 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:12:05,586 - INFO - eval loss_aver, metric, metric_best: 1.15072, 98.8493, 98.8877
+2019-07-24 02:12:05,962 - INFO - 
+2019-07-24 02:13:10,674 - INFO - training curr batch, loss, lr: 7800, 1.22437, 0.00099
+2019-07-24 02:13:12,002 - INFO - evaluating after num_batches: 7800
+2019-07-24 02:13:21,251 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:13:21,252 - INFO - eval loss_aver, metric, metric_best: 1.15387, 98.8461, 98.8877
+2019-07-24 02:13:21,622 - INFO - 
+2019-07-24 02:14:26,775 - INFO - training curr batch, loss, lr: 7900, 1.17842, 0.00099
+2019-07-24 02:14:28,159 - INFO - evaluating after num_batches: 7900
+2019-07-24 02:14:37,735 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:14:37,736 - INFO - eval loss_aver, metric, metric_best: 1.13449, 98.8655, 98.8877
+2019-07-24 02:14:38,105 - INFO - 
+2019-07-24 02:15:42,605 - INFO - training curr batch, loss, lr: 8000, 0.918607, 0.00099
+2019-07-24 02:15:43,992 - INFO - evaluating after num_batches: 8000
+2019-07-24 02:15:53,274 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:15:53,274 - INFO - eval loss_aver, metric, metric_best: 0.837484, 99.1625, 98.8877
+2019-07-24 02:15:53,275 - INFO - a new best model, saving ...
+2019-07-24 02:15:54,668 - INFO - 
+2019-07-24 02:16:59,731 - INFO - training curr batch, loss, lr: 8100, 1.1011, 0.00099
+2019-07-24 02:17:01,123 - INFO - evaluating after num_batches: 8100
+2019-07-24 02:17:10,372 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:17:10,372 - INFO - eval loss_aver, metric, metric_best: 1.00124, 98.9988, 99.1625
+2019-07-24 02:17:10,739 - INFO - 
+2019-07-24 02:18:15,990 - INFO - training curr batch, loss, lr: 8200, 0.702907, 0.00099
+2019-07-24 02:18:17,314 - INFO - evaluating after num_batches: 8200
+2019-07-24 02:18:26,590 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:18:26,590 - INFO - eval loss_aver, metric, metric_best: 0.577284, 99.4227, 99.1625
+2019-07-24 02:18:26,590 - INFO - a new best model, saving ...
+2019-07-24 02:18:28,054 - INFO - 
+2019-07-24 02:19:32,808 - INFO - training curr batch, loss, lr: 8300, 0.772688, 0.00099
+2019-07-24 02:19:34,194 - INFO - evaluating after num_batches: 8300
+2019-07-24 02:19:43,403 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:19:43,404 - INFO - eval loss_aver, metric, metric_best: 0.700913, 99.2991, 99.4227
+2019-07-24 02:19:43,766 - INFO - 
+2019-07-24 02:20:48,739 - INFO - training curr batch, loss, lr: 8400, 0.539281, 0.00099
+2019-07-24 02:20:50,121 - INFO - evaluating after num_batches: 8400
+2019-07-24 02:20:59,333 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:20:59,334 - INFO - eval loss_aver, metric, metric_best: 0.504393, 99.4956, 99.4227
+2019-07-24 02:20:59,334 - INFO - a new best model, saving ...
+2019-07-24 02:21:00,713 - INFO - 
+2019-07-24 02:22:05,997 - INFO - training curr batch, loss, lr: 8500, 0.470434, 0.00099
+2019-07-24 02:22:07,391 - INFO - evaluating after num_batches: 8500
+2019-07-24 02:22:16,637 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:22:16,638 - INFO - eval loss_aver, metric, metric_best: 0.409299, 99.5907, 99.4956
+2019-07-24 02:22:16,638 - INFO - a new best model, saving ...
+2019-07-24 02:22:18,011 - INFO - 
+2019-07-24 02:23:23,408 - INFO - training curr batch, loss, lr: 8600, 0.481757, 0.00099
+2019-07-24 02:23:24,819 - INFO - evaluating after num_batches: 8600
+2019-07-24 02:23:34,082 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:23:34,082 - INFO - eval loss_aver, metric, metric_best: 0.304823, 99.6952, 99.5907
+2019-07-24 02:23:34,082 - INFO - a new best model, saving ...
+2019-07-24 02:23:35,460 - INFO - 
+2019-07-24 02:24:40,646 - INFO - training curr batch, loss, lr: 8700, 0.412565, 0.00099
+2019-07-24 02:24:42,019 - INFO - evaluating after num_batches: 8700
+2019-07-24 02:24:51,206 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:24:51,206 - INFO - eval loss_aver, metric, metric_best: 0.477165, 99.5228, 99.6952
+2019-07-24 02:24:51,602 - INFO - 
+2019-07-24 02:25:56,213 - INFO - training curr batch, loss, lr: 8800, 0.18224, 0.00099
+2019-07-24 02:25:57,596 - INFO - evaluating after num_batches: 8800
+2019-07-24 02:26:06,804 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:26:06,804 - INFO - eval loss_aver, metric, metric_best: 0.101281, 99.8987, 99.6952
+2019-07-24 02:26:06,804 - INFO - a new best model, saving ...
+2019-07-24 02:26:08,268 - INFO - 
+2019-07-24 02:27:13,427 - INFO - training curr batch, loss, lr: 8900, 0.306362, 0.00099
+2019-07-24 02:27:14,827 - INFO - evaluating after num_batches: 8900
+2019-07-24 02:27:24,009 - INFO - eval finished, with total num_batches: 16
+2019-07-24 02:27:24,009 - INFO - eval loss_aver, metric, metric_best: 0.107258, 99.8927, 99.8987
+2019-07-24 02:27:24,374 - INFO - 
+2019-07-24 05:25:47,948 - INFO - training curr batch, loss, lr: 9000, 0.17048, 0.00099
+2019-07-24 05:25:49,348 - INFO - evaluating after num_batches: 9000
+2019-07-24 05:25:58,659 - INFO - eval finished, with total num_batches: 16
+2019-07-24 05:25:58,659 - INFO - eval loss_aver, metric, metric_best: 0.109322, 99.8907, 99.8987
+2019-07-24 05:26:02,190 - INFO - 
+2019-07-24 05:27:17,578 - INFO - training curr batch, loss, lr: 9100, 0.277065, 0.00099
+2019-07-24 05:27:19,189 - INFO - evaluating after num_batches: 9100
+2019-07-24 05:27:29,351 - INFO - eval finished, with total num_batches: 16
+2019-07-24 05:27:29,351 - INFO - eval loss_aver, metric, metric_best: 0.163443, 99.8366, 99.8987
+2019-07-24 05:27:30,022 - INFO - 
+2019-07-24 05:28:39,014 - INFO - training curr batch, loss, lr: 9200, 1.12768, 0.00099
+2019-07-24 05:28:40,401 - INFO - evaluating after num_batches: 9200
+2019-07-24 05:28:49,638 - INFO - eval finished, with total num_batches: 16
+2019-07-24 05:28:49,638 - INFO - eval loss_aver, metric, metric_best: 0.890228, 99.1098, 99.8987
+2019-07-24 05:28:50,020 - INFO - 
+2019-07-24 05:29:58,492 - INFO - training curr batch, loss, lr: 9300, 0.218367, 0.00099
+2019-07-24 05:29:59,997 - INFO - evaluating after num_batches: 9300
+2019-07-24 05:30:09,373 - INFO - eval finished, with total num_batches: 16
+2019-07-24 05:30:09,373 - INFO - eval loss_aver, metric, metric_best: 0.143282, 99.8567, 99.8987
+2019-07-24 05:30:09,842 - INFO - 
