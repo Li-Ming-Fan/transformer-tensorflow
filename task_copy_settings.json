@@ -50,11 +50,13 @@
         "dcd_seq:0",
         "dcd_seq_mask:0",
         "labels_seq:0",
-        "labels_mask:0"
+        "labels_seq_mask:0"
     ],
     "outputs_train_name": [
         "vs_multi_gpu/decoder/logits:0"
     ],
+    "loss_name": "vs_multi_gpu/loss/loss:0",
+    "metric_name": "vs_multi_gpu/metric/metric:0",
     "use_metric": true,
     "debug_tensors_name": [
         "vs_multi_gpu/loss/loss:0",

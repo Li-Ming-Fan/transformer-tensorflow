@@ -93,10 +93,13 @@ class ModelSettings(ModelSettingsBaseboard):
                 
         self.inputs_train_name = ['src_seq:0', 'src_seq_mask:0',
                                   'dcd_seq:0', 'dcd_seq_mask:0',
-                                  'labels_seq:0', 'labels_mask:0']
+                                  'labels_seq:0', 'labels_seq_mask:0']
         self.outputs_train_name = ['vs_multi_gpu/decoder/logits:0']
+        #
+        self.loss_name = 'vs_multi_gpu/loss/loss:0'
+        self.metric_name = 'vs_multi_gpu/metric/metric:0'
         self.use_metric = True
-        
+        #        
         self.debug_tensors_name = ['vs_multi_gpu/loss/loss:0',
                                    'vs_multi_gpu/decoder/logits:0',
                                    'vs_multi_gpu/decoder/preds:0'

@@ -26,7 +26,7 @@ class ModelGraph():
         dcd_seq_mask = tf.placeholder(tf.int32, [None, None], name='dcd_seq_mask')
 
         labels_seq = tf.placeholder(tf.int32, [None, None], name='labels_seq')  # id in vocab
-        labels_mask = tf.placeholder(tf.int32, [None, None], name='labels_mask')
+        labels_mask = tf.placeholder(tf.int32, [None, None], name='labels_seq_mask')
         
         # input sequence: could not prefix and suffix, when preparing examples
         # label sequence: suffix with a [end] token, then do [pad].
