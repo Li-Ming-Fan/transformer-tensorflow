@@ -102,20 +102,27 @@ class ModelGraph():
                 preds = tf.argmax(logits, -1, name="preds")
             else:
                 if settings.beam_width == 1:
-                    logits, preds_d = do_greedy_decoding(do_decoding_one_step,
+                    logits, preds_d = do_greedy_decoding(settings,
+                                                         do_decoding_one_step,
                                                          do_projection,
+                                                         emb_mat,
+                                                         settings.start_symbol_id,
                                                          settings.max_len_decoding,
                                                          src_encoded, sub_mask, crs_mask,
-                                                         settings.start_symbol_id)
+                                                         keep_prob)
                     logits_normed = tf.identity(logits, name = 'logits')
                     preds = tf.identity(preds_d, name="preds")
                 else:
-                    logits, preds_d = do_beam_search_decoding(do_decoding_one_step,
+                    logits, preds_d = do_beam_search_decoding(settings,
+                                                              do_decoding_one_step,
                                                               do_projection,
+                                                              emb_mat,
+                                                              settings.start_symbol_id,
                                                               settings.max_len_decoding,
+                                                              settings.beam_width,
                                                               src_encoded, sub_mask, crs_mask,
                                                               settings.start_symbol_id,
-                                                              settings.beam_width)
+                                                              keep_prob)
                     logits_normed = tf.identity(logits, name = 'logits')
                     preds = tf.identity(preds_d, name="preds")
                 #

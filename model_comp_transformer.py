@@ -143,8 +143,9 @@ def do_decoding_one_step(settings, x, mask_dcd, memory, mask_crs, keep_prob):
     #
     
 #
-def do_greedy_decoding(do_decoding_one_step, do_projection, emb_mat, max_len,
-                       src_encoded, sub_mask, crs_mask, start_symbol_id):
+def do_greedy_decoding(settings, do_decoding_one_step, do_projection,
+                       emb_mat, start_symbol_id, max_len,
+                       src_encoded, sub_mask, crs_mask, keep_prob):
     """
     """
     memory = src_encoded
@@ -165,7 +166,7 @@ def do_greedy_decoding(do_decoding_one_step, do_projection, emb_mat, max_len,
     dcd_feed = tf.concat([batch_start, pad_tokens], 1)
     for step in range(max_len):
         dcd_emb = tf.nn.embedding_lookup(emb_mat, dcd_feed)        
-        out = do_decoding_one_step(dcd_emb, sub_mask, memory, crs_mask)
+        out = do_decoding_one_step(settings, dcd_emb, sub_mask, memory, crs_mask, keep_prob)
         out_last = out[:, step, :]
         logits_curr = do_projection(out_last, vocab_size, emb_mat)
         logits_curr = tf.nn.softmax(logits_curr, -1)
@@ -184,9 +185,9 @@ def do_greedy_decoding(do_decoding_one_step, do_projection, emb_mat, max_len,
     return logits, preds
 
 
-def do_beam_search_decoding(do_decoding_one_step, do_projection, max_len,
-                            src_encoded, sub_mask, crs_mask,
-                            start_symbol_id, beam_width):
+def do_beam_search_decoding(settings, do_decoding_one_step, do_projection,
+                            emb_mat, start_symbol_id, max_len, beam_width,
+                            src_encoded, sub_mask, crs_mask, keep_prob):
     """
     """
     
