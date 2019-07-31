@@ -143,25 +143,31 @@ def do_decoding_one_step(settings, x, mask_dcd, memory, mask_crs, keep_prob):
     #
     
 #
-def do_greedy_decoding(do_decoding_one_step, do_projection, max_len,
+def do_greedy_decoding(do_decoding_one_step, do_projection, emb_mat, max_len,
                        src_encoded, sub_mask, crs_mask, start_symbol_id):
     """
     """
     memory = src_encoded
     
-    batch_start = tf.cast(tf.ones_like(src_encoded[:, 0:1]), dtype = tf.int64)
-    batch_start = tf.multiply(batch_start, start_symbol_id)    
-    pad_tokens = tf.cast(tf.zeros_like(src_encoded[:, 0:1]), dtype = tf.int64)
+    batch_start = tf.cast(tf.ones_like(src_encoded[:, 0:1, 0:1]), dtype = tf.int64)
+    batch_start = tf.squeeze(batch_start, axis = [-1])
+    batch_start = tf.multiply(batch_start, start_symbol_id)
+    
+    pad_tokens = tf.cast(tf.zeros_like(src_encoded[:, 0:1, 0:1]), dtype = tf.int64)
+    pad_tokens = tf.squeeze(pad_tokens, axis = [-1])
     pad_tokens = tf.tile(pad_tokens, [1, max_len-1])
+    
+    vocab_size = emb_mat.shape[0]
     
     logits_list = []
     preds_list = []
     
     dcd_feed = tf.concat([batch_start, pad_tokens], 1)
-    for step in range(max_len):        
-        out = do_decoding_one_step(dcd_feed, sub_mask, memory, crs_mask)
+    for step in range(max_len):
+        dcd_emb = tf.nn.embedding_lookup(emb_mat, dcd_feed)        
+        out = do_decoding_one_step(dcd_emb, sub_mask, memory, crs_mask)
         out_last = out[:, step, :]
-        logits_curr = do_projection(out_last)
+        logits_curr = do_projection(out_last, vocab_size, emb_mat)
         logits_curr = tf.nn.softmax(logits_curr, -1)
         preds_curr = tf.argmax(logits_curr, -1)
         
