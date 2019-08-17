@@ -32,6 +32,8 @@ by 3, the model will be run through an evaluation.
 
 Tested with tensorflow version 1.8.0
 
+Using Zeras for model wrapper.
+
 
 ### Reference
   
