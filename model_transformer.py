@@ -6,6 +6,7 @@ Created on Sun Jul 14 21:58:31 2019
 """
 
 import tensorflow as tf
+from Zeras.model_baseboard import ModelBaseboard
 
 from zoo_layers import get_position_emb_mat
 from zoo_nn import get_emb_positioned
@@ -14,11 +15,32 @@ from zoo_nn import get_mask_mat_subsequent
 from zoo_nn import get_label_smoothened
 
 
-class ModelGraph():
-    
-    @staticmethod
-    def build_placeholder(settings):
-        
+class ModelTransformer(ModelBaseboard):
+    """
+    """
+    def __init__(self, settings):
+        """
+        """
+        super(ModelTransformer, self).__init__(settings)
+ 
+        # inputs/outputs
+        #
+        self.pb_input_names = {"src_seq": 'src_seq:0',
+                               "src_seq_mask": 'src_seq_mask:0'}
+        self.pb_output_names = {"logits": 'vs_gpu/decoder/logits:0'}
+        self.pb_save_names = ['vs_gpu/decoder/logits']
+        #        
+        self.debug_tensor_names = ['vs_gpu/loss/loss:0',
+                                   'vs_gpu/decoder/logits:0',
+                                   'vs_gpu/decoder/preds:0'
+                                   #'encoder/encoder_rnn_1/bw/bw/sequence_length:0',
+                                   #'inputs_len:0'
+                                   ]
+
+    #
+    def build_placeholder(self):
+        """
+        """        
         src_seq = tf.placeholder(tf.int32, [None, None], name='src_seq')  # id in vocab
         src_seq_mask = tf.placeholder(tf.int32, [None, None], name='src_seq_mask')
         
@@ -35,15 +57,27 @@ class ModelGraph():
         #
         print(src_seq)
         #
-        input_tensors = (src_seq, src_seq_mask, dcd_seq, dcd_seq_mask)
-        label_tensors = (labels_seq, labels_mask)
+        input_tensors = {}
+        input_tensors["src_seq"] = src_seq
+        input_tensors["src_seq_mask"] = src_seq_mask
+        input_tensors["dcd_seq"] = dcd_seq
+        input_tensors["dcd_seq_mask"] = dcd_seq_mask
+        
+        label_tensors = {}
+        label_tensors["labels_seq"] = labels_seq
+        label_tensors["labels_seq_mask"] = labels_mask
         #
         return input_tensors, label_tensors
     
-    @staticmethod
-    def build_inference(settings, input_tensors):
-        
-        src_seq, src_seq_mask, dcd_seq, dcd_seq_mask = input_tensors
+    def build_inference(self, input_tensors):
+        """
+        """
+        settings = self.settings
+
+        src_seq = input_tensors["src_seq"]
+        src_seq_mask = input_tensors["src_seq_mask"]
+        dcd_seq = input_tensors["dcd_seq"]
+        dcd_seq_mask = input_tensors["dcd_seq_mask"]
         
         #
         # dim_all = settings.num_heads * settings.num_units
@@ -77,17 +111,17 @@ class ModelGraph():
         #
         with tf.variable_scope("encoder"):
             
-            from model_comp_transformer import do_encoding
+            from modules import do_encoding
             
             src_encoded = do_encoding(settings, src_emb, src_mask, keep_prob)
             
         #
         with tf.variable_scope("decoder"):
             
-            from model_comp_transformer import do_decoding_one_step
-            from model_comp_transformer import do_projection
-            from model_comp_transformer import do_greedy_decoding
-            from model_comp_transformer import do_beam_search_decoding
+            from modules import do_decoding_one_step
+            from modules import do_projection
+            from modules import do_greedy_decoding
+            from modules import do_beam_search_decoding
 
             if settings.is_train:
                 #
@@ -131,15 +165,24 @@ class ModelGraph():
         print(logits_normed)
         print(preds)
         #
-        output_tensors = logits_normed, logits, preds
+        output_tensors = {}
+        output_tensors["normed_logits"] = logits_normed
+        output_tensors["logits"] = logits
+        output_tensors["preds"] = preds
         #   
         return output_tensors
     
-    @staticmethod
-    def build_loss_and_metric(settings, output_tensors, label_tensors):
+    def build_loss_and_metric(self, output_tensors, label_tensors):
+        """
+        """
+        settings = self.settings
         
-        normed_logits, logits, preds = output_tensors
-        labels_seq, labels_mask = label_tensors
+        normed_logits = output_tensors["normed_logits"]
+        logits = output_tensors["logits"]
+        preds = output_tensors["preds"]
+  
+        labels_seq = label_tensors["labels_seq"]
+        labels_mask = label_tensors["labels_seq_mask"]
         
         labels_len = tf.cast(tf.reduce_sum(labels_mask, -1), dtype=tf.float32)
         
@@ -167,7 +210,10 @@ class ModelGraph():
         print(loss)
         print(metric)
         #
-        return loss, metric
+        loss_metric_tensors = {"loss_model": loss,
+                               "metric": metric}
+        #
+        return loss_metric_tensors
         #
 
         

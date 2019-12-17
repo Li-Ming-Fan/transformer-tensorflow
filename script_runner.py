@@ -13,7 +13,7 @@ def parse_args():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument('--mode', choices=['train', 'eval', 'predict', 'convert'],
-                        default = 'train', help = 'run mode')
+                        default = 'predict', help = 'run mode')
     #
     parser.add_argument('--note', type=str, default = 'note_something',
                         help = 'make some useful notes')
@@ -54,7 +54,7 @@ if __name__ == '__main__':
     #
     model_tag = args.model_tag
     if model_tag.startswith('transformer'):
-        from model_graph_assembling import ModelGraph    
+        from model_transformer import ModelTransformer as Model
     #
     # settings
     settings = ModelSettings()
@@ -80,7 +80,7 @@ if __name__ == '__main__':
     vocab.emb_dim = settings.emb_dim
     #
     # model & vocab
-    settings.model_graph = ModelGraph
+    settings.ModelClass = Model
     settings.vocab = vocab
     #
     # run

@@ -82,9 +82,16 @@ def batch_std_transor(list_examples, max_seq_len = 20, tgt_seq_len = 12):
         dcd_seq[eid, src_len+1] = end_id
         dcd_seq_mask[eid, src_len+1] = 1
         #
-        
     #
-    return src_seq, src_seq_mask, dcd_seq, dcd_seq_mask, lbl_seq, lbl_seq_mask
+    batch_data = {}
+    batch_data["src_seq"] = src_seq
+    batch_data["src_seq_mask"] = src_seq_mask
+    batch_data["dcd_seq"] = dcd_seq
+    batch_data["dcd_seq_mask"] = dcd_seq_mask
+    batch_data["labels_seq"] = lbl_seq
+    batch_data["labels_seq_mask"] = lbl_seq_mask
+    #
+    return batch_data
     #
     
 #
@@ -110,9 +117,5 @@ if __name__ == "__main__":
     print(a)
     
     batch = batch_std_transor(a)
-    print(batch[0])
-    print(batch[1])
-    print(batch[2])
-    print(batch[3])
-    print(batch[4])
-    print(batch[5])
+    print(batch)
+    

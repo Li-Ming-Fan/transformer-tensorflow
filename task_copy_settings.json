@@ -1,14 +1,16 @@
 {
     "model_tag": "transformer",
     "is_train": false,
+    "model_hyper_params": {},
+    "use_metric_in_graph": true,
+    "log_device": false,
+    "gpu_mem_growth": true,
+    "soft_placement": true,
     "gpu_available": "0",
     "gpu_batch_split": [
         16,
         20
     ],
-    "gpu_mem_growth": true,
-    "log_device": false,
-    "soft_placement": true,
     "num_epochs": 100,
     "batch_size": 36,
     "batch_size_eval": 6,
@@ -22,7 +24,6 @@
     ],
     "grad_clip": 0.0,
     "keep_prob": 0.9,
-    "label_smoothing": 0.01,
     "optimizer_type": "adam",
     "momentum": 0.9,
     "learning_rate_base": 0.001,
@@ -33,40 +34,10 @@
     "staircase": true,
     "check_period_batch": 100,
     "valid_period_batch": 100,
-    "vs_str_multi_gpu": "vs_multi_gpu",
-    "inputs_predict_name": [
-        "src_seq:0",
-        "src_seq_mask:0"
-    ],
-    "outputs_predict_name": [
-        "vs_multi_gpu/decoder/logits:0"
-    ],
-    "pb_outputs_name": [
-        "vs_multi_gpu/decoder/logits"
-    ],
-    "inputs_train_name": [
-        "src_seq:0",
-        "src_seq_mask:0",
-        "dcd_seq:0",
-        "dcd_seq_mask:0",
-        "labels_seq:0",
-        "labels_seq_mask:0"
-    ],
-    "outputs_train_name": [
-        "vs_multi_gpu/decoder/logits:0"
-    ],
-    "loss_name": "vs_multi_gpu/loss/loss:0",
-    "metric_name": "vs_multi_gpu/metric/metric:0",
-    "use_metric": true,
-    "debug_tensors_name": [
-        "vs_multi_gpu/loss/loss:0",
-        "vs_multi_gpu/decoder/logits:0",
-        "vs_multi_gpu/decoder/preds:0"
-    ],
     "base_dir": "./task_copy_results",
     "model_dir": null,
-    "model_name": null,
     "model_dir_best": null,
+    "model_name": null,
     "pb_file": null,
     "log_dir": null,
     "log_path": null,
@@ -87,5 +58,6 @@
     "beam_width": 1,
     "max_len_decoding": 12,
     "start_symbol_id": 2,
-    "with_bucket": false
+    "with_bucket": false,
+    "label_smoothing": 0.01
 }

@@ -43,6 +43,8 @@ class ModelSettings(ModelSettingsBaseboard):
         self.dim_ffm = 256
         self.activation = "gelu"
         #
+        self.use_metric_in_graph = True
+        #
         
         # self.decoder_vocab_size = 17
         self.beam_width = 1
@@ -84,29 +86,6 @@ class ModelSettings(ModelSettingsBaseboard):
         self.valid_period_batch = 100
         #
 
-        # inputs/outputs
-        self.vs_str_multi_gpu = "vs_multi_gpu"
-        #
-        self.inputs_predict_name = ['src_seq:0', 'src_seq_mask:0']
-        self.outputs_predict_name = ['vs_multi_gpu/decoder/logits:0']
-        self.pb_outputs_name = ['vs_multi_gpu/decoder/logits']
-                
-        self.inputs_train_name = ['src_seq:0', 'src_seq_mask:0',
-                                  'dcd_seq:0', 'dcd_seq_mask:0',
-                                  'labels_seq:0', 'labels_seq_mask:0']
-        self.outputs_train_name = ['vs_multi_gpu/decoder/logits:0']
-        #
-        self.loss_name = 'vs_multi_gpu/loss/loss:0'
-        self.metric_name = 'vs_multi_gpu/metric/metric:0'
-        self.use_metric = True
-        #        
-        self.debug_tensors_name = ['vs_multi_gpu/loss/loss:0',
-                                   'vs_multi_gpu/decoder/logits:0',
-                                   'vs_multi_gpu/decoder/preds:0'
-                                   #'encoder/encoder_rnn_1/bw/bw/sequence_length:0',
-                                   #'inputs_len:0'
-                                   ]
-        
         #
         self.base_dir = './task_copy_results'
         # self.model_dir = None   # if not set, default values will be used.
