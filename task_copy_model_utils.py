@@ -9,7 +9,6 @@ import os
 import numpy as np
 
 from Zeras.data_batcher import DataBatcher
-from Zeras.model_wrapper import ModelWrapper
 
 import task_copy_data_set as data_set
 

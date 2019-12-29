@@ -56,12 +56,7 @@ class ModelSettings(ModelSettingsBaseboard):
         self.gpu_available = "0"  # specified in args
         self.gpu_batch_split = [16, 20]   # list; if None, batch split evenly
         #
-        self.gpu_mem_growth = True
-        self.log_device = False
-        self.soft_placement = True
-        
-        self.with_bucket = False
-        
+
         #
         self.num_epochs = 100
         self.batch_size = 36
@@ -73,14 +68,14 @@ class ModelSettings(ModelSettingsBaseboard):
         self.keep_prob = 0.9  # 1.0, 0.7, 0.5
         self.label_smoothing = 0.01
         
-        self.optimizer_type = 'adam'  # adam, momentum, sgd, customized
-        self.momentum = 0.9
+        self.optimizer_type = 'adam_wd'  # adam_wd, adam, momentum, sgd, customized
+        self.beta_1 = 0.9
         self.learning_rate_base = 0.001   #
         self.learning_rate_minimum = 0.000001
         self.warmup_steps = 1000
         self.decay_steps = 5000
-        self.decay_rate = 0.99
-        self.staircase = True
+        self.lr_power = 1
+        self.lr_cycle = True
         
         self.check_period_batch = 100
         self.valid_period_batch = 100

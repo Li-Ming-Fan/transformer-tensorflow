@@ -13,7 +13,7 @@ def parse_args():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument('--mode', choices=['train', 'eval', 'predict', 'convert'],
-                        default = 'predict', help = 'run mode')
+                        default = 'train', help = 'run mode')
     #
     parser.add_argument('--note', type=str, default = 'note_something',
                         help = 'make some useful notes')
